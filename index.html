@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/桥接模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/抽象工厂模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/桥接模式/" itemprop="url">
-                  桥接模式
+                <a class="post-title-link" href="/2017/04/19/抽象工厂模式/" itemprop="url">
+                  抽象工厂模式
                 </a>
               
             
@@ -356,308 +356,148 @@
       
         
           
-            <p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
+            <p>抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>优点：易于交换“产品系列”，只要更改相应的工厂即可。<br>缺点：建立产品的时候很繁琐，需要增加和修改很多东西。</p>
+<p>优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。<br>优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。</p>
+<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
 <pre><code>#encoding=utf-8
 #
-#桥接模式
-
-#抽象类：手机品牌
-class HandsetBrand():
-    soft = None
-    def SetHandsetSoft(self, soft):
-        self.soft = soft
-
-    def Run(self):
-        pass
-
-#具体抽象类：手机品牌1
-class HandsetBrand1(HandsetBrand):
-    def Run(self):
-        print('手机品牌1:')
-        self.soft.Run()
-
-#具体抽象类：手机品牌2
-class HandsetBrand2(HandsetBrand):
-    def Run(self):
-        print('手机品牌2:')
-        self.soft.Run()
-
-
-#功能类：手机软件
-class HandsetSoft():
-    def Run(self):
-        pass
-
-#具体功能类：游戏
-class HandsetGame(HandsetSoft):
-    def Run(self):
-        print('运行手机游戏')
-
-#具体功能类：通讯录
-class HandsetAddressList(HandsetSoft):
-    def Run(self):
-        print('运行手机通信录')
-
-def clientUI():
-    h1 = HandsetBrand1()
-    h1.SetHandsetSoft(HandsetAddressList())
-    h1.Run()
-    h1.SetHandsetSoft(HandsetGame())
-    h1.Run()
-
-    h2 = HandsetBrand2()
-    h2.SetHandsetSoft(HandsetAddressList())
-    h2.Run()
-    h2.SetHandsetSoft(HandsetGame())
-    h2.Run()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-</code></pre>
-
-<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
-<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
-<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/适配器模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/适配器模式/" itemprop="url">
-                  适配器模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>将一个类的接口转换成客户希望的另外一个接口。使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br>应用场景：希望复用一些现存的类，但是接口又与复用环境要求不一致。</p>
-<p>模式特点：将一个类的接口转换成为客户希望的另外一个接口。</p>
-<p>分类：类适配器（通过多重继承）、对象适配器。<br>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/11.jpg" alt="11" width="669" height="296" class="alignnone size-full wp-image-190"><br>来通过例子说明，下面是用户通过适配器使用一个类的方法</p>
-<pre><code>#--encoding=utf-8--
-#
 #by panda
-#适配器模式
+#抽象工厂模式
+
 
 def printInfo(info):
- print(info)
+    print unicode(info, 'utf-8').encode('gbk')
 
-#球员类
-class Player():
-     name = ''
-     def __init__(self,name):
-         self.name = name
-
-     def Attack(self,name):
+#抽象产品A：user表
+class IUser():
+    def Insert(self):
+        pass
+    def GetUser(self):
         pass
 
-     def Defense(self):
+#sqlserver实现的User
+class SqlserverUser(IUser):
+    def Insert(self):
+        printInfo("在SQL Server中给User表增加一条记录")
+    def GetUser(self):
+        printInfo("在SQL Server中得到User表的一条记录")
+
+#Access实现的User
+class AccessUser(IUser):
+    def Insert(self):
+        printInfo("在Access中给User表增加一条记录")
+    def GetUser(self):
+        printInfo("在Access中得到User表一条记录")
+
+
+#抽象产品B：部门表
+class IDepartment():
+    def Insert(self):
+        pass
+    def GetUser(self):
         pass
 
-#前锋
-class Forwards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
+#sqlserver实现的Department
+class SqlserverDepartment(IUser):
+    def Insert(self):
+        printInfo("在SQL Server中给Department表增加一条记录")
+    def GetUser(self):
+        printInfo("在SQL Server中得到Department表的一条记录")
 
-    def Attack(self):
-        printInfo("前锋%s 进攻" % self.name)
-
-    def Defense(self,name):
-        printInfo("前锋%s 防守" % self.name)
-
-#中锋（目标类）
-class Center(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("中锋%s 进攻" % self.name)
-
-    def Defense(self):
-        printInfo("中锋%s 防守" % self.name)
-
-#后卫
-class Guards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("后卫%s 进攻" % self.name)
-
-        def Defense(self):
-            printInfo("后卫%s 防守" % self.name)
-
-#外籍中锋（待适配类）
-#中锋
-class ForeignCenter(Player):
-    name = ''
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def ForeignAttack(self):
-        printInfo("外籍中锋%s 进攻" % self.name)
-
-    def ForeignDefense(self):
-        printInfo("外籍中锋%s 防守" % self.name)
+#Access实现的Department
+class AccessDepartment(IUser):
+    def Insert(self):
+        printInfo("在Access中给Department表增加一条记录")
+    def GetUser(self):
+        printInfo("在Access中得到Department表一条记录")
 
 
-#翻译（适配类）
-class Translator(Player):
-    foreignCenter = None
-    def __init__(self,name):
-        self.foreignCenter = ForeignCenter(name)
+#抽象工厂
+class IFactory():
+    def CreateUser(self):
+        pass
+    def CreateDepartment(self):
+        pass    
 
-    def Attack(self):
-        self.foreignCenter.ForeignAttack()
+#sql server工厂
+class SqlServerFactory(IFactory):
+    def CreateUser(self):
+        return SqlserverUser()
+    def CreateDepartment(self):
+        return SqlserverDepartment()
 
-    def Defense(self):
-        self.foreignCenter.ForeignDefense()
+#access工厂
+class AccessFactory(IFactory):
+    def CreateUser(self):
+        return AccessUser()
+    def CreateDepartment(self):
+        return AccessDepartment()
 
+#优化一：采用一个简单工厂类，封装逻辑判断操作
+class DataAccess():
+#    db = "Sqlserver"
+    db = "Access"
+    @staticmethod
+    def CreateUser():
+        if (DataAccess.db == "Sqlserver"):
+            return SqlserverUser()
+        elif(DataAccess.db == "Access"):
+            return AccessUser()
+    @staticmethod
+    def CreateDepartment():
+        if (DataAccess.db == "Sqlserver"):
+            return SqlserverDepartment()
+        elif(DataAccess.db == "Access"):
+            return AccessDepartment()
+
+#优化二：采用反射机制，避免使用太多判断
+##以下信息可以从配置文件中获取
+DBType = 'Sqlserver' #'Access'
+DBTab_User = 'User'
+DBTab_Department = 'Department'
+
+class DataAccessPro():
+#    db = "Sqlserver"
+    db = "Access"
+    @staticmethod
+    def CreateUser():
+        funName = DBType + DBTab_User
+        return eval(funName)()  #eval 将其中的字符串转化为python表达式
+    @staticmethod
+    def CreateDepartment():
+        funName = DBType + DBTab_Department
+        return eval(funName)()
 
 def clientUI():
-    b = Forwards('巴蒂尔')
-    m = Guards('麦克格雷迪')
-    ym = Translator('姚明')
+    printInfo("\n--------抽象工厂方法--------")
+    factory = SqlServerFactory()
+    iu = factory.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = factory.CreateDepartment()
+    id.Insert()
+    id.GetUser()
 
-    b.Attack()
-    m.Defense()
-    ym.Attack()
-    ym.Defense()
+    printInfo("\n--抽象工厂方法+简单工厂方法--")
+    iu = DataAccess.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = DataAccess.CreateDepartment()
+    id.Insert()
+    id.GetUser()
+
+    printInfo("\n-抽象工厂方法+简单工厂方法+反射-")
+    iu = DataAccessPro.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = DataAccessPro.CreateDepartment()
+    id.Insert()
+    id.GetUser()    
     return
 
+
 if __name__ == '__main__':
- clientUI()
+    clientUI()
 </code></pre>
 
           
@@ -853,6 +693,345 @@ if __name__ == '__main__':
 <p>桥接模式的本质：分离抽象和实现。</p>
 <h2 id="Visitor（访问者）"><a href="#Visitor（访问者）" class="headerlink" title="Visitor（访问者）"></a>Visitor（访问者）</h2><p>作用于某个对象中各个元素的操作，它使在不改变各个元素的类的前提下定义作用于这些元素的操作。</p>
 <p>访问者模式的本质：预留通路，回调实现。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/中介者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/中介者模式/" itemprop="url">
+                  中介者模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>基本原理请参考相关资料，这里直接给实例。</p>
+<p>基本说明：中介者模式，（ 仲裁者、集中控制），隔离了各个对象间的直接耦合</p>
+<p>指挥中心分：灾害处理中心（DisasterDealCenter），边境处理中心（FrontierDealCenter）</p>
+<p>处理小分队分：警犬巡逻队（SentryA），边境情报对（SentryB），边境缉毒队（sentryC）</p>
+<p>小队间是平行级别，需要帮助时，向注册的指挥中心发出请求。</p>
+<p>指挥中心根据请求，回复该小队，并安排其它小队配合</p>
+<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/12.jpg" alt="12" width="660" height="559" class="alignnone size-full wp-image-192"></p>
+<pre><code># -*- coding: utf-8 -*-
+#######################################################
+#
+# mediator.py
+# Python implementation of the Class DisasterDealCenter
+#
+#######################################################
+
+
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+
+
+class Headquarters(object):
+    """This class defines an interface for communicating with Colleague objects.
+    """
+    def __init__(self,name='司令部'):
+        self.name=name
+        pass
+
+    def Request(self, sentry):
+        pass
+
+class DisasterDealCenter(Headquarters):
+    """This class defines an interface for communicating with Colleague objects.
+    """
+    def __init__(self,name='灾害处理中心'):
+        super(DisasterDealCenter,self).__init__(name)
+        pass
+
+    def Request(self, sentry):
+        pass
+
+class FrontierDealCenter(Headquarters):
+    """This class defines an interface for communicating with Colleague objects.
+    """
+    def __init__( self,name='边防处理中心'):
+        super(FrontierDealCenter,self).__init__(name)
+        self.ls=list()
+        pass
+
+    def Register(self,sentry):
+        self.ls.append(sentry)
+        pass
+
+    def Request(self, sentry):
+        print('#############################')
+        print(self.name+':')
+        print('   收到信息：'+sentry.info+ '  来源：' +sentry.name)
+        print('   处理：请其它小队配合')
+
+        print('\n')
+        sentry.Recieve('已派其它小队配合你部')
+        print('\n')
+
+        for obj in self.ls:
+            if obj!=sentry:
+                obj.Recieve('请迅速配合'+sentry.name)
+                pass
+            pass
+        pass
+
+
+
+class Sentry(object):
+    """Each colleague class knows its mediator object and communicates with its
+    mediator whenever it would have otherwise communicated with another colleague.
+    """
+    m_Headquarters= Headquarters()
+
+    def __init__(self, name):
+        self.info=None
+        self.mediator=None
+        self.name=name
+        pass
+
+    def Recieve(self, info):
+        print(self.name+':')
+        print('   收到信息：'+info)
+        pass
+
+    def Send(self,mediator):
+        pass
+
+    def Register(self,mediator):
+        self.mediator=mediator
+        pass
+
+class SentryA(Sentry):
+    """Each colleague class knows its mediator object and communicates with its
+    mediator whenever it would have otherwise communicated with another colleague.
+    """
+    m_FrontierDealCenter= FrontierDealCenter()
+
+    def __init__(self, name='警犬巡逻队'):
+        super(SentryA,self).__init__(name)
+        pass
+
+    def Send(self):
+        self.info='发现可疑物品'
+        self.mediator.Request(self)
+        pass
+
+class SentryB(Sentry):
+    """Each colleague class knows its mediator object and communicates with its
+    mediator whenever it would have otherwise communicated with another colleague.
+    """
+    m_FrontierDealCenter= FrontierDealCenter()
+
+    def __init__(self, name='边境情报队'):
+        super(SentryB,self).__init__(name)
+
+
+    def Send(self):
+        self.info='四点整，边境将有可疑组织活动'
+        self.mediator.Request(self)
+        pass
+
+class SentryC(Sentry):
+    """Each colleague class knows its mediator object and communicates with its
+    mediator whenever it would have otherwise communicated with another colleague.
+    """
+    m_FrontierDealCenter= FrontierDealCenter()
+
+    def __init__(self, name='边境缉毒队'):
+        super(SentryC,self).__init__(name)
+
+    def Send(self):
+        self.info='有毒贩入境'
+        self.mediator.Request(self)
+        pass
+
+#客户端
+if(__name__=="__main__"):
+
+    #建立边防事务指挥中心
+    m_FrontierDealCenter=FrontierDealCenter()
+
+    #成立边防小队
+    m_SentryA=SentryA()
+    m_SentryB=SentryB()
+    m_SentryC=SentryC()
+
+    #在指挥中心注册小队
+    m_FrontierDealCenter.Register(m_SentryA)
+    m_FrontierDealCenter.Register(m_SentryB)
+    m_FrontierDealCenter.Register(m_SentryC)
+
+    #在各小队注册指挥中心
+    m_SentryA.Register(m_FrontierDealCenter)
+    m_SentryB.Register(m_FrontierDealCenter)
+    m_SentryC.Register(m_FrontierDealCenter)
+
+    #请求
+    m_SentryB.Send()
+    m_SentryA.Send()
+</code></pre>
+
+<p>运行结果：</p>
+<pre><code>#############################
+边防处理中心:
+   收到信息：四点整，边境将有可疑组织活动  来源：边境情报队
+   处理：请其它小队配合
+
+
+边境情报队:
+   收到信息：已派其它小队配合你部
+
+
+警犬巡逻队:
+   收到信息：请迅速配合边境情报队
+边境缉毒队:
+   收到信息：请迅速配合边境情报队
+#############################
+边防处理中心:
+   收到信息：发现可疑物品  来源：警犬巡逻队
+   处理：请其它小队配合
+
+
+警犬巡逻队:
+   收到信息：已派其它小队配合你部
+
+
+边境情报队:
+   收到信息：请迅速配合警犬巡逻队
+边境缉毒队:
+   收到信息：请迅速配合警犬巡逻队
+</code></pre>
 
           
         
@@ -1905,167 +2084,6 @@ __main__.proto_type
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/命令模式-状态模式-责任链模式区别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/命令模式-状态模式-责任链模式区别/" itemprop="url">
-                  命令模式 vs 状态模式 vs 责任链模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
-<p>————————————————————————————————————</p>
-<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
-<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
-<p>————————————————————————————————————</p>
-<p>职责链模式</p>
-<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
-<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
-<p>适用场景：</p>
-<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
-<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
-<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
-<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
-<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
-<p>命令模式</p>
-<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
-<p>命令模式的效果：</p>
-<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
-<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/命令模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2260,6 +2278,167 @@ if __name__ == "__main__":
     print "Invalid Command test"
     lightSwitch.switch("****")
 </code></pre>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/命令模式-状态模式-责任链模式区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/命令模式-状态模式-责任链模式区别/" itemprop="url">
+                  命令模式 vs 状态模式 vs 责任链模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
+<p>————————————————————————————————————</p>
+<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
+<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
+<p>————————————————————————————————————</p>
+<p>职责链模式</p>
+<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
+<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
+<p>适用场景：</p>
+<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
+<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
+<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
+<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
+<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
+<p>命令模式</p>
+<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
+<p>命令模式的效果：</p>
+<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
+<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
 
           
         
