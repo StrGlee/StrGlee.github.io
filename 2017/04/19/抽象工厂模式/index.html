@@ -94,12 +94,12 @@
 <meta property="og:url" content="http://www.strglee.com/2017/04/19/抽象工厂模式/index.html">
 <meta property="og:site_name" content="StrGlee">
 <meta property="og:description" content="抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。优点：易于交换“产品系列”，只要更改相应的工厂即可。缺点：建立产品的时候很繁琐，需要增加和修改很多东西。 优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。 类图： #enco">
-<meta property="og:image" content="http://www.strglee.com/2016/11/abstract-factory.gif">
-<meta property="og:updated_time" content="2017-04-19T09:04:31.328Z">
+<meta property="og:image" content="http://www.strglee.com/images/2016/11/abstract-factory.gif">
+<meta property="og:updated_time" content="2017-04-19T09:08:12.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="抽象工厂模式">
 <meta name="twitter:description" content="抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。优点：易于交换“产品系列”，只要更改相应的工厂即可。缺点：建立产品的时候很繁琐，需要增加和修改很多东西。 优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。 类图： #enco">
-<meta name="twitter:image" content="http://www.strglee.com/2016/11/abstract-factory.gif">
+<meta name="twitter:image" content="http://www.strglee.com/images/2016/11/abstract-factory.gif">
 
 
 
@@ -199,7 +199,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -209,7 +209,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -219,7 +219,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -296,7 +296,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -317,7 +317,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -358,7 +358,7 @@
       
         <p>抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>优点：易于交换“产品系列”，只要更改相应的工厂即可。<br>缺点：建立产品的时候很繁琐，需要增加和修改很多东西。</p>
 <p>优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。<br>优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。</p>
-<p>类图：<br><img src="/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
+<p>类图：<br><img src="/images/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
 <pre><code>#encoding=utf-8
 #
 #by panda
@@ -543,8 +543,8 @@ if __name__ == '__main__':
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/19/中介者模式/" rel="next" title="中介者模式">
-                <i class="fa fa-chevron-left"></i> 中介者模式
+              <a href="/2017/04/19/享元模式/" rel="next" title="享元模式">
+                <i class="fa fa-chevron-left"></i> 享元模式
               </a>
             
           </div>
@@ -619,7 +619,7 @@ if __name__ == '__main__':
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -630,7 +630,7 @@ if __name__ == '__main__':
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -641,7 +641,7 @@ if __name__ == '__main__':
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -691,7 +691,7 @@ if __name__ == '__main__':
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

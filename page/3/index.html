@@ -194,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -294,7 +294,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -315,7 +315,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -421,7 +421,7 @@ def test():
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/策略模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/解释器模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -443,8 +443,8 @@ def test():
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/策略模式/" itemprop="url">
-                  策略模式
+                <a class="post-title-link" href="/2017/04/19/解释器模式/" itemprop="url">
+                  解释器模式
                 </a>
               
             
@@ -458,7 +458,7 @@ def test():
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -479,7 +479,7 @@ def test():
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -520,76 +520,80 @@ def test():
       
         
           
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+            <p>解释器模式：给定一个语言，定义它文法的一种表示，并定义一个解释器。这个解释器使用该‘表示’来解释语言中的句子。<br>应用场景：如果一种特定类型的问题发生的频率足够高，那么可能就值得将该问题的各个实例表述为一个简单语言中的句子。这样就可以构建一个解释器，该解释器通过解释这些句子来解决该问题。比如“正常表达式”。<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/interperter.gif" alt="interperter" width="695" height="368" class="alignnone size-full wp-image-204"></p>
+<pre><code>#encoding=utf-8
+#
+#解释器模式
 
-<p>策略模式： 定义了算法家族，分别封装起来，让他们之间可以互相替换。此模式让算法的变化不影响使用算法的客户。</p>
-<h2>代码框架</h2>
+#上下文类：演奏内容
+#上下文类：演奏内容
+class PlayContext():
+    text = None
+    PlayText = None
 
-<pre><code>class Strategy(object):
-    """抽象算法类"""
-    def AlgorithmInterface(self):
-        raise NotImplementedError()
+#抽象表达式类
+class Expression():
+    def Interpret(self, context):
+        if len(context.PlayText) == 0:
+            return
+        else:
+            playKey = context.PlayText[0:1]
+            context.PlayText = context.PlayText[2:]
+            tmp = context.PlayText.index(' ') #找出第一个空格出现的位置
+            playValue = context.PlayText[0:tmp]
+            context.PlayText = context.PlayText[tmp+1:]
+            self.Excute(playKey,playValue)
 
-class ConcreteStrategyA(Strategy):
-    def AlgorithmInterface(self):
-        print '算法Ａ'
+    def Excute(self,playKey,playValue):
+        pass
 
-class ConcreteStrategyB(Strategy):
-    def AlgorithmInterface(self):
-        print '算法B'
+#音高
+class Pitch(Expression):
+    pitch = None
+    def Excute(self, key, value):
+        value = int(value)
+        if value == 1:
+            self.pitch = '低音'
+        elif value == 2:
+            self.pitch = '中音'
+        elif value == 3:
+            self.pitch = '高音'
+        print(self.pitch)
 
-class Context(object):
-    """上下文，作用就是封装策略的实现细节，用户只需要知道有哪些策略可用"""
-    def __init__(self, strategy):
-        # 初始化时传入具体的策略实例
-        self.strategy = strategy
+#音符
+class Note(Expression):
+    Notes = {
+        'C':1,
+        'D':2,
+        'E':3,
+        'F':4,
+        'G':5,
+        'A':6,
+        'B':7,
+    }
+    note = None
+    def Excute(self, key, value):
+        self.note = self.Notes[key]
+        print('%d' % self.note)
 
-    def ContextInterface(self):
-        # 负责调用具体的策略实例的接口
-        self.strategy.AlgorithmInterface()
 
-def client(cond):
-    # 策略模式的使用演示
-    # 用户只需要根据不同的条件，将具体的算法实现类传递给Context，
-    # 然后调用Context暴露给用户的接口就行了。
-    if cond == 'A':
-        context = Context(ConcreteStrategyA())
-    elif cond == 'B':
-        context = Context(ConcreteStrategyB())
+def clientUI():
+    context = PlayContext()
+    context.PlayText = "O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "
+    expression = None
+    while(len(context.PlayText) &gt; 0):
+        str = context.PlayText[0:1]
+        if(str == 'O'):
+            expression = Pitch()
+        elif(str == 'C' or str == 'D' or str == 'E' or str == 'F' or str == 'G' or str == 'A' or str == 'B' or str == 'P'):
+            expression = Note()
+        expression.Interpret(context)
 
-    result = context.ContextInterface()
+    return
+
+if __name__ == '__main__':
+    clientUI()
 </code></pre>
-
-<h2>策略模式解决那类问题</h2>
-
-<p>在回答这个问题之前，先说下对策略模式的使用方式的感觉。上面的client函数，怎么看起来就像是简单工厂模式中的工厂函数呢？确实如此，实际上策略模式可以和简工厂模式结合起来，将更多细节封装在策略模式内部，让使用者更容易的使用。</p>
-<p>那么策略模式和简单工厂模式有什么不同呢？策略模式中的算法是用来解决同一个问题的，根据时间、条件不同，算法的具体细节有差异，但最终解决的是同一个问题。在需求分析过程中，当听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式来处理这种变化的可能性。</p>
-<h2>缺点</h2>
-
-<p>使用者需要知道每一种策略的具体含义，并负责选择策略</p>
-<h2>改进</h2>
-
-<p>结合简单工厂模式，将策略选择封装在Context内部，解放client：</p>
-<pre><code>class Context(object):
-    def __init__(self, cond):
-        if cond == 'A':
-            self.strategy = ConcreteStrategyA()
-        elif cond == 'B':
-            self.strategy = ConcreteStrategyB()
-
-    def ContextInterface(self):
-        self.strategy.AlgorithmInterface()
-
-
-def client(cond):
-    context = Context(cond)
-    result = context.ContextInterface()
-</code></pre>
-
-<h2>改进后的遗留问题</h2>
-
-<p>每次需要增加新的策略时，就需要修改Context的构造函数，增加一个新的判断分支。</p>
-<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/03-strategy/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/03-strategy/</a></p>
 
           
         
@@ -670,7 +674,7 @@ def client(cond):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -691,7 +695,7 @@ def client(cond):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -919,222 +923,6 @@ class Display:
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/解释器模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/解释器模式/" itemprop="url">
-                  解释器模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>解释器模式：给定一个语言，定义它文法的一种表示，并定义一个解释器。这个解释器使用该‘表示’来解释语言中的句子。<br>应用场景：如果一种特定类型的问题发生的频率足够高，那么可能就值得将该问题的各个实例表述为一个简单语言中的句子。这样就可以构建一个解释器，该解释器通过解释这些句子来解决该问题。比如“正常表达式”。<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/interperter.gif" alt="interperter" width="695" height="368" class="alignnone size-full wp-image-204"></p>
-<pre><code>#encoding=utf-8
-#
-#解释器模式
-
-#上下文类：演奏内容
-#上下文类：演奏内容
-class PlayContext():
-    text = None
-    PlayText = None
-
-#抽象表达式类
-class Expression():
-    def Interpret(self, context):
-        if len(context.PlayText) == 0:
-            return
-        else:
-            playKey = context.PlayText[0:1]
-            context.PlayText = context.PlayText[2:]
-            tmp = context.PlayText.index(' ') #找出第一个空格出现的位置
-            playValue = context.PlayText[0:tmp]
-            context.PlayText = context.PlayText[tmp+1:]
-            self.Excute(playKey,playValue)
-
-    def Excute(self,playKey,playValue):
-        pass
-
-#音高
-class Pitch(Expression):
-    pitch = None
-    def Excute(self, key, value):
-        value = int(value)
-        if value == 1:
-            self.pitch = '低音'
-        elif value == 2:
-            self.pitch = '中音'
-        elif value == 3:
-            self.pitch = '高音'
-        print(self.pitch)
-
-#音符
-class Note(Expression):
-    Notes = {
-        'C':1,
-        'D':2,
-        'E':3,
-        'F':4,
-        'G':5,
-        'A':6,
-        'B':7,
-    }
-    note = None
-    def Excute(self, key, value):
-        self.note = self.Notes[key]
-        print('%d' % self.note)
-
-
-def clientUI():
-    context = PlayContext()
-    context.PlayText = "O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "
-    expression = None
-    while(len(context.PlayText) &gt; 0):
-        str = context.PlayText[0:1]
-        if(str == 'O'):
-            expression = Pitch()
-        elif(str == 'C' or str == 'D' or str == 'E' or str == 'F' or str == 'G' or str == 'A' or str == 'B' or str == 'P'):
-            expression = Note()
-        expression.Interpret(context)
-
-    return
-
-if __name__ == '__main__':
-    clientUI()
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/访问者模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1172,7 +960,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1193,7 +981,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1353,6 +1141,250 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/责任链模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/责任链模式/" itemprop="url">
+                  责任链模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
+<p>使用常规方法实现</p>
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+class NullHandler(object):
+    def __init__(self, successor=None):
+        self.__successor = successor
+
+    def handle(self, event):
+        if self.__successor is not None:
+            self.__successor.handle(event)
+
+
+class ConcreteHandler1(NullHandler):
+
+    def handle(self, event):
+        if event &gt; 0 and event &lt;= 10:
+            print "in handler1", event
+        else:
+            super(ConcreteHandler1, self).handle(event)
+
+
+class ConcreteHandler2(NullHandler):
+    def handle(self, event):
+        if event &gt; 10 and event &lt;= 20:
+            print "in handler2", event
+        else:
+            super(ConcreteHandler2, self).handle(event)
+
+
+class ConcreteHandler3(NullHandler):
+    def handle(self, event):
+        if event &gt; 20 and event &lt;= 30:
+            print "in handler3", event
+        else:
+            super(ConcreteHandler3, self).handle(event)
+
+
+def main():
+    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        handler.handle(event)
+</code></pre>
+
+<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
+<p>使用协程实现责任链</p>
+<p>关于协程</p>
+<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
+<pre><code>import functools
+
+def coroutine(function):
+    @functools.wraps(function)
+    def wrapper(*args, **kwargs):
+        generator = function(*args, **kwargs)
+        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
+        return generator
+    return wrapper
+</code></pre>
+
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+@coroutine
+def mouse_handler(successor=None):
+    while True:
+        event = (yield)
+        if 0 &lt; event &lt;= 10:
+            print("mouse-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def key_handler(successor=None):
+    while True:
+        event = (yield)
+        if 10 &lt; event &lt;= 20:
+            print("key-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def timer_handler(successor=None):
+    while True:
+        event = (yield)
+        if 20 &lt; event &lt;= 30:
+            print("timer-num: {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+def main():
+    pipeline = key_handler(mouse_handler(timer_handler()))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        pipeline.send(event)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/迭代模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1390,7 +1422,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1411,7 +1443,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1951,7 +1983,7 @@ StopIteration
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/责任链模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/代理模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -1973,8 +2005,8 @@ StopIteration
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/责任链模式/" itemprop="url">
-                  责任链模式
+                <a class="post-title-link" href="/2017/04/19/代理模式/" itemprop="url">
+                  代理模式
                 </a>
               
             
@@ -1988,7 +2020,7 @@ StopIteration
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -2009,7 +2041,7 @@ StopIteration
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2050,108 +2082,36 @@ StopIteration
       
         
           
-            <p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
-<p>使用常规方法实现</p>
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
+            <blockquote><br>  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越<em>简单</em>越好，尽快完成并上线才是王道<br></blockquote>
 
-class NullHandler(object):
-    def __init__(self, successor=None):
-        self.__successor = successor
+<p>代理模式：为其他对象提供一种代理，以控制对这个对象的访问。</p>
+<h2>基本原理</h2>
 
-    def handle(self, event):
-        if self.__successor is not None:
-            self.__successor.handle(event)
+<p>代理类和实体类都继承同一个接口（或抽象基类），具有相同的功能接口。<br>代理类内部维护一个实体类对象，真正的功能实现是调用改对象的接口。</p>
+<h2>代码结构</h2>
 
+<pre><code>class Subject(object):
+    def Request(self):
+        raise NotImplementedError()
 
-class ConcreteHandler1(NullHandler):
+class RealSubject(Subject):
+    def Request(self):
+        print "真实请求"
 
-    def handle(self, event):
-        if event &gt; 0 and event &lt;= 10:
-            print "in handler1", event
-        else:
-            super(ConcreteHandler1, self).handle(event)
+class Proxy(Subject):
+    def __init__(self):
+        self.realSubject = RealSubject()
 
+    def Request(self):
+        self.realSubject.Request()
 
-class ConcreteHandler2(NullHandler):
-    def handle(self, event):
-        if event &gt; 10 and event &lt;= 20:
-            print "in handler2", event
-        else:
-            super(ConcreteHandler2, self).handle(event)
-
-
-class ConcreteHandler3(NullHandler):
-    def handle(self, event):
-        if event &gt; 20 and event &lt;= 30:
-            print "in handler3", event
-        else:
-            super(ConcreteHandler3, self).handle(event)
-
-
-def main():
-    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        handler.handle(event)
+def client():
+    proxy = Proxy()
+    proxy.Request()
 </code></pre>
 
-<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
-<p>使用协程实现责任链</p>
-<p>关于协程</p>
-<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
-<pre><code>import functools
-
-def coroutine(function):
-    @functools.wraps(function)
-    def wrapper(*args, **kwargs):
-        generator = function(*args, **kwargs)
-        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
-        return generator
-    return wrapper
-</code></pre>
-
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
-
-@coroutine
-def mouse_handler(successor=None):
-    while True:
-        event = (yield)
-        if 0 &lt; event &lt;= 10:
-            print("mouse-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-
-@coroutine
-def key_handler(successor=None):
-    while True:
-        event = (yield)
-        if 10 &lt; event &lt;= 20:
-            print("key-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-
-@coroutine
-def timer_handler(successor=None):
-    while True:
-        event = (yield)
-        if 20 &lt; event &lt;= 30:
-            print("timer-num: {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-def main():
-    pipeline = key_handler(mouse_handler(timer_handler()))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        pipeline.send(event)
-
-if __name__ == "__main__":
-    main()
-</code></pre>
+<p>代理模式是一种比较常见的模式，比较典型的应用场景：</p>
+<ul><br><li>RPC调用：RPC API负责代理具体的网络API调用。</li><br><li>虚拟代理：根据需要创建开销大的对象，提高性能。</li><br><li>安全代理：用来控制真实对象访问时的权限。</li><br><li>智能指针：当调用真实对象时，代理负责处理一些额外的工作。</li><br></ul>
 
           
         
@@ -2232,7 +2192,7 @@ if __name__ == "__main__":
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-16T19:06:50+08:00">
                 2017-04-16
@@ -2253,7 +2213,7 @@ if __name__ == "__main__":
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2385,7 +2345,7 @@ if __name__ == "__main__":
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -2396,7 +2356,7 @@ if __name__ == "__main__":
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2407,7 +2367,7 @@ if __name__ == "__main__":
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2457,7 +2417,7 @@ if __name__ == "__main__":
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
