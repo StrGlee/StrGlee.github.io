@@ -3,151 +3,72 @@
   
     
     <entry>
-      <title><![CDATA[抽象工厂模式]]></title>
-      <url>/2017/04/19/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>优点：易于交换“产品系列”，只要更改相应的工厂即可。<br>缺点：建立产品的时候很繁琐，需要增加和修改很多东西。</p>
-<p>优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。<br>优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。</p>
-<p>类图：<br><img src="/images/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
+      <title><![CDATA[桥接模式]]></title>
+      <url>/2017/04/19/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
+<p>类图：<br><img src="/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
 <pre><code>#encoding=utf-8
 #
-#by panda
-#抽象工厂模式
+#桥接模式
 
+#抽象类：手机品牌
+class HandsetBrand():
+    soft = None
+    def SetHandsetSoft(self, soft):
+        self.soft = soft
 
-def printInfo(info):
-    print unicode(info, 'utf-8').encode('gbk')
-
-#抽象产品A：user表
-class IUser():
-    def Insert(self):
-        pass
-    def GetUser(self):
+    def Run(self):
         pass
 
-#sqlserver实现的User
-class SqlserverUser(IUser):
-    def Insert(self):
-        printInfo("在SQL Server中给User表增加一条记录")
-    def GetUser(self):
-        printInfo("在SQL Server中得到User表的一条记录")
+#具体抽象类：手机品牌1
+class HandsetBrand1(HandsetBrand):
+    def Run(self):
+        print('手机品牌1:')
+        self.soft.Run()
 
-#Access实现的User
-class AccessUser(IUser):
-    def Insert(self):
-        printInfo("在Access中给User表增加一条记录")
-    def GetUser(self):
-        printInfo("在Access中得到User表一条记录")
+#具体抽象类：手机品牌2
+class HandsetBrand2(HandsetBrand):
+    def Run(self):
+        print('手机品牌2:')
+        self.soft.Run()
 
 
-#抽象产品B：部门表
-class IDepartment():
-    def Insert(self):
-        pass
-    def GetUser(self):
+#功能类：手机软件
+class HandsetSoft():
+    def Run(self):
         pass
 
-#sqlserver实现的Department
-class SqlserverDepartment(IUser):
-    def Insert(self):
-        printInfo("在SQL Server中给Department表增加一条记录")
-    def GetUser(self):
-        printInfo("在SQL Server中得到Department表的一条记录")
+#具体功能类：游戏
+class HandsetGame(HandsetSoft):
+    def Run(self):
+        print('运行手机游戏')
 
-#Access实现的Department
-class AccessDepartment(IUser):
-    def Insert(self):
-        printInfo("在Access中给Department表增加一条记录")
-    def GetUser(self):
-        printInfo("在Access中得到Department表一条记录")
-
-
-#抽象工厂
-class IFactory():
-    def CreateUser(self):
-        pass
-    def CreateDepartment(self):
-        pass    
-
-#sql server工厂
-class SqlServerFactory(IFactory):
-    def CreateUser(self):
-        return SqlserverUser()
-    def CreateDepartment(self):
-        return SqlserverDepartment()
-
-#access工厂
-class AccessFactory(IFactory):
-    def CreateUser(self):
-        return AccessUser()
-    def CreateDepartment(self):
-        return AccessDepartment()
-
-#优化一：采用一个简单工厂类，封装逻辑判断操作
-class DataAccess():
-#    db = "Sqlserver"
-    db = "Access"
-    @staticmethod
-    def CreateUser():
-        if (DataAccess.db == "Sqlserver"):
-            return SqlserverUser()
-        elif(DataAccess.db == "Access"):
-            return AccessUser()
-    @staticmethod
-    def CreateDepartment():
-        if (DataAccess.db == "Sqlserver"):
-            return SqlserverDepartment()
-        elif(DataAccess.db == "Access"):
-            return AccessDepartment()
-
-#优化二：采用反射机制，避免使用太多判断
-##以下信息可以从配置文件中获取
-DBType = 'Sqlserver' #'Access'
-DBTab_User = 'User'
-DBTab_Department = 'Department'
-
-class DataAccessPro():
-#    db = "Sqlserver"
-    db = "Access"
-    @staticmethod
-    def CreateUser():
-        funName = DBType + DBTab_User
-        return eval(funName)()  #eval 将其中的字符串转化为python表达式
-    @staticmethod
-    def CreateDepartment():
-        funName = DBType + DBTab_Department
-        return eval(funName)()
+#具体功能类：通讯录
+class HandsetAddressList(HandsetSoft):
+    def Run(self):
+        print('运行手机通信录')
 
 def clientUI():
-    printInfo("\n--------抽象工厂方法--------")
-    factory = SqlServerFactory()
-    iu = factory.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = factory.CreateDepartment()
-    id.Insert()
-    id.GetUser()
+    h1 = HandsetBrand1()
+    h1.SetHandsetSoft(HandsetAddressList())
+    h1.Run()
+    h1.SetHandsetSoft(HandsetGame())
+    h1.Run()
 
-    printInfo("\n--抽象工厂方法+简单工厂方法--")
-    iu = DataAccess.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = DataAccess.CreateDepartment()
-    id.Insert()
-    id.GetUser()
-
-    printInfo("\n-抽象工厂方法+简单工厂方法+反射-")
-    iu = DataAccessPro.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = DataAccessPro.CreateDepartment()
-    id.Insert()
-    id.GetUser()    
+    h2 = HandsetBrand2()
+    h2.SetHandsetSoft(HandsetAddressList())
+    h2.Run()
+    h2.SetHandsetSoft(HandsetGame())
+    h2.Run()
     return
 
-
 if __name__ == '__main__':
-    clientUI()
+    clientUI();
 </code></pre>
+
+<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
+<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
+<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
 ]]></content>
       
         <categories>
@@ -796,6 +717,47 @@ print id(two.__dict__)
     </entry>
     
     <entry>
+      <title><![CDATA[命令模式 vs 状态模式 vs 责任链模式]]></title>
+      <url>/2017/04/19/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
+<p>————————————————————————————————————</p>
+<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
+<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
+<p>————————————————————————————————————</p>
+<p>职责链模式</p>
+<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
+<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
+<p>适用场景：</p>
+<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
+<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
+<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
+<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
+<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
+<p>命令模式</p>
+<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
+<p>命令模式的效果：</p>
+<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
+<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[原型模式]]></title>
       <url>/2017/04/19/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
       <content type="html"><![CDATA[<p>原型模式：<br>应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。<br>结构特性：对象的复制机制【浅复制和深复制】</p>
@@ -870,47 +832,6 @@ __main__.proto_type
     </entry>
     
     <entry>
-      <title><![CDATA[命令模式 vs 状态模式 vs 责任链模式]]></title>
-      <url>/2017/04/19/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F%E5%8C%BA%E5%88%AB/</url>
-      <content type="html"><![CDATA[<p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
-<p>————————————————————————————————————</p>
-<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
-<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
-<p>————————————————————————————————————</p>
-<p>职责链模式</p>
-<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
-<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
-<p>适用场景：</p>
-<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
-<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
-<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
-<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
-<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
-<p>命令模式</p>
-<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
-<p>命令模式的效果：</p>
-<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
-<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[命令模式]]></title>
       <url>/2017/04/19/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</url>
       <content type="html"><![CDATA[<p>命令模式介绍：</p>
@@ -923,7 +844,7 @@ __main__.proto_type
 <p>　　客户：一个实例化的对象</p>
 <p>　　调用者：决定哪个方法被调用</p>
 <p>　　接受者：实际命令的执行者</p>
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/14.jpg" alt="14" width="876" height="383" class="alignnone size-full wp-image-197"></p>
+<p><img src="/uploads/2016/11/14.jpg" alt="14" width="876" height="383" class="alignnone size-full wp-image-197"></p>
 <p>Example:</p>
 <p>　　实现一个开关<br>　　切换ON/OFF<br>　　用开关ON/OFF去硬编码一个事件<br>代码如下：</p>
 <pre><code>class Switch:
@@ -1203,92 +1124,17 @@ class Facade(object):
     </entry>
     
     <entry>
-      <title><![CDATA[工厂模式]]></title>
-      <url>/2017/04/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>简单工厂模式的最大优点就是工厂类内部包含了必要的逻辑判断，客户端只要提供选择条件即可，这样客户端就不需要知道具体产品的信息了。<br>但是每次增加产品就要修改工厂类，违背了“开放-封闭”原则。<br>所以，有了工厂方法模式<br>工厂方法模式：定义一个用于创建对象的接口，让子类决定实例化哪一个类。</p>
-<p>工厂方法模式相对于简单工厂模式的<br>优点在于，抽象了产品工厂这个类，让它变成了一个接口，只要某个类实现了这个接口，它就可以被当做工厂类来用，这样每添加一个产品的时候，就添加一下相应的生产工厂类，其它地方就可以使用了，满足“开放-封闭”原则；<br>缺点在于，把生产产品的逻辑判断从工厂中剥离了出去。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/factory.gif" alt="factory" width="920" height="435" class="alignnone size-full wp-image-218"></p>
-<pre><code>#encoding=utf-8
-#
-#by panda
-#工厂方法模式
-
-def printInfo(info):
-    print unicode(info, 'utf-8').encode('gbk')
-
-#雷锋
-class LeiFeng():
-    def Sweep(self):
-        printInfo('扫地')
-
-    def Wash(self):
-        printInfo('洗衣')
-
-    def BuyRice(self):
-        printInfo('买米')
-
-#学雷锋的大学生
-class Undergraduate(LeiFeng):
-    def __init__(self):
-        printInfo('学雷锋的大学生')
-        pass
-
-#社区志愿者
-class Volunteer(LeiFeng):
-    def __init__(self):
-        printInfo('社区志愿者')
-        pass
-
-#简单雷锋工厂
-class SimpleFactory():
-    @staticmethod
-    def CreateLeiFeng(type):
-        if type == '学雷锋的大学生':
-            return Undergraduate()
-        elif type == '社区志愿者':
-            pass  
-
-#雷锋抽象工厂
-class IFactory():
-    @staticmethod
-    def CreateLeiFeng():
-        return LeiFeng()
-
-
-#学雷锋的社区志愿者工厂
-class VolunteerFactory(IFactory):
-    @staticmethod
-    def CreateLeiFeng():
-        return Volunteer()
-
-
-#学雷锋的大学生工厂
-class UndergraduateFactory(IFactory):
-    @staticmethod
-    def CreateLeiFeng():
-        return Undergraduate()
-
-
-
-def clientUI():
-    printInfo('----------------简单工厂模式--------------')
-    studentA = SimpleFactory.CreateLeiFeng('学雷锋的大学生')
-    studentA.BuyRice()
-    studentA.Sweep()
-    studentA.Wash()
-
-    printInfo('----------------工厂方法模式--------------')
-    studentB = VolunteerFactory.CreateLeiFeng()
-    studentB.BuyRice()
-    studentB.Sweep()
-    studentB.Wash()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-</code></pre>
-
-<p>`</p>
+      <title><![CDATA[建造者模式]]></title>
+      <url>/2017/04/19/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
+<p>也许在以下情况使用到它：</p>
+<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
+<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
+<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
+<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
+<p>在构建具体项目的时候只需要适当改变就可以了</p>
 ]]></content>
       
         <categories>
@@ -1309,17 +1155,1257 @@ if __name__ == '__main__':
     </entry>
     
     <entry>
-      <title><![CDATA[建造者模式]]></title>
-      <url>/2017/04/19/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
-<p>也许在以下情况使用到它：</p>
-<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
-<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
-<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
-<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
-<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
-<p>在构建具体项目的时候只需要适当改变就可以了</p>
+      <title><![CDATA[抽象工厂模式]]></title>
+      <url>/2017/04/19/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>优点：易于交换“产品系列”，只要更改相应的工厂即可。<br>缺点：建立产品的时候很繁琐，需要增加和修改很多东西。</p>
+<p>优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。<br>优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。</p>
+<p>类图：<br><img src="/uploads/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
+<pre><code>#encoding=utf-8
+#
+#by panda
+#抽象工厂模式
+
+
+def printInfo(info):
+    print unicode(info, 'utf-8').encode('gbk')
+
+#抽象产品A：user表
+class IUser():
+    def Insert(self):
+        pass
+    def GetUser(self):
+        pass
+
+#sqlserver实现的User
+class SqlserverUser(IUser):
+    def Insert(self):
+        printInfo("在SQL Server中给User表增加一条记录")
+    def GetUser(self):
+        printInfo("在SQL Server中得到User表的一条记录")
+
+#Access实现的User
+class AccessUser(IUser):
+    def Insert(self):
+        printInfo("在Access中给User表增加一条记录")
+    def GetUser(self):
+        printInfo("在Access中得到User表一条记录")
+
+
+#抽象产品B：部门表
+class IDepartment():
+    def Insert(self):
+        pass
+    def GetUser(self):
+        pass
+
+#sqlserver实现的Department
+class SqlserverDepartment(IUser):
+    def Insert(self):
+        printInfo("在SQL Server中给Department表增加一条记录")
+    def GetUser(self):
+        printInfo("在SQL Server中得到Department表的一条记录")
+
+#Access实现的Department
+class AccessDepartment(IUser):
+    def Insert(self):
+        printInfo("在Access中给Department表增加一条记录")
+    def GetUser(self):
+        printInfo("在Access中得到Department表一条记录")
+
+
+#抽象工厂
+class IFactory():
+    def CreateUser(self):
+        pass
+    def CreateDepartment(self):
+        pass    
+
+#sql server工厂
+class SqlServerFactory(IFactory):
+    def CreateUser(self):
+        return SqlserverUser()
+    def CreateDepartment(self):
+        return SqlserverDepartment()
+
+#access工厂
+class AccessFactory(IFactory):
+    def CreateUser(self):
+        return AccessUser()
+    def CreateDepartment(self):
+        return AccessDepartment()
+
+#优化一：采用一个简单工厂类，封装逻辑判断操作
+class DataAccess():
+#    db = "Sqlserver"
+    db = "Access"
+    @staticmethod
+    def CreateUser():
+        if (DataAccess.db == "Sqlserver"):
+            return SqlserverUser()
+        elif(DataAccess.db == "Access"):
+            return AccessUser()
+    @staticmethod
+    def CreateDepartment():
+        if (DataAccess.db == "Sqlserver"):
+            return SqlserverDepartment()
+        elif(DataAccess.db == "Access"):
+            return AccessDepartment()
+
+#优化二：采用反射机制，避免使用太多判断
+##以下信息可以从配置文件中获取
+DBType = 'Sqlserver' #'Access'
+DBTab_User = 'User'
+DBTab_Department = 'Department'
+
+class DataAccessPro():
+#    db = "Sqlserver"
+    db = "Access"
+    @staticmethod
+    def CreateUser():
+        funName = DBType + DBTab_User
+        return eval(funName)()  #eval 将其中的字符串转化为python表达式
+    @staticmethod
+    def CreateDepartment():
+        funName = DBType + DBTab_Department
+        return eval(funName)()
+
+def clientUI():
+    printInfo("\n--------抽象工厂方法--------")
+    factory = SqlServerFactory()
+    iu = factory.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = factory.CreateDepartment()
+    id.Insert()
+    id.GetUser()
+
+    printInfo("\n--抽象工厂方法+简单工厂方法--")
+    iu = DataAccess.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = DataAccess.CreateDepartment()
+    id.Insert()
+    id.GetUser()
+
+    printInfo("\n-抽象工厂方法+简单工厂方法+反射-")
+    iu = DataAccessPro.CreateUser()
+    iu.Insert()
+    iu.GetUser()
+    id = DataAccessPro.CreateDepartment()
+    id.Insert()
+    id.GetUser()    
+    return
+
+
+if __name__ == '__main__':
+    clientUI()
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[适配器模式]]></title>
+      <url>/2017/04/19/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>将一个类的接口转换成客户希望的另外一个接口。使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br>应用场景：希望复用一些现存的类，但是接口又与复用环境要求不一致。</p>
+<p>模式特点：将一个类的接口转换成为客户希望的另外一个接口。</p>
+<p>分类：类适配器（通过多重继承）、对象适配器。<br>类图：<br><img src="/uploads/2016/11/11.jpg" alt="11" width="669" height="296" class="alignnone size-full wp-image-190"><br>来通过例子说明，下面是用户通过适配器使用一个类的方法</p>
+<pre><code>#--encoding=utf-8--
+#
+#by panda
+#适配器模式
+
+def printInfo(info):
+ print(info)
+
+#球员类
+class Player():
+     name = ''
+     def __init__(self,name):
+         self.name = name
+
+     def Attack(self,name):
+        pass
+
+     def Defense(self):
+        pass
+
+#前锋
+class Forwards(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("前锋%s 进攻" % self.name)
+
+    def Defense(self,name):
+        printInfo("前锋%s 防守" % self.name)
+
+#中锋（目标类）
+class Center(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("中锋%s 进攻" % self.name)
+
+    def Defense(self):
+        printInfo("中锋%s 防守" % self.name)
+
+#后卫
+class Guards(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("后卫%s 进攻" % self.name)
+
+        def Defense(self):
+            printInfo("后卫%s 防守" % self.name)
+
+#外籍中锋（待适配类）
+#中锋
+class ForeignCenter(Player):
+    name = ''
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def ForeignAttack(self):
+        printInfo("外籍中锋%s 进攻" % self.name)
+
+    def ForeignDefense(self):
+        printInfo("外籍中锋%s 防守" % self.name)
+
+
+#翻译（适配类）
+class Translator(Player):
+    foreignCenter = None
+    def __init__(self,name):
+        self.foreignCenter = ForeignCenter(name)
+
+    def Attack(self):
+        self.foreignCenter.ForeignAttack()
+
+    def Defense(self):
+        self.foreignCenter.ForeignDefense()
+
+
+def clientUI():
+    b = Forwards('巴蒂尔')
+    m = Guards('麦克格雷迪')
+    ym = Translator('姚明')
+
+    b.Attack()
+    m.Defense()
+    ym.Attack()
+    ym.Defense()
+    return
+
+if __name__ == '__main__':
+ clientUI()
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[模板方法模式]]></title>
+      <url>/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
+
+<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
+<pre><code>class Person(object):
+    def Chew(self):
+        """咀嚼食物"""
+        raise NotImplementedError()
+
+    def Swallow(self):
+        print '咽下去'
+
+    def Eat(self):
+        # 吃饭分两步，先嚼，再咽。
+        self.Chew()
+        self.Swallow()
+
+class Man(Person):
+    def Chew(self):
+        # 男人通常狼吞虎咽
+        print '嚼三下'
+
+class Woman(Person):
+    def Chew(self):
+        # 女人通常细嚼慢咽
+        print '嚼六下'
+</code></pre>
+
+<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
+<h2>模版方法模式的结构</h2>
+
+<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
+<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
+
+<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
+<h2>模版方法的优点及适用场景</h2>
+
+<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
+
+<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[状态模式]]></title>
+      <url>/2017/04/19/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>状态模式(State Pattern)是设计模式的一种，属于行为模式。</p>
+<p>定义(源于Design Pattern)：当一个对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类。</p>
+<p>　　状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</p>
+<h2>意图</h2>
+
+<p>允许一个对象在其内部状态改变时改变它的行为</p>
+<h2>适用场景</h2>
+
+<p>　　1.一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为。</p>
+<p>　　2.一个操作中含有庞大的多分支结构，并且这些分支决定于对象的状态。</p>
+<h2>类图</h2>
+
+<p><img src="/uploads/2016/11/13.jpg" alt="13" width="553" height="362" class="alignnone size-full wp-image-195"></p>
+<pre><code>#State：上班状态基类
+class State():
+    def WriteProgram(self):
+        pass
+
+#上午工作状态类
+class ForenoonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 12):
+            print("当前时间：%d点 工作状态：上午工作，精神百倍" % w.Hour)
+        else:
+            w.SetState(noonState())
+            w.WriteProgram()
+
+#中午工作状态类
+class noonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 13):
+            print("当前时间：%d点 午饭；午休" % w.Hour)
+        else:
+            w.SetState(AfternoonState())
+            w.WriteProgram();
+
+#下午工作状态类
+class AfternoonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 18):
+            print("当前时间：%d点 下午状态还不错，继续努力" % w.Hour)
+        else:
+            w.SetState(EveningState())
+            w.WriteProgram();
+
+#晚上工作状态类
+class EveningState(State):
+    def WriteProgram(self,w):
+        if(w.TaskFinished):
+            w.SetState(RestState())
+            w.WriteProgram()
+            return
+
+        if (w.Hour &lt; 21):
+            print("当前时间：%d点 加班哦，好累！" % w.Hour)
+        else:
+            w.SetState(SleepingState())
+            w.WriteProgram();
+
+#睡眠状态
+class SleepingState(State):
+    def WriteProgram(self,w):
+        print("当前时间：%d点 睡觉了" % w.Hour)
+
+
+#下班工作状态
+class RestState(State):
+    def WriteProgram(self,w):
+        print("当前时间：%d点 下班回家了" % w.Hour)
+#Context：上班
+class Work():
+    state = ForenoonState()
+    TaskFinished = False
+    Hour = 8.0
+
+    def SetState(self, state):
+        self.state = state
+
+    def WriteProgram(self):
+        self.state.WriteProgram(self)
+
+
+def clientUI():
+    work = Work()
+    for i in range(9,23,1):
+        work.Hour = i
+        if(i &gt; 19):
+            work.TaskFinished = True
+        work.WriteProgram()
+    return
+
+if __name__ == '__main__':
+
+    clientUI()
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[策略模式]]></title>
+      <url>/2017/04/19/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>策略模式： 定义了算法家族，分别封装起来，让他们之间可以互相替换。此模式让算法的变化不影响使用算法的客户。</p>
+<h2>代码框架</h2>
+
+<pre><code>class Strategy(object):
+    """抽象算法类"""
+    def AlgorithmInterface(self):
+        raise NotImplementedError()
+
+class ConcreteStrategyA(Strategy):
+    def AlgorithmInterface(self):
+        print '算法Ａ'
+
+class ConcreteStrategyB(Strategy):
+    def AlgorithmInterface(self):
+        print '算法B'
+
+class Context(object):
+    """上下文，作用就是封装策略的实现细节，用户只需要知道有哪些策略可用"""
+    def __init__(self, strategy):
+        # 初始化时传入具体的策略实例
+        self.strategy = strategy
+
+    def ContextInterface(self):
+        # 负责调用具体的策略实例的接口
+        self.strategy.AlgorithmInterface()
+
+def client(cond):
+    # 策略模式的使用演示
+    # 用户只需要根据不同的条件，将具体的算法实现类传递给Context，
+    # 然后调用Context暴露给用户的接口就行了。
+    if cond == 'A':
+        context = Context(ConcreteStrategyA())
+    elif cond == 'B':
+        context = Context(ConcreteStrategyB())
+
+    result = context.ContextInterface()
+</code></pre>
+
+<h2>策略模式解决那类问题</h2>
+
+<p>在回答这个问题之前，先说下对策略模式的使用方式的感觉。上面的client函数，怎么看起来就像是简单工厂模式中的工厂函数呢？确实如此，实际上策略模式可以和简工厂模式结合起来，将更多细节封装在策略模式内部，让使用者更容易的使用。</p>
+<p>那么策略模式和简单工厂模式有什么不同呢？策略模式中的算法是用来解决同一个问题的，根据时间、条件不同，算法的具体细节有差异，但最终解决的是同一个问题。在需求分析过程中，当听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式来处理这种变化的可能性。</p>
+<h2>缺点</h2>
+
+<p>使用者需要知道每一种策略的具体含义，并负责选择策略</p>
+<h2>改进</h2>
+
+<p>结合简单工厂模式，将策略选择封装在Context内部，解放client：</p>
+<pre><code>class Context(object):
+    def __init__(self, cond):
+        if cond == 'A':
+            self.strategy = ConcreteStrategyA()
+        elif cond == 'B':
+            self.strategy = ConcreteStrategyB()
+
+    def ContextInterface(self):
+        self.strategy.AlgorithmInterface()
+
+
+def client(cond):
+    context = Context(cond)
+    result = context.ContextInterface()
+</code></pre>
+
+<h2>改进后的遗留问题</h2>
+
+<p>每次需要增加新的策略时，就需要修改Context的构造函数，增加一个新的判断分支。</p>
+<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/03-strategy/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/03-strategy/</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[简单工厂模式]]></title>
+      <url>/2017/04/19/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
+<p>下面是一个简单的工厂实例：</p>
+<pre><code>def create_animal(name):
+    if name == 'dog':
+        return Dog()
+    elif name == 'cat':
+        return Cat()
+
+animal = create_animal('dog')
+animal.eat('some food')
+</code></pre>
+
+<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
+<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
+<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
+<pre><code>def create_operator(op):
+    if op == '+':
+        return AddOperation()
+    elif op == '-':
+        return SubOperation()
+    elif op ==  '*':
+        return MulOperation()
+    elif op == '/':
+        return DivOperation()
+
+op = create_operator('+')
+op.Calc(1, 2)
+</code></pre>
+
+<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
+<h2>简单工厂模式的组成要素</h2>
+
+<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
+<h2>缺点</h2>
+
+<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
+<h2>使用场景</h2>
+
+<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[组合模式]]></title>
+      <url>/2017/04/19/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>组合模式：针对“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。</p>
+<p>类图：<br><img src="/uploads/2016/11/composite.gif" alt="composite" width="631" height="299" class="alignnone size-full wp-image-199"></p>
+<pre><code>#encoding=utf-8
+#
+#by panda
+#组合模式
+
+
+#Component：公司抽象类
+class Company:
+    name = ''
+    def __init__(self, name):
+        self.name = name
+
+    def Add(self, company):
+        pass
+
+    def Remove(self, company):
+        pass
+
+    def Display(self, depth):
+        pass
+
+    def LineOfDuty(self): #履行职责
+        pass
+
+#Composite：公司类
+class ConcreteCompany(Company):
+    childrenCompany = None
+
+    def __init__(self, name):
+        Company.__init__(self,name)
+        self.childrenCompany = []
+
+    def Add(self, company):
+        self.childrenCompany.append(company)
+
+    def Remove(self, company):
+        self.childrenCompany.remove(company)
+
+    def Display(self, depth):
+        print('-'*depth + self.name)
+
+        for component in self.childrenCompany:
+            component.Display(depth+2)
+
+
+    def LineOfDuty(self): #履行职责
+        for component in self.childrenCompany:
+            component.LineOfDuty()
+
+#Leaf：具体职能部门
+class HRDepartment(Company):   
+    def __init__(self, name):
+         Company.__init__(self,name)
+
+    def Display(self, depth):
+        print('-'*depth + self.name)
+
+    def LineOfDuty(self): #履行职责
+        print('%s\t员工招聘培训管理' % self.name)
+
+#Leaf：具体职能部门
+class FinanceDepartment(Company):    
+    def __init__(self, name):
+        Company.__init__(self,name)
+
+    def Display(self, depth):
+        print('-'*depth + self.name)
+
+    def LineOfDuty(self): #履行职责
+        print('%s\t公司财务收支管理' % self.name)
+
+def clientUI():    
+    root = ConcreteCompany('北京总公司')
+    root.Add(HRDepartment('总公司人力资源部'))
+    root.Add(FinanceDepartment('总公司财务部'))
+
+    comp = ConcreteCompany('华东分公司')
+    comp.Add(HRDepartment('华东分公司人力资源部'))
+    comp.Add(FinanceDepartment('华东分公司财务部'))
+    root.Add(comp)
+
+    comp1 = ConcreteCompany('南京办事处')
+    comp1.Add(HRDepartment('南京办事处人力资源部'))
+    comp1.Add(FinanceDepartment('南京办事处财务部'))
+    comp.Add(comp1)
+
+    comp2 = ConcreteCompany('杭州办事处')
+    comp2.Add(HRDepartment('杭州办事处人力资源部'))
+    comp2.Add(FinanceDepartment('杭州办事处财务部'))
+    comp.Add(comp2)    
+
+    print('-------公司结构图-------')
+    root.Display(1)
+
+    print('\n-------职责-------')
+    root.LineOfDuty()
+    return
+
+if __name__ == '__main__':
+    clientUI();
+
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[装饰模式]]></title>
+      <url>/2017/04/19/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>装饰模式：动态的给对象添加额外的功能。<br>Python内置了很多对装饰器的支持，因此在Python中使用装饰模式是非常容易的，下面是一个典型的例子，给函数增加日志功能：</p>
+<pre><code>import functools
+def log_wrapper(fun):
+    @functools.wraps(fun)
+    def wrapper(*args, **kwargs):
+        print '在函数执行前加日志'
+        ret = fun(*args, **kwargs)
+        print '在函数执行后家日志'
+        return ret
+    return wrapper
+
+
+@log_wrapper
+def test():
+    print 'Hello, 世界'
+</code></pre>
+
+<p>functools.wraps是Python标准库提供的一个特殊的装饰器，用来解决装饰器带来的一些常规问题，如函数名称、doc等的不一致问题。@是Python针对装饰器提供的一个语法糖，上面的@log_wrapper相当于wrap_test = log_rapper(test)，用@后，这个步骤由解释器代劳了。</p>
+<p>装饰器是Python编程必须掌握的一项技能，在编码过程中经常会用到。</p>
+<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/04-decorator/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/04-decorator/</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[观察者模式]]></title>
+      <url>/2017/04/19/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h2>类图</h2>
+
+<p><img src="/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
+<p>书中举得例子：</p>
+<h2>一般方式</h2>
+
+<p><img src="/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
+<h2>使用Java内置模块的方式</h2>
+
+<p><img src="/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
+<h2>Python代码</h2>
+
+<h3>主题/可观察者</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Subject.py  
+import Observer  
+class Subject:  
+    def __init__(self):  
+        self.__observers = []  
+        self.__changed = True  
+
+    def registerObserver(self,observer):  
+        self.__observers.append(observer)  
+
+    def removeObserver(self, observer):  
+        self.__observers.remove(observer)  
+
+    def notifyObservers(self):  
+        if self.__changed == True:  
+            for everyObserver in self.__observers:  
+                everyObserver.update(self)  
+            self.changed =False  
+    @property  
+    def changed(self):  
+        return self.__changed  
+    @changed.setter  
+    def changed(self, value):  
+        if isinstance(value, bool):  
+            self.__changed = value  
+
+class WeatherData(Subject):  
+    def __init__(self):  
+        Subject.__init__(self)  
+        self.__temperature = 0  
+        self.__humidity = 0  
+
+    @property  
+    def temperature(self):  
+        return self.__temperature  
+    @property  
+    def humidity(self):  
+        return self.__humidity  
+
+    @temperature.setter  
+    def temperature(self, value):  
+        if isinstance(value, int):  
+            self.__temperature = value  
+
+    @humidity.setter  
+    def humidity(self, value):  
+        if isinstance(self, int):  
+            self.__humidity = value  
+
+    def setMeasurements(self, temperature, humidity):  
+        self.temperature = temperature  
+        self.humidity = humidity  
+        self.changed = True  
+        self.notifyObservers()  
+
+def main():  
+    weatherData = WeatherData()  
+    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
+    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
+    weatherData.setMeasurements(25, 50)  
+    weatherData.setMeasurements(26, 70)  
+    weatherData.setMeasurements(12, 32)  
+
+
+if __name__ == "__main__":  
+    main()  
+</code></pre>
+
+<h3>观察者</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Observer.py  
+import  Subject  
+import Display  
+class Observer:  
+    def __init__(self, observable):  
+        self.__observable = observable  
+        observable.registerObserver(self)  
+        self.__temperature = None  
+        self.__humidity = None  
+
+    def update(self, subject):  
+        pass  
+
+class CurrentConditionsDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+
+    def update(self, subject):  
+        self.__humidity = subject.humidity  
+        self.__temperature = subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "temperature " + str(self.__temperature),  
+        print "humidity " + str(self.__humidity)  
+
+class StatisticsTempDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+        self.__max = 0  
+        self.__min = 200  
+        self.__num = 0  
+        self.__sum = 0  
+
+    def update(self, subject):  
+        if self.__max &lt; subject.temperature:  
+            self.__max = subject.temperature  
+        if self.__min &gt; subject.temperature:  
+            self.__min = subject.temperature  
+        self.__num = self.__num + 1  
+        self.__sum = self.__sum + subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "max " + str(self.__max),  
+        print "min " + str(self.__min),  
+        print "avg " + str(float(self.__sum)/self.__num)  
+</code></pre>
+
+<h3>打印类</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Display.py  
+class Display:  
+
+    def display(self):  
+        pass  
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[解释器模式]]></title>
+      <url>/2017/04/19/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>解释器模式：给定一个语言，定义它文法的一种表示，并定义一个解释器。这个解释器使用该‘表示’来解释语言中的句子。<br>应用场景：如果一种特定类型的问题发生的频率足够高，那么可能就值得将该问题的各个实例表述为一个简单语言中的句子。这样就可以构建一个解释器，该解释器通过解释这些句子来解决该问题。比如“正常表达式”。<br><img src="/uploads/2016/11/interperter.gif" alt="interperter" width="695" height="368" class="alignnone size-full wp-image-204"></p>
+<pre><code>#encoding=utf-8
+#
+#解释器模式
+
+#上下文类：演奏内容
+#上下文类：演奏内容
+class PlayContext():
+    text = None
+    PlayText = None
+
+#抽象表达式类
+class Expression():
+    def Interpret(self, context):
+        if len(context.PlayText) == 0:
+            return
+        else:
+            playKey = context.PlayText[0:1]
+            context.PlayText = context.PlayText[2:]
+            tmp = context.PlayText.index(' ') #找出第一个空格出现的位置
+            playValue = context.PlayText[0:tmp]
+            context.PlayText = context.PlayText[tmp+1:]
+            self.Excute(playKey,playValue)
+
+    def Excute(self,playKey,playValue):
+        pass
+
+#音高
+class Pitch(Expression):
+    pitch = None
+    def Excute(self, key, value):
+        value = int(value)
+        if value == 1:
+            self.pitch = '低音'
+        elif value == 2:
+            self.pitch = '中音'
+        elif value == 3:
+            self.pitch = '高音'
+        print(self.pitch)
+
+#音符
+class Note(Expression):
+    Notes = {
+        'C':1,
+        'D':2,
+        'E':3,
+        'F':4,
+        'G':5,
+        'A':6,
+        'B':7,
+    }
+    note = None
+    def Excute(self, key, value):
+        self.note = self.Notes[key]
+        print('%d' % self.note)
+
+
+def clientUI():
+    context = PlayContext()
+    context.PlayText = "O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "
+    expression = None
+    while(len(context.PlayText) &gt; 0):
+        str = context.PlayText[0:1]
+        if(str == 'O'):
+            expression = Pitch()
+        elif(str == 'C' or str == 'D' or str == 'E' or str == 'F' or str == 'G' or str == 'A' or str == 'B' or str == 'P'):
+            expression = Note()
+        expression.Interpret(context)
+
+    return
+
+if __name__ == '__main__':
+    clientUI()
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[访问者模式]]></title>
+      <url>/2017/04/19/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>访问者模式：表示一个作用于某对象结构中的各元素的操作。它可以使你在不改变各元素的类的前提下定义作用于这些元素的新操作。<br>访问者模式适用于数据结构相对稳定而基于该数据结构的操作需要经常扩展的系统。因为该模式的优点就是增加新的操作很容易。</p>
+<p>类图：<br><img src="/uploads/2016/11/visitor.gif" alt="visitor" width="799" height="430" class="alignnone size-full wp-image-208"></p>
+<pre><code>#encoding=utf-8
+#
+#访问模式
+
+#基本数据结构：
+class Person():
+    def Accept(self, visitor):
+        pass
+
+class Man(Person):
+    type = '男人'
+    def Accept(self, visitor):
+        visitor.GetManConclusion(self)
+
+class Woman(Person):
+    type = '女人'
+    def Accept(self, visitor):
+        visitor.GetWomanConclusion(self)
+
+#基于数据结构的操作
+class Action():
+    def GetManConclusion(self, person):
+        pass
+    def GetWomanConclusion(self, person):
+        pass
+
+class Success(Action):
+    type = '成功'
+    def GetManConclusion(self, person):
+        print('%s %s时，背后多半有一个伟大的女人' %(person.type, self.type))
+    def GetWomanConclusion(self, person):
+        print('%s %s时，背后大多有一个不成功的男人' %(person.type, self.type))
+
+class Failing(Action):
+    type = '失败'
+    def GetManConclusion(self, person):
+        print('%s %s时，闷头喝酒，谁也不用劝' %(person.type, self.type))
+    def GetWomanConclusion(self, person):
+        print('%s %s时，眼泪汪汪，谁也劝不了' %(person.type, self.type))
+
+class Love(Action):
+    type = '恋爱'
+    def GetManConclusion(self, person):
+        print('%s %s时，凡是不懂也要装懂' %(person.type, self.type))
+    def GetWomanConclusion(self, person):
+        print('%s %s时，遇事懂也装作不懂' %(person.type, self.type))
+
+#对象结构类：遍历数据结构的操作
+class ObjectStructure:
+    elements = []
+    def Attach(self, element):
+        self.elements.append(element)
+
+    def Detach(self, element):
+        self.elements.remove(element)
+
+    def Display(self, visitor):
+        for e in self.elements:
+            e.Accept(visitor)
+
+
+def clientUI():
+    o = ObjectStructure()
+    o.Attach(Man())
+    o.Attach(Woman())
+
+    o.Display(Success())
+    o.Display(Failing())
+    o.Display(Love())
+    return
+
+if __name__ == '__main__':
+    clientUI()
+</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 设计模式 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[责任链模式]]></title>
+      <url>/2017/04/19/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
+<p>使用常规方法实现</p>
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+class NullHandler(object):
+    def __init__(self, successor=None):
+        self.__successor = successor
+
+    def handle(self, event):
+        if self.__successor is not None:
+            self.__successor.handle(event)
+
+
+class ConcreteHandler1(NullHandler):
+
+    def handle(self, event):
+        if event &gt; 0 and event &lt;= 10:
+            print "in handler1", event
+        else:
+            super(ConcreteHandler1, self).handle(event)
+
+
+class ConcreteHandler2(NullHandler):
+    def handle(self, event):
+        if event &gt; 10 and event &lt;= 20:
+            print "in handler2", event
+        else:
+            super(ConcreteHandler2, self).handle(event)
+
+
+class ConcreteHandler3(NullHandler):
+    def handle(self, event):
+        if event &gt; 20 and event &lt;= 30:
+            print "in handler3", event
+        else:
+            super(ConcreteHandler3, self).handle(event)
+
+
+def main():
+    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        handler.handle(event)
+</code></pre>
+
+<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
+<p>使用协程实现责任链</p>
+<p>关于协程</p>
+<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
+<pre><code>import functools
+
+def coroutine(function):
+    @functools.wraps(function)
+    def wrapper(*args, **kwargs):
+        generator = function(*args, **kwargs)
+        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
+        return generator
+    return wrapper
+</code></pre>
+
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+@coroutine
+def mouse_handler(successor=None):
+    while True:
+        event = (yield)
+        if 0 &lt; event &lt;= 10:
+            print("mouse-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def key_handler(successor=None):
+    while True:
+        event = (yield)
+        if 10 &lt; event &lt;= 20:
+            print("key-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def timer_handler(successor=None):
+    while True:
+        event = (yield)
+        if 20 &lt; event &lt;= 30:
+            print("timer-num: {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+def main():
+    pipeline = key_handler(mouse_handler(timer_handler()))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        pipeline.send(event)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
 ]]></content>
       
         <categories>
@@ -1818,1178 +2904,92 @@ StopIteration
     </entry>
     
     <entry>
-      <title><![CDATA[桥接模式]]></title>
-      <url>/2017/04/19/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
-<pre><code>#encoding=utf-8
-#
-#桥接模式
-
-#抽象类：手机品牌
-class HandsetBrand():
-    soft = None
-    def SetHandsetSoft(self, soft):
-        self.soft = soft
-
-    def Run(self):
-        pass
-
-#具体抽象类：手机品牌1
-class HandsetBrand1(HandsetBrand):
-    def Run(self):
-        print('手机品牌1:')
-        self.soft.Run()
-
-#具体抽象类：手机品牌2
-class HandsetBrand2(HandsetBrand):
-    def Run(self):
-        print('手机品牌2:')
-        self.soft.Run()
-
-
-#功能类：手机软件
-class HandsetSoft():
-    def Run(self):
-        pass
-
-#具体功能类：游戏
-class HandsetGame(HandsetSoft):
-    def Run(self):
-        print('运行手机游戏')
-
-#具体功能类：通讯录
-class HandsetAddressList(HandsetSoft):
-    def Run(self):
-        print('运行手机通信录')
-
-def clientUI():
-    h1 = HandsetBrand1()
-    h1.SetHandsetSoft(HandsetAddressList())
-    h1.Run()
-    h1.SetHandsetSoft(HandsetGame())
-    h1.Run()
-
-    h2 = HandsetBrand2()
-    h2.SetHandsetSoft(HandsetAddressList())
-    h2.Run()
-    h2.SetHandsetSoft(HandsetGame())
-    h2.Run()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-</code></pre>
-
-<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
-<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
-<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[模板方法模式]]></title>
-      <url>/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
-
-<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
-<pre><code>class Person(object):
-    def Chew(self):
-        """咀嚼食物"""
-        raise NotImplementedError()
-
-    def Swallow(self):
-        print '咽下去'
-
-    def Eat(self):
-        # 吃饭分两步，先嚼，再咽。
-        self.Chew()
-        self.Swallow()
-
-class Man(Person):
-    def Chew(self):
-        # 男人通常狼吞虎咽
-        print '嚼三下'
-
-class Woman(Person):
-    def Chew(self):
-        # 女人通常细嚼慢咽
-        print '嚼六下'
-</code></pre>
-
-<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
-<h2>模版方法模式的结构</h2>
-
-<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
-<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
-
-<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
-<h2>模版方法的优点及适用场景</h2>
-
-<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
-
-<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[状态模式]]></title>
-      <url>/2017/04/19/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>状态模式(State Pattern)是设计模式的一种，属于行为模式。</p>
-<p>定义(源于Design Pattern)：当一个对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类。</p>
-<p>　　状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</p>
-<h2>意图</h2>
-
-<p>允许一个对象在其内部状态改变时改变它的行为</p>
-<h2>适用场景</h2>
-
-<p>　　1.一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为。</p>
-<p>　　2.一个操作中含有庞大的多分支结构，并且这些分支决定于对象的状态。</p>
-<h2>类图</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/13.jpg" alt="13" width="553" height="362" class="alignnone size-full wp-image-195"></p>
-<pre><code>#State：上班状态基类
-class State():
-    def WriteProgram(self):
-        pass
-
-#上午工作状态类
-class ForenoonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 12):
-            print("当前时间：%d点 工作状态：上午工作，精神百倍" % w.Hour)
-        else:
-            w.SetState(noonState())
-            w.WriteProgram()
-
-#中午工作状态类
-class noonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 13):
-            print("当前时间：%d点 午饭；午休" % w.Hour)
-        else:
-            w.SetState(AfternoonState())
-            w.WriteProgram();
-
-#下午工作状态类
-class AfternoonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 18):
-            print("当前时间：%d点 下午状态还不错，继续努力" % w.Hour)
-        else:
-            w.SetState(EveningState())
-            w.WriteProgram();
-
-#晚上工作状态类
-class EveningState(State):
-    def WriteProgram(self,w):
-        if(w.TaskFinished):
-            w.SetState(RestState())
-            w.WriteProgram()
-            return
-
-        if (w.Hour &lt; 21):
-            print("当前时间：%d点 加班哦，好累！" % w.Hour)
-        else:
-            w.SetState(SleepingState())
-            w.WriteProgram();
-
-#睡眠状态
-class SleepingState(State):
-    def WriteProgram(self,w):
-        print("当前时间：%d点 睡觉了" % w.Hour)
-
-
-#下班工作状态
-class RestState(State):
-    def WriteProgram(self,w):
-        print("当前时间：%d点 下班回家了" % w.Hour)
-#Context：上班
-class Work():
-    state = ForenoonState()
-    TaskFinished = False
-    Hour = 8.0
-
-    def SetState(self, state):
-        self.state = state
-
-    def WriteProgram(self):
-        self.state.WriteProgram(self)
-
-
-def clientUI():
-    work = Work()
-    for i in range(9,23,1):
-        work.Hour = i
-        if(i &gt; 19):
-            work.TaskFinished = True
-        work.WriteProgram()
-    return
-
-if __name__ == '__main__':
-
-    clientUI()
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[策略模式]]></title>
-      <url>/2017/04/19/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>策略模式： 定义了算法家族，分别封装起来，让他们之间可以互相替换。此模式让算法的变化不影响使用算法的客户。</p>
-<h2>代码框架</h2>
-
-<pre><code>class Strategy(object):
-    """抽象算法类"""
-    def AlgorithmInterface(self):
-        raise NotImplementedError()
-
-class ConcreteStrategyA(Strategy):
-    def AlgorithmInterface(self):
-        print '算法Ａ'
-
-class ConcreteStrategyB(Strategy):
-    def AlgorithmInterface(self):
-        print '算法B'
-
-class Context(object):
-    """上下文，作用就是封装策略的实现细节，用户只需要知道有哪些策略可用"""
-    def __init__(self, strategy):
-        # 初始化时传入具体的策略实例
-        self.strategy = strategy
-
-    def ContextInterface(self):
-        # 负责调用具体的策略实例的接口
-        self.strategy.AlgorithmInterface()
-
-def client(cond):
-    # 策略模式的使用演示
-    # 用户只需要根据不同的条件，将具体的算法实现类传递给Context，
-    # 然后调用Context暴露给用户的接口就行了。
-    if cond == 'A':
-        context = Context(ConcreteStrategyA())
-    elif cond == 'B':
-        context = Context(ConcreteStrategyB())
-
-    result = context.ContextInterface()
-</code></pre>
-
-<h2>策略模式解决那类问题</h2>
-
-<p>在回答这个问题之前，先说下对策略模式的使用方式的感觉。上面的client函数，怎么看起来就像是简单工厂模式中的工厂函数呢？确实如此，实际上策略模式可以和简工厂模式结合起来，将更多细节封装在策略模式内部，让使用者更容易的使用。</p>
-<p>那么策略模式和简单工厂模式有什么不同呢？策略模式中的算法是用来解决同一个问题的，根据时间、条件不同，算法的具体细节有差异，但最终解决的是同一个问题。在需求分析过程中，当听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式来处理这种变化的可能性。</p>
-<h2>缺点</h2>
-
-<p>使用者需要知道每一种策略的具体含义，并负责选择策略</p>
-<h2>改进</h2>
-
-<p>结合简单工厂模式，将策略选择封装在Context内部，解放client：</p>
-<pre><code>class Context(object):
-    def __init__(self, cond):
-        if cond == 'A':
-            self.strategy = ConcreteStrategyA()
-        elif cond == 'B':
-            self.strategy = ConcreteStrategyB()
-
-    def ContextInterface(self):
-        self.strategy.AlgorithmInterface()
-
-
-def client(cond):
-    context = Context(cond)
-    result = context.ContextInterface()
-</code></pre>
-
-<h2>改进后的遗留问题</h2>
-
-<p>每次需要增加新的策略时，就需要修改Context的构造函数，增加一个新的判断分支。</p>
-<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/03-strategy/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/03-strategy/</a></p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[简单工厂模式]]></title>
-      <url>/2017/04/19/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
-<p>下面是一个简单的工厂实例：</p>
-<pre><code>def create_animal(name):
-    if name == 'dog':
-        return Dog()
-    elif name == 'cat':
-        return Cat()
-
-animal = create_animal('dog')
-animal.eat('some food')
-</code></pre>
-
-<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
-<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
-<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
-<pre><code>def create_operator(op):
-    if op == '+':
-        return AddOperation()
-    elif op == '-':
-        return SubOperation()
-    elif op ==  '*':
-        return MulOperation()
-    elif op == '/':
-        return DivOperation()
-
-op = create_operator('+')
-op.Calc(1, 2)
-</code></pre>
-
-<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
-<h2>简单工厂模式的组成要素</h2>
-
-<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
-<h2>缺点</h2>
-
-<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
-<h2>使用场景</h2>
-
-<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[组合模式]]></title>
-      <url>/2017/04/19/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>组合模式：针对“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/composite.gif" alt="composite" width="631" height="299" class="alignnone size-full wp-image-199"></p>
+      <title><![CDATA[工厂模式]]></title>
+      <url>/2017/04/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>简单工厂模式的最大优点就是工厂类内部包含了必要的逻辑判断，客户端只要提供选择条件即可，这样客户端就不需要知道具体产品的信息了。<br>但是每次增加产品就要修改工厂类，违背了“开放-封闭”原则。<br>所以，有了工厂方法模式<br>工厂方法模式：定义一个用于创建对象的接口，让子类决定实例化哪一个类。</p>
+<p>工厂方法模式相对于简单工厂模式的<br>优点在于，抽象了产品工厂这个类，让它变成了一个接口，只要某个类实现了这个接口，它就可以被当做工厂类来用，这样每添加一个产品的时候，就添加一下相应的生产工厂类，其它地方就可以使用了，满足“开放-封闭”原则；<br>缺点在于，把生产产品的逻辑判断从工厂中剥离了出去。</p>
+<p>类图：<br><img src="/uploads/2016/11/factory.gif" alt="factory" width="920" height="435" class="alignnone size-full wp-image-218"></p>
 <pre><code>#encoding=utf-8
 #
 #by panda
-#组合模式
-
-
-#Component：公司抽象类
-class Company:
-    name = ''
-    def __init__(self, name):
-        self.name = name
-
-    def Add(self, company):
-        pass
-
-    def Remove(self, company):
-        pass
-
-    def Display(self, depth):
-        pass
-
-    def LineOfDuty(self): #履行职责
-        pass
-
-#Composite：公司类
-class ConcreteCompany(Company):
-    childrenCompany = None
-
-    def __init__(self, name):
-        Company.__init__(self,name)
-        self.childrenCompany = []
-
-    def Add(self, company):
-        self.childrenCompany.append(company)
-
-    def Remove(self, company):
-        self.childrenCompany.remove(company)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-        for component in self.childrenCompany:
-            component.Display(depth+2)
-
-
-    def LineOfDuty(self): #履行职责
-        for component in self.childrenCompany:
-            component.LineOfDuty()
-
-#Leaf：具体职能部门
-class HRDepartment(Company):   
-    def __init__(self, name):
-         Company.__init__(self,name)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-    def LineOfDuty(self): #履行职责
-        print('%s\t员工招聘培训管理' % self.name)
-
-#Leaf：具体职能部门
-class FinanceDepartment(Company):    
-    def __init__(self, name):
-        Company.__init__(self,name)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-    def LineOfDuty(self): #履行职责
-        print('%s\t公司财务收支管理' % self.name)
-
-def clientUI():    
-    root = ConcreteCompany('北京总公司')
-    root.Add(HRDepartment('总公司人力资源部'))
-    root.Add(FinanceDepartment('总公司财务部'))
-
-    comp = ConcreteCompany('华东分公司')
-    comp.Add(HRDepartment('华东分公司人力资源部'))
-    comp.Add(FinanceDepartment('华东分公司财务部'))
-    root.Add(comp)
-
-    comp1 = ConcreteCompany('南京办事处')
-    comp1.Add(HRDepartment('南京办事处人力资源部'))
-    comp1.Add(FinanceDepartment('南京办事处财务部'))
-    comp.Add(comp1)
-
-    comp2 = ConcreteCompany('杭州办事处')
-    comp2.Add(HRDepartment('杭州办事处人力资源部'))
-    comp2.Add(FinanceDepartment('杭州办事处财务部'))
-    comp.Add(comp2)    
-
-    print('-------公司结构图-------')
-    root.Display(1)
-
-    print('\n-------职责-------')
-    root.LineOfDuty()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[装饰模式]]></title>
-      <url>/2017/04/19/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>装饰模式：动态的给对象添加额外的功能。<br>Python内置了很多对装饰器的支持，因此在Python中使用装饰模式是非常容易的，下面是一个典型的例子，给函数增加日志功能：</p>
-<pre><code>import functools
-def log_wrapper(fun):
-    @functools.wraps(fun)
-    def wrapper(*args, **kwargs):
-        print '在函数执行前加日志'
-        ret = fun(*args, **kwargs)
-        print '在函数执行后家日志'
-        return ret
-    return wrapper
-
-
-@log_wrapper
-def test():
-    print 'Hello, 世界'
-</code></pre>
-
-<p>functools.wraps是Python标准库提供的一个特殊的装饰器，用来解决装饰器带来的一些常规问题，如函数名称、doc等的不一致问题。@是Python针对装饰器提供的一个语法糖，上面的@log_wrapper相当于wrap_test = log_rapper(test)，用@后，这个步骤由解释器代劳了。</p>
-<p>装饰器是Python编程必须掌握的一项技能，在编码过程中经常会用到。</p>
-<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/04-decorator/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/04-decorator/</a></p>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[观察者模式]]></title>
-      <url>/2017/04/19/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<h2>类图</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
-<p>书中举得例子：</p>
-<h2>一般方式</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
-<h2>使用Java内置模块的方式</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
-<h2>Python代码</h2>
-
-<h3>主题/可观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Subject.py  
-import Observer  
-class Subject:  
-    def __init__(self):  
-        self.__observers = []  
-        self.__changed = True  
-
-    def registerObserver(self,observer):  
-        self.__observers.append(observer)  
-
-    def removeObserver(self, observer):  
-        self.__observers.remove(observer)  
-
-    def notifyObservers(self):  
-        if self.__changed == True:  
-            for everyObserver in self.__observers:  
-                everyObserver.update(self)  
-            self.changed =False  
-    @property  
-    def changed(self):  
-        return self.__changed  
-    @changed.setter  
-    def changed(self, value):  
-        if isinstance(value, bool):  
-            self.__changed = value  
-
-class WeatherData(Subject):  
-    def __init__(self):  
-        Subject.__init__(self)  
-        self.__temperature = 0  
-        self.__humidity = 0  
-
-    @property  
-    def temperature(self):  
-        return self.__temperature  
-    @property  
-    def humidity(self):  
-        return self.__humidity  
-
-    @temperature.setter  
-    def temperature(self, value):  
-        if isinstance(value, int):  
-            self.__temperature = value  
-
-    @humidity.setter  
-    def humidity(self, value):  
-        if isinstance(self, int):  
-            self.__humidity = value  
-
-    def setMeasurements(self, temperature, humidity):  
-        self.temperature = temperature  
-        self.humidity = humidity  
-        self.changed = True  
-        self.notifyObservers()  
-
-def main():  
-    weatherData = WeatherData()  
-    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
-    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
-    weatherData.setMeasurements(25, 50)  
-    weatherData.setMeasurements(26, 70)  
-    weatherData.setMeasurements(12, 32)  
-
-
-if __name__ == "__main__":  
-    main()  
-</code></pre>
-
-<h3>观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Observer.py  
-import  Subject  
-import Display  
-class Observer:  
-    def __init__(self, observable):  
-        self.__observable = observable  
-        observable.registerObserver(self)  
-        self.__temperature = None  
-        self.__humidity = None  
-
-    def update(self, subject):  
-        pass  
-
-class CurrentConditionsDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-
-    def update(self, subject):  
-        self.__humidity = subject.humidity  
-        self.__temperature = subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "temperature " + str(self.__temperature),  
-        print "humidity " + str(self.__humidity)  
-
-class StatisticsTempDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-        self.__max = 0  
-        self.__min = 200  
-        self.__num = 0  
-        self.__sum = 0  
-
-    def update(self, subject):  
-        if self.__max &lt; subject.temperature:  
-            self.__max = subject.temperature  
-        if self.__min &gt; subject.temperature:  
-            self.__min = subject.temperature  
-        self.__num = self.__num + 1  
-        self.__sum = self.__sum + subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "max " + str(self.__max),  
-        print "min " + str(self.__min),  
-        print "avg " + str(float(self.__sum)/self.__num)  
-</code></pre>
-
-<h3>打印类</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Display.py  
-class Display:  
-
-    def display(self):  
-        pass  
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[解释器模式]]></title>
-      <url>/2017/04/19/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>解释器模式：给定一个语言，定义它文法的一种表示，并定义一个解释器。这个解释器使用该‘表示’来解释语言中的句子。<br>应用场景：如果一种特定类型的问题发生的频率足够高，那么可能就值得将该问题的各个实例表述为一个简单语言中的句子。这样就可以构建一个解释器，该解释器通过解释这些句子来解决该问题。比如“正常表达式”。<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/interperter.gif" alt="interperter" width="695" height="368" class="alignnone size-full wp-image-204"></p>
-<pre><code>#encoding=utf-8
-#
-#解释器模式
-
-#上下文类：演奏内容
-#上下文类：演奏内容
-class PlayContext():
-    text = None
-    PlayText = None
-
-#抽象表达式类
-class Expression():
-    def Interpret(self, context):
-        if len(context.PlayText) == 0:
-            return
-        else:
-            playKey = context.PlayText[0:1]
-            context.PlayText = context.PlayText[2:]
-            tmp = context.PlayText.index(' ') #找出第一个空格出现的位置
-            playValue = context.PlayText[0:tmp]
-            context.PlayText = context.PlayText[tmp+1:]
-            self.Excute(playKey,playValue)
-
-    def Excute(self,playKey,playValue):
-        pass
-
-#音高
-class Pitch(Expression):
-    pitch = None
-    def Excute(self, key, value):
-        value = int(value)
-        if value == 1:
-            self.pitch = '低音'
-        elif value == 2:
-            self.pitch = '中音'
-        elif value == 3:
-            self.pitch = '高音'
-        print(self.pitch)
-
-#音符
-class Note(Expression):
-    Notes = {
-        'C':1,
-        'D':2,
-        'E':3,
-        'F':4,
-        'G':5,
-        'A':6,
-        'B':7,
-    }
-    note = None
-    def Excute(self, key, value):
-        self.note = self.Notes[key]
-        print('%d' % self.note)
-
-
-def clientUI():
-    context = PlayContext()
-    context.PlayText = "O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "
-    expression = None
-    while(len(context.PlayText) &gt; 0):
-        str = context.PlayText[0:1]
-        if(str == 'O'):
-            expression = Pitch()
-        elif(str == 'C' or str == 'D' or str == 'E' or str == 'F' or str == 'G' or str == 'A' or str == 'B' or str == 'P'):
-            expression = Note()
-        expression.Interpret(context)
-
-    return
-
-if __name__ == '__main__':
-    clientUI()
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[访问者模式]]></title>
-      <url>/2017/04/19/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>访问者模式：表示一个作用于某对象结构中的各元素的操作。它可以使你在不改变各元素的类的前提下定义作用于这些元素的新操作。<br>访问者模式适用于数据结构相对稳定而基于该数据结构的操作需要经常扩展的系统。因为该模式的优点就是增加新的操作很容易。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/visitor.gif" alt="visitor" width="799" height="430" class="alignnone size-full wp-image-208"></p>
-<pre><code>#encoding=utf-8
-#
-#访问模式
-
-#基本数据结构：
-class Person():
-    def Accept(self, visitor):
-        pass
-
-class Man(Person):
-    type = '男人'
-    def Accept(self, visitor):
-        visitor.GetManConclusion(self)
-
-class Woman(Person):
-    type = '女人'
-    def Accept(self, visitor):
-        visitor.GetWomanConclusion(self)
-
-#基于数据结构的操作
-class Action():
-    def GetManConclusion(self, person):
-        pass
-    def GetWomanConclusion(self, person):
-        pass
-
-class Success(Action):
-    type = '成功'
-    def GetManConclusion(self, person):
-        print('%s %s时，背后多半有一个伟大的女人' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，背后大多有一个不成功的男人' %(person.type, self.type))
-
-class Failing(Action):
-    type = '失败'
-    def GetManConclusion(self, person):
-        print('%s %s时，闷头喝酒，谁也不用劝' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，眼泪汪汪，谁也劝不了' %(person.type, self.type))
-
-class Love(Action):
-    type = '恋爱'
-    def GetManConclusion(self, person):
-        print('%s %s时，凡是不懂也要装懂' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，遇事懂也装作不懂' %(person.type, self.type))
-
-#对象结构类：遍历数据结构的操作
-class ObjectStructure:
-    elements = []
-    def Attach(self, element):
-        self.elements.append(element)
-
-    def Detach(self, element):
-        self.elements.remove(element)
-
-    def Display(self, visitor):
-        for e in self.elements:
-            e.Accept(visitor)
-
-
-def clientUI():
-    o = ObjectStructure()
-    o.Attach(Man())
-    o.Attach(Woman())
-
-    o.Display(Success())
-    o.Display(Failing())
-    o.Display(Love())
-    return
-
-if __name__ == '__main__':
-    clientUI()
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[责任链模式]]></title>
-      <url>/2017/04/19/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
-<p>使用常规方法实现</p>
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
-
-class NullHandler(object):
-    def __init__(self, successor=None):
-        self.__successor = successor
-
-    def handle(self, event):
-        if self.__successor is not None:
-            self.__successor.handle(event)
-
-
-class ConcreteHandler1(NullHandler):
-
-    def handle(self, event):
-        if event &gt; 0 and event &lt;= 10:
-            print "in handler1", event
-        else:
-            super(ConcreteHandler1, self).handle(event)
-
-
-class ConcreteHandler2(NullHandler):
-    def handle(self, event):
-        if event &gt; 10 and event &lt;= 20:
-            print "in handler2", event
-        else:
-            super(ConcreteHandler2, self).handle(event)
-
-
-class ConcreteHandler3(NullHandler):
-    def handle(self, event):
-        if event &gt; 20 and event &lt;= 30:
-            print "in handler3", event
-        else:
-            super(ConcreteHandler3, self).handle(event)
-
-
-def main():
-    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        handler.handle(event)
-</code></pre>
-
-<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
-<p>使用协程实现责任链</p>
-<p>关于协程</p>
-<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
-<pre><code>import functools
-
-def coroutine(function):
-    @functools.wraps(function)
-    def wrapper(*args, **kwargs):
-        generator = function(*args, **kwargs)
-        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
-        return generator
-    return wrapper
-</code></pre>
-
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
-
-@coroutine
-def mouse_handler(successor=None):
-    while True:
-        event = (yield)
-        if 0 &lt; event &lt;= 10:
-            print("mouse-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-
-@coroutine
-def key_handler(successor=None):
-    while True:
-        event = (yield)
-        if 10 &lt; event &lt;= 20:
-            print("key-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-
-@coroutine
-def timer_handler(successor=None):
-    while True:
-        event = (yield)
-        if 20 &lt; event &lt;= 30:
-            print("timer-num: {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-def main():
-    pipeline = key_handler(mouse_handler(timer_handler()))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        pipeline.send(event)
-
-if __name__ == "__main__":
-    main()
-</code></pre>
-]]></content>
-      
-        <categories>
-            
-            <category> 设计模式 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[适配器模式]]></title>
-      <url>/2017/04/19/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>将一个类的接口转换成客户希望的另外一个接口。使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br>应用场景：希望复用一些现存的类，但是接口又与复用环境要求不一致。</p>
-<p>模式特点：将一个类的接口转换成为客户希望的另外一个接口。</p>
-<p>分类：类适配器（通过多重继承）、对象适配器。<br>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/11.jpg" alt="11" width="669" height="296" class="alignnone size-full wp-image-190"><br>来通过例子说明，下面是用户通过适配器使用一个类的方法</p>
-<pre><code>#--encoding=utf-8--
-#
-#by panda
-#适配器模式
+#工厂方法模式
 
 def printInfo(info):
- print(info)
+    print unicode(info, 'utf-8').encode('gbk')
 
-#球员类
-class Player():
-     name = ''
-     def __init__(self,name):
-         self.name = name
+#雷锋
+class LeiFeng():
+    def Sweep(self):
+        printInfo('扫地')
 
-     def Attack(self,name):
+    def Wash(self):
+        printInfo('洗衣')
+
+    def BuyRice(self):
+        printInfo('买米')
+
+#学雷锋的大学生
+class Undergraduate(LeiFeng):
+    def __init__(self):
+        printInfo('学雷锋的大学生')
         pass
 
-     def Defense(self):
+#社区志愿者
+class Volunteer(LeiFeng):
+    def __init__(self):
+        printInfo('社区志愿者')
         pass
 
-#前锋
-class Forwards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
+#简单雷锋工厂
+class SimpleFactory():
+    @staticmethod
+    def CreateLeiFeng(type):
+        if type == '学雷锋的大学生':
+            return Undergraduate()
+        elif type == '社区志愿者':
+            pass  
 
-    def Attack(self):
-        printInfo("前锋%s 进攻" % self.name)
-
-    def Defense(self,name):
-        printInfo("前锋%s 防守" % self.name)
-
-#中锋（目标类）
-class Center(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("中锋%s 进攻" % self.name)
-
-    def Defense(self):
-        printInfo("中锋%s 防守" % self.name)
-
-#后卫
-class Guards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("后卫%s 进攻" % self.name)
-
-        def Defense(self):
-            printInfo("后卫%s 防守" % self.name)
-
-#外籍中锋（待适配类）
-#中锋
-class ForeignCenter(Player):
-    name = ''
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def ForeignAttack(self):
-        printInfo("外籍中锋%s 进攻" % self.name)
-
-    def ForeignDefense(self):
-        printInfo("外籍中锋%s 防守" % self.name)
+#雷锋抽象工厂
+class IFactory():
+    @staticmethod
+    def CreateLeiFeng():
+        return LeiFeng()
 
 
-#翻译（适配类）
-class Translator(Player):
-    foreignCenter = None
-    def __init__(self,name):
-        self.foreignCenter = ForeignCenter(name)
+#学雷锋的社区志愿者工厂
+class VolunteerFactory(IFactory):
+    @staticmethod
+    def CreateLeiFeng():
+        return Volunteer()
 
-    def Attack(self):
-        self.foreignCenter.ForeignAttack()
 
-    def Defense(self):
-        self.foreignCenter.ForeignDefense()
+#学雷锋的大学生工厂
+class UndergraduateFactory(IFactory):
+    @staticmethod
+    def CreateLeiFeng():
+        return Undergraduate()
+
 
 
 def clientUI():
-    b = Forwards('巴蒂尔')
-    m = Guards('麦克格雷迪')
-    ym = Translator('姚明')
+    printInfo('----------------简单工厂模式--------------')
+    studentA = SimpleFactory.CreateLeiFeng('学雷锋的大学生')
+    studentA.BuyRice()
+    studentA.Sweep()
+    studentA.Wash()
 
-    b.Attack()
-    m.Defense()
-    ym.Attack()
-    ym.Defense()
+    printInfo('----------------工厂方法模式--------------')
+    studentB = VolunteerFactory.CreateLeiFeng()
+    studentB.BuyRice()
+    studentB.Sweep()
+    studentB.Wash()
     return
 
 if __name__ == '__main__':
- clientUI()
+    clientUI();
 </code></pre>
+
+<p>`</p>
 ]]></content>
       
         <categories>
