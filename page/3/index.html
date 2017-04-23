@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/观察者模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/装饰模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/观察者模式/" itemprop="url">
-                  观察者模式
+                <a class="post-title-link" href="/2017/04/19/装饰模式/" itemprop="url">
+                  装饰模式
                 </a>
               
             
@@ -356,150 +356,28 @@
       
         
           
-            <h2>类图</h2>
+            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
 
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
-<p>书中举得例子：</p>
-<h2>一般方式</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
-<h2>使用Java内置模块的方式</h2>
-
-<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
-<h2>Python代码</h2>
-
-<h3>主题/可观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Subject.py  
-import Observer  
-class Subject:  
-    def __init__(self):  
-        self.__observers = []  
-        self.__changed = True  
-
-    def registerObserver(self,observer):  
-        self.__observers.append(observer)  
-
-    def removeObserver(self, observer):  
-        self.__observers.remove(observer)  
-
-    def notifyObservers(self):  
-        if self.__changed == True:  
-            for everyObserver in self.__observers:  
-                everyObserver.update(self)  
-            self.changed =False  
-    @property  
-    def changed(self):  
-        return self.__changed  
-    @changed.setter  
-    def changed(self, value):  
-        if isinstance(value, bool):  
-            self.__changed = value  
-
-class WeatherData(Subject):  
-    def __init__(self):  
-        Subject.__init__(self)  
-        self.__temperature = 0  
-        self.__humidity = 0  
-
-    @property  
-    def temperature(self):  
-        return self.__temperature  
-    @property  
-    def humidity(self):  
-        return self.__humidity  
-
-    @temperature.setter  
-    def temperature(self, value):  
-        if isinstance(value, int):  
-            self.__temperature = value  
-
-    @humidity.setter  
-    def humidity(self, value):  
-        if isinstance(self, int):  
-            self.__humidity = value  
-
-    def setMeasurements(self, temperature, humidity):  
-        self.temperature = temperature  
-        self.humidity = humidity  
-        self.changed = True  
-        self.notifyObservers()  
-
-def main():  
-    weatherData = WeatherData()  
-    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
-    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
-    weatherData.setMeasurements(25, 50)  
-    weatherData.setMeasurements(26, 70)  
-    weatherData.setMeasurements(12, 32)  
+<p>装饰模式：动态的给对象添加额外的功能。<br>Python内置了很多对装饰器的支持，因此在Python中使用装饰模式是非常容易的，下面是一个典型的例子，给函数增加日志功能：</p>
+<pre><code>import functools
+def log_wrapper(fun):
+    @functools.wraps(fun)
+    def wrapper(*args, **kwargs):
+        print '在函数执行前加日志'
+        ret = fun(*args, **kwargs)
+        print '在函数执行后家日志'
+        return ret
+    return wrapper
 
 
-if __name__ == "__main__":  
-    main()  
+@log_wrapper
+def test():
+    print 'Hello, 世界'
 </code></pre>
 
-<h3>观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Observer.py  
-import  Subject  
-import Display  
-class Observer:  
-    def __init__(self, observable):  
-        self.__observable = observable  
-        observable.registerObserver(self)  
-        self.__temperature = None  
-        self.__humidity = None  
-
-    def update(self, subject):  
-        pass  
-
-class CurrentConditionsDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-
-    def update(self, subject):  
-        self.__humidity = subject.humidity  
-        self.__temperature = subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "temperature " + str(self.__temperature),  
-        print "humidity " + str(self.__humidity)  
-
-class StatisticsTempDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-        self.__max = 0  
-        self.__min = 200  
-        self.__num = 0  
-        self.__sum = 0  
-
-    def update(self, subject):  
-        if self.__max &lt; subject.temperature:  
-            self.__max = subject.temperature  
-        if self.__min &gt; subject.temperature:  
-            self.__min = subject.temperature  
-        self.__num = self.__num + 1  
-        self.__sum = self.__sum + subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "max " + str(self.__max),  
-        print "min " + str(self.__min),  
-        print "avg " + str(float(self.__sum)/self.__num)  
-</code></pre>
-
-<h3>打印类</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Display.py  
-class Display:  
-
-    def display(self):  
-        pass  
-</code></pre>
+<p>functools.wraps是Python标准库提供的一个特殊的装饰器，用来解决装饰器带来的一些常规问题，如函数名称、doc等的不一致问题。@是Python针对装饰器提供的一个语法糖，上面的@log_wrapper相当于wrap_test = log_rapper(test)，用@后，这个步骤由解释器代劳了。</p>
+<p>装饰器是Python编程必须掌握的一项技能，在编码过程中经常会用到。</p>
+<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/04-decorator/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/04-decorator/</a></p>
 
           
         
@@ -933,6 +811,250 @@ def clientUI():
 
 if __name__ == '__main__':
     clientUI()
+</code></pre>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/责任链模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/责任链模式/" itemprop="url">
+                  责任链模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
+<p>使用常规方法实现</p>
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+class NullHandler(object):
+    def __init__(self, successor=None):
+        self.__successor = successor
+
+    def handle(self, event):
+        if self.__successor is not None:
+            self.__successor.handle(event)
+
+
+class ConcreteHandler1(NullHandler):
+
+    def handle(self, event):
+        if event &gt; 0 and event &lt;= 10:
+            print "in handler1", event
+        else:
+            super(ConcreteHandler1, self).handle(event)
+
+
+class ConcreteHandler2(NullHandler):
+    def handle(self, event):
+        if event &gt; 10 and event &lt;= 20:
+            print "in handler2", event
+        else:
+            super(ConcreteHandler2, self).handle(event)
+
+
+class ConcreteHandler3(NullHandler):
+    def handle(self, event):
+        if event &gt; 20 and event &lt;= 30:
+            print "in handler3", event
+        else:
+            super(ConcreteHandler3, self).handle(event)
+
+
+def main():
+    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        handler.handle(event)
+</code></pre>
+
+<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
+<p>使用协程实现责任链</p>
+<p>关于协程</p>
+<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
+<pre><code>import functools
+
+def coroutine(function):
+    @functools.wraps(function)
+    def wrapper(*args, **kwargs):
+        generator = function(*args, **kwargs)
+        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
+        return generator
+    return wrapper
+</code></pre>
+
+<pre><code>#!/usr/bin/env python
+# encoding:utf-8
+
+@coroutine
+def mouse_handler(successor=None):
+    while True:
+        event = (yield)
+        if 0 &lt; event &lt;= 10:
+            print("mouse-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def key_handler(successor=None):
+    while True:
+        event = (yield)
+        if 10 &lt; event &lt;= 20:
+            print("key-num:   {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+
+@coroutine
+def timer_handler(successor=None):
+    while True:
+        event = (yield)
+        if 20 &lt; event &lt;= 30:
+            print("timer-num: {}".format(event))
+        elif successor is not None:
+            successor.send(event)
+
+def main():
+    pipeline = key_handler(mouse_handler(timer_handler()))
+    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
+    for event in events:
+        pipeline.send(event)
+
+if __name__ == "__main__":
+    main()
 </code></pre>
 
           
@@ -1814,7 +1936,7 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/责任链模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/观察者模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -1836,8 +1958,8 @@ if __name__ == '__main__':
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/责任链模式/" itemprop="url">
-                  责任链模式
+                <a class="post-title-link" href="/2017/04/19/观察者模式/" itemprop="url">
+                  观察者模式
                 </a>
               
             
@@ -1913,291 +2035,150 @@ if __name__ == '__main__':
       
         
           
-            <p>责任链模式(Chain of Responsibility Pattern)可将请求的发送方与处理请求的接收方解耦。这样的话，某函数就不用直接调用别的函数了，而是可以把请求发送给一个由诸多接收者所组成的链条。链条中的首个接收者可以处理请求并停止责任链(也就是不再继续往下传递)，也可以把请求发给下一个接收者。而第二个接收者也有这两种选择，此过程可一直延续至最后一个接收者，该接收者可将请求丢弃，也可抛出异常。</p>
-<p>使用常规方法实现</p>
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
+            <h2>类图</h2>
 
-class NullHandler(object):
-    def __init__(self, successor=None):
-        self.__successor = successor
+<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
+<p>书中举得例子：</p>
+<h2>一般方式</h2>
 
-    def handle(self, event):
-        if self.__successor is not None:
-            self.__successor.handle(event)
+<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
+<h2>使用Java内置模块的方式</h2>
+
+<p><img src="http://www.strglee.com/wp-content/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
+<h2>Python代码</h2>
+
+<h3>主题/可观察者</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Subject.py  
+import Observer  
+class Subject:  
+    def __init__(self):  
+        self.__observers = []  
+        self.__changed = True  
+
+    def registerObserver(self,observer):  
+        self.__observers.append(observer)  
+
+    def removeObserver(self, observer):  
+        self.__observers.remove(observer)  
+
+    def notifyObservers(self):  
+        if self.__changed == True:  
+            for everyObserver in self.__observers:  
+                everyObserver.update(self)  
+            self.changed =False  
+    @property  
+    def changed(self):  
+        return self.__changed  
+    @changed.setter  
+    def changed(self, value):  
+        if isinstance(value, bool):  
+            self.__changed = value  
+
+class WeatherData(Subject):  
+    def __init__(self):  
+        Subject.__init__(self)  
+        self.__temperature = 0  
+        self.__humidity = 0  
+
+    @property  
+    def temperature(self):  
+        return self.__temperature  
+    @property  
+    def humidity(self):  
+        return self.__humidity  
+
+    @temperature.setter  
+    def temperature(self, value):  
+        if isinstance(value, int):  
+            self.__temperature = value  
+
+    @humidity.setter  
+    def humidity(self, value):  
+        if isinstance(self, int):  
+            self.__humidity = value  
+
+    def setMeasurements(self, temperature, humidity):  
+        self.temperature = temperature  
+        self.humidity = humidity  
+        self.changed = True  
+        self.notifyObservers()  
+
+def main():  
+    weatherData = WeatherData()  
+    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
+    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
+    weatherData.setMeasurements(25, 50)  
+    weatherData.setMeasurements(26, 70)  
+    weatherData.setMeasurements(12, 32)  
 
 
-class ConcreteHandler1(NullHandler):
-
-    def handle(self, event):
-        if event &gt; 0 and event &lt;= 10:
-            print "in handler1", event
-        else:
-            super(ConcreteHandler1, self).handle(event)
-
-
-class ConcreteHandler2(NullHandler):
-    def handle(self, event):
-        if event &gt; 10 and event &lt;= 20:
-            print "in handler2", event
-        else:
-            super(ConcreteHandler2, self).handle(event)
-
-
-class ConcreteHandler3(NullHandler):
-    def handle(self, event):
-        if event &gt; 20 and event &lt;= 30:
-            print "in handler3", event
-        else:
-            super(ConcreteHandler3, self).handle(event)
-
-
-def main():
-    handler = ConcreteHandler3(ConcreteHandler2(ConcreteHandler1(NullHandler())))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        handler.handle(event)
+if __name__ == "__main__":  
+    main()  
 </code></pre>
 
-<p>所示代码在NullHandler设置一个successor属性，使用它来执行handle，而其他则继承NullHandler，这样不符合自身条件将它抛给NullHandler，让它来执行successor的handle。我们可以从上面赋值中看出successor的顺序，一开始最里面successor为None，后面是ConcreteHandler1类型…依次类推，实现责任链。</p>
-<p>使用协程实现责任链</p>
-<p>关于协程</p>
-<p>协程(coroutine)与生成器一样，也使用yield表达式，但行为不同。协程执行的是无限循环，而且一开始就会停在首个（或仅有的那个）yield表达式那里，等值有值传给它。协程会把收到的值当成yield表达式的值，然后继续执行它所需的操作，等处理完之后，又会再度循环，并在下一个yield表达式那里等着接收下个值。这样的话，我们就能反复调用协程中的send()或throw()方法向其push值。<br>在Python中，凡是带有yield语句的函数或方法都能充当生成器。而利用@coroutine装饰器及无限循环则可将生成器变为协程。</p>
-<pre><code>import functools
+<h3>观察者</h3>
 
-def coroutine(function):
-    @functools.wraps(function)
-    def wrapper(*args, **kwargs):
-        generator = function(*args, **kwargs)
-        next(generator)#调用一次生成器，令生成器对象前进到首个yield表达式。
-        return generator
-    return wrapper
+<pre><code># -*- coding:utf-8 -*-  
+#Observer.py  
+import  Subject  
+import Display  
+class Observer:  
+    def __init__(self, observable):  
+        self.__observable = observable  
+        observable.registerObserver(self)  
+        self.__temperature = None  
+        self.__humidity = None  
+
+    def update(self, subject):  
+        pass  
+
+class CurrentConditionsDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+
+    def update(self, subject):  
+        self.__humidity = subject.humidity  
+        self.__temperature = subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "temperature " + str(self.__temperature),  
+        print "humidity " + str(self.__humidity)  
+
+class StatisticsTempDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+        self.__max = 0  
+        self.__min = 200  
+        self.__num = 0  
+        self.__sum = 0  
+
+    def update(self, subject):  
+        if self.__max &lt; subject.temperature:  
+            self.__max = subject.temperature  
+        if self.__min &gt; subject.temperature:  
+            self.__min = subject.temperature  
+        self.__num = self.__num + 1  
+        self.__sum = self.__sum + subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "max " + str(self.__max),  
+        print "min " + str(self.__min),  
+        print "avg " + str(float(self.__sum)/self.__num)  
 </code></pre>
 
-<pre><code>#!/usr/bin/env python
-# encoding:utf-8
+<h3>打印类</h3>
 
-@coroutine
-def mouse_handler(successor=None):
-    while True:
-        event = (yield)
-        if 0 &lt; event &lt;= 10:
-            print("mouse-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
+<pre><code># -*- coding:utf-8 -*-  
+#Display.py  
+class Display:  
 
-
-@coroutine
-def key_handler(successor=None):
-    while True:
-        event = (yield)
-        if 10 &lt; event &lt;= 20:
-            print("key-num:   {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-
-@coroutine
-def timer_handler(successor=None):
-    while True:
-        event = (yield)
-        if 20 &lt; event &lt;= 30:
-            print("timer-num: {}".format(event))
-        elif successor is not None:
-            successor.send(event)
-
-def main():
-    pipeline = key_handler(mouse_handler(timer_handler()))
-    events = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    for event in events:
-        pipeline.send(event)
-
-if __name__ == "__main__":
-    main()
+    def display(self):  
+        pass  
 </code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/简单工厂模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/简单工厂模式/" itemprop="url">
-                  简单工厂模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
-<p>下面是一个简单的工厂实例：</p>
-<pre><code>def create_animal(name):
-    if name == 'dog':
-        return Dog()
-    elif name == 'cat':
-        return Cat()
-
-animal = create_animal('dog')
-animal.eat('some food')
-</code></pre>
-
-<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
-<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
-<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
-<pre><code>def create_operator(op):
-    if op == '+':
-        return AddOperation()
-    elif op == '-':
-        return SubOperation()
-    elif op ==  '*':
-        return MulOperation()
-    elif op == '/':
-        return DivOperation()
-
-op = create_operator('+')
-op.Calc(1, 2)
-</code></pre>
-
-<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
-<h2>简单工厂模式的组成要素</h2>
-
-<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
-<h2>缺点</h2>
-
-<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
-<h2>使用场景</h2>
-
-<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
 
           
         
