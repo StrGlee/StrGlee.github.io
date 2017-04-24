@@ -542,200 +542,6 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/23种设计模式索引/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/23种设计模式索引/" itemprop="url">
-                  23种设计模式索引
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>设计模式是很多前人留下的经验总结，这些模式都是很典型的也是很有代表意义的。因此掌握好设计模式是提高个人技术能力的捷径。设计模式要全部掌握，必须进行不断的总结和实现，傻蛋最近总结了一下23种（+简单工厂）设计模式的索引，以方便大家明白各种模式都有什么作用，在遇到问题的时候能够迅速地找到解决方案，同时加以使用，以便能够更快的掌握。</p>
-<h2 id="创建型的设计模式：-6"><a href="#创建型的设计模式：-6" class="headerlink" title="创建型的设计模式： (6)"></a>创建型的设计模式： (6)</h2><p>Singleton（单例）:控制实例的数目<br>Builder（构建者）: 分离整体构建算法和部件的构造。<br>Prototype（原型）:克隆生成对象<br>Simple Factory（简单工厂）: 选择实现<br>Factory Method（工厂方法）: 延迟到子类来选择实现<br>Abstract Factory（抽象工厂）: 选择产品簇的实现</p>
-<h2 id="行为设计模式：-11"><a href="#行为设计模式：-11" class="headerlink" title="行为设计模式： (11)"></a>行为设计模式： (11)</h2><p>Strategy（策略）：分离算法、选择实现。<br>State（状态模式）: 根据状态来分离和选择行为<br>Chain of Responsibility（责任链）: 分离职责，自由组合。<br>Command（命令）: 封装请求成为对象<br>Observer（观察者）:触发联动<br>Memento（备忘录模式）:保存和恢复内部状态<br>Visitor（访问者）: 预留通路，回调实现。<br>Mediator（中介）: 封装交互<br>Template Method（模板方法）:固定算法骨架<br>Interpreter（解释器模式）: 分离实现、解释执行<br>Iterator（迭代模式）: 控制访问聚合对象中的元素</p>
-<h2 id="结构型设计模式：-7"><a href="#结构型设计模式：-7" class="headerlink" title="结构型设计模式：(7)"></a>结构型设计模式：(7)</h2><p>Decorator（装饰模式）: 动态组合<br>Proxy（代理）: 控制对象的访问<br>Composite（组合）: 统一叶子对象和树对象<br>Bridge（桥接模式）: 分离抽象和实现<br>Facade（外观）: 封装交互，简化应用<br>Adapter（适配器）: 转换匹配，服用功能<br>Flyweigth（享元模式）: 运用共享技术有效地支持大量细粒度的对象</p>
-<h2 id="Simple-Factory（简单工厂）"><a href="#Simple-Factory（简单工厂）" class="headerlink" title="Simple Factory（简单工厂）"></a>Simple Factory（简单工厂）</h2><p>提供一个创建对象实例的集合，而无须关心其具体实现。被创建的类型可以是接口、抽象类也可以是具体类。</p>
-<p>简单工厂的本质：选择实现。</p>
-<h2 id="Facade（外观）"><a href="#Facade（外观）" class="headerlink" title="Facade（外观）"></a>Facade（外观）</h2><p>为子系统中的一组接口提供了一个统一一致的界面，该模式定了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<p>外观模式的本质：封装交互，简化应用。</p>
-<h2 id="Adapter（适配器）"><a href="#Adapter（适配器）" class="headerlink" title="Adapter（适配器）"></a>Adapter（适配器）</h2><p>将一个类的接口装换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
-<p>适配器模式的本质：转换匹配，服用功能。</p>
-<h2 id="Singleton（单例）"><a href="#Singleton（单例）" class="headerlink" title="Singleton（单例）"></a>Singleton（单例）</h2><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
-<p>单例模式的本质:控制实例的数目。</p>
-<h2 id="Factory-Method（工厂方法）"><a href="#Factory-Method（工厂方法）" class="headerlink" title="Factory Method（工厂方法）"></a>Factory Method（工厂方法）</h2><p>定义一个用于创建对象的接口，让子类来决定实例化哪一个类，该模式使一个类的实例化延迟到子类，即是让父类在不知道具体实现的情况下，完成自身的功能调用，具体的实现延迟到子类。</p>
-<p>工厂方法的本质：延迟到子类来选择实现。</p>
-<h2 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h2><p>提供了一个创建一系列相关或者“相互依赖对象的接口”，而无需指定他们的具体类。也就是说既要创建接口的对象，同时还要约束它们之间的关系。可以类比创建主板和CPU对象，但是Intel的CPU只能插在支持Intel主板的插槽上面。在实现App的DAO的时候，通常可以使用抽象工厂结合工厂方法的方式来实现。</p>
-<p>抽象工厂的本质：选择产品簇的实现。</p>
-<h2 id="Builder（构建者）"><a href="#Builder（构建者）" class="headerlink" title="Builder（构建者）"></a>Builder（构建者）</h2><p>将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。类比文件的导出问题，每种文件都有文件的头、文件Body、和文件尾和最终的导出，所以对于不同的文件的构建方式相同但是表现方式不同。</p>
-<p>构建者模式的本质:分离整体构建算法和部件的构造。</p>
-<h2 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h2><p>用原型实例创建对象的种类，并通过copy这些原型创建新的对象。会用到Clone方法。类比处理订单（大订单分成若干个小的订单）问题，订单有企业订单和个人订单，其实其操作过程是相似的。</p>
-<p>原型模式的本质：克隆生成对象。</p>
-<h2 id="Mediator（中介）"><a href="#Mediator（中介）" class="headerlink" title="Mediator（中介）"></a>Mediator（中介）</h2><p>用一个中介对象来封装一系列的对象交互。中介者使得各个对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。类比主板用于和各种配件之间交流，而不需要各种配件之间交流。当处理部门和员工之间关系时，此模式就很好，比如部门的解散会影响到部门中的人员，部门和人员之间实现了紧耦合，使用中介者就可以变为松耦合，部门不知道员工，员工不知道处于哪个部门。</p>
-<p>中介模式的本质：封装交互。</p>
-<h2 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h2><p>为其他对象提供一种代理以控制对这个对象的访问。如spring中的AOP。或者对于大数据量列表的加载，当需要知道某条数据的详细信息的时候才通过Proxy来访问真实对象。</p>
-<p>代理模式的本质：控制对象的访问。</p>
-<h2 id="Observer（观察者）"><a href="#Observer（观察者）" class="headerlink" title="Observer（观察者）"></a>Observer（观察者）</h2><p>定义对象之间的一种一对多的依赖关系。当目标对象发生状态的改变时，所有的观察者对象都会得到通知，从而自动更新。</p>
-<p>观察者模式的本质：触发联动</p>
-<h2 id="Command（命令）"><a href="#Command（命令）" class="headerlink" title="Command（命令）"></a>Command（命令）</h2><p>客户端只是想要发出命令或者请求，而不关心请求的真正接收者是谁，也不关心具体的实现是如何的，而且对于同一个请求的动作可以有不同的请求内容，当然具体的处理功能也就不同。所以命令模式就是将一个请求封装成一个对象，从而可以使你可以用不同的请求对客户的请求进行参数化，请求可以进行排队，同时也支持请求的“可撤销操作”。<br>命令模式可以用于宏命令，就是一个大的命令中包含着一组小的命令。同时也可以处理队列请求，就是指对命令的对象进行排队，组成工作队列，然后依次取出命令对象来进行执行。</p>
-<p>命令模式的本质：封装请求。</p>
-<h2 id="Iterator（迭代器）"><a href="#Iterator（迭代器）" class="headerlink" title="Iterator（迭代器）"></a>Iterator（迭代器）</h2><p>提供一个方法顺序的访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。迭代器模式对于处理对数据库数据的翻页等事件是很好的，传统的方式有二：1.每翻一页就请求一次数据库。2.把所有数据都加载在数据库中。而迭代模式可以很好的实现一次访问数据库，就只趣比如10页，这样就不用每次都从数据库中取了。既节省了时间，也节省了内存。</p>
-<p>迭代器模式的本质：控制访问聚合对象中的元素。</p>
-<h2 id="Composite（组合）"><a href="#Composite（组合）" class="headerlink" title="Composite（组合）"></a>Composite（组合）</h2><p>组合模式主要用于表示“树-叶子”的层次结构，组合模式使得用户对单个对象和组合对象的使用具有一致性，既组合模式通过引入一个抽象类，作为树类别和叶子别的父类，这样就把树对象和叶子对象统一起来，用户在使用的时候，始终是在操作此抽象的组件对象而不用区分其实树对象还是叶子对象。其最关键的还是这个抽象类，这样无论是对树操作还是叶子操作都具有了一致性。</p>
-<p>组合模式的本质：统一叶子对象和树对象</p>
-<h2 id="Template-Method（模板方法）"><a href="#Template-Method（模板方法）" class="headerlink" title="Template Method（模板方法）"></a>Template Method（模板方法）</h2><p>定义一个操作中的算法骨架，从而让将一些方法的实现延迟到子类中，在不同的子类中，对这些方法的实现可以进行重写。对于用有很多重复、相似的操作的业务处理，就可以用这个方法。<br>在Java中通常就使用 继承的方法和回调的方式，使得父类可以访问子类的方法，所以模板方法有两种实现方式，继承的方式和回调的方式，继承的方式相对简单，而回调的方式相对地灵活。</p>
-<p>模板方法的本质：固定算法骨架。</p>
-<h2 id="Strategy（策略）"><a href="#Strategy（策略）" class="headerlink" title="Strategy（策略）"></a>Strategy（策略）</h2><p>定义一系列的算法，并把它们一个个地封装起来，并且使它们可以相互替换，本模式可以使算法可以独立于使用它的客户端的变化而变化。策略的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更加灵活，具有更好的扩展性。</p>
-<p>策略的本质是：分离算法、选择实现。</p>
-<h2 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h2><p>允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。即对于同一个业务，在各个状态下的处理基本上都是不同的，因此把每个状态所对应的功能处理封装在一个独立的类中，这样在选择不同处理的时候，其实就是在选在不同的状态处理类。</p>
-<p>状态模式的本质：根据状态来分离和选择行为。</p>
-<h2 id="Memento（备忘录模式）"><a href="#Memento（备忘录模式）" class="headerlink" title="Memento（备忘录模式）"></a>Memento（备忘录模式）</h2><p>在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可以将该对象恢复到原先保存的状态。备忘录的典型应用是 离线存储。</p>
-<p>备忘录模式的本质：保存和恢复内部状态。</p>
-<h2 id="Flyweigth（享元模式）"><a href="#Flyweigth（享元模式）" class="headerlink" title="Flyweigth（享元模式）"></a>Flyweigth（享元模式）</h2><p>运用共享技术有效地支持大量细粒度的对象。典型的应用就是对权限的控制。</p>
-<p>享元模式的本质：运用共享技术有效地支持大量细粒度的对象。</p>
-<h2 id="Interpreter（解释器模式）"><a href="#Interpreter（解释器模式）" class="headerlink" title="Interpreter（解释器模式）"></a>Interpreter（解释器模式）</h2><p>当读取xml时，xml文件发生了改变，相应的解释程序也会发生改变。用来解决这个问题的方法是解释器模式。相当于定义一个语言，同时定义一个它的语法表示，并且定义一个解释器，这个解释器就是用该表示来解释语言中的句子。</p>
-<p>解释器模式的本质：分离实现、解释执行。</p>
-<h2 id="Decorator（装饰模式）"><a href="#Decorator（装饰模式）" class="headerlink" title="Decorator（装饰模式）"></a>Decorator（装饰模式）</h2><p>动态地给一个对象添加一些额外得职责。对增加功能来说，装饰模式比生成子类更为灵活。装饰模式也能用来实现AOP。</p>
-<p>装饰模式的本质：动态组合。</p>
-<h2 id="Chain-of-Responsibility（责任链）"><a href="#Chain-of-Responsibility（责任链）" class="headerlink" title="Chain of Responsibility（责任链）"></a>Chain of Responsibility（责任链）</h2><p>使多个对象都有机会来处理请求，从而避免请求的发送者和接收者的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，知道有个一对象处理它为止。责任链模式主要是用来处理。责任链就是用来处理 客户端发来一个请求，有多个对象都有机会来处理这个请求，但是客户端不知道究竟是谁来处理这个对象。这样就实现了请求者和接收者解耦，这样就可以动态地切换和组合接收者了。</p>
-<p>责任链的本质：分离职责，自由组合。</p>
-<h2 id="Bridge（桥接模式）"><a href="#Bridge（桥接模式）" class="headerlink" title="Bridge（桥接模式）"></a>Bridge（桥接模式）</h2><p>将抽象部分和它的实现部分分离，使它们都可以独立的变化。所谓桥接就是在抽象和实现之间搭桥，让它们能够连接起来，可以相互通讯。抽象一定是要实现的，所以就需要搭一个桥，让抽象部门通过这个桥就可以调用到实现部分的功能，这样就实现了抽象和实现的彻底分离，抽象部分和实现部分可以独立的变化。</p>
-<p>桥接模式的本质：分离抽象和实现。</p>
-<h2 id="Visitor（访问者）"><a href="#Visitor（访问者）" class="headerlink" title="Visitor（访问者）"></a>Visitor（访问者）</h2><p>作用于某个对象中各个元素的操作，它使在不改变各个元素的类的前提下定义作用于这些元素的操作。</p>
-<p>访问者模式的本质：预留通路，回调实现。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/中介者模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1075,6 +881,372 @@ if(__name__=="__main__"):
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/23种设计模式索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/23种设计模式索引/" itemprop="url">
+                  23种设计模式索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>设计模式是很多前人留下的经验总结，这些模式都是很典型的也是很有代表意义的。因此掌握好设计模式是提高个人技术能力的捷径。设计模式要全部掌握，必须进行不断的总结和实现，傻蛋最近总结了一下23种（+简单工厂）设计模式的索引，以方便大家明白各种模式都有什么作用，在遇到问题的时候能够迅速地找到解决方案，同时加以使用，以便能够更快的掌握。</p>
+<h2 id="创建型的设计模式：-6"><a href="#创建型的设计模式：-6" class="headerlink" title="创建型的设计模式： (6)"></a>创建型的设计模式： (6)</h2><p>Singleton（单例）:控制实例的数目<br>Builder（构建者）: 分离整体构建算法和部件的构造。<br>Prototype（原型）:克隆生成对象<br>Simple Factory（简单工厂）: 选择实现<br>Factory Method（工厂方法）: 延迟到子类来选择实现<br>Abstract Factory（抽象工厂）: 选择产品簇的实现</p>
+<h2 id="行为设计模式：-11"><a href="#行为设计模式：-11" class="headerlink" title="行为设计模式： (11)"></a>行为设计模式： (11)</h2><p>Strategy（策略）：分离算法、选择实现。<br>State（状态模式）: 根据状态来分离和选择行为<br>Chain of Responsibility（责任链）: 分离职责，自由组合。<br>Command（命令）: 封装请求成为对象<br>Observer（观察者）:触发联动<br>Memento（备忘录模式）:保存和恢复内部状态<br>Visitor（访问者）: 预留通路，回调实现。<br>Mediator（中介）: 封装交互<br>Template Method（模板方法）:固定算法骨架<br>Interpreter（解释器模式）: 分离实现、解释执行<br>Iterator（迭代模式）: 控制访问聚合对象中的元素</p>
+<h2 id="结构型设计模式：-7"><a href="#结构型设计模式：-7" class="headerlink" title="结构型设计模式：(7)"></a>结构型设计模式：(7)</h2><p>Decorator（装饰模式）: 动态组合<br>Proxy（代理）: 控制对象的访问<br>Composite（组合）: 统一叶子对象和树对象<br>Bridge（桥接模式）: 分离抽象和实现<br>Facade（外观）: 封装交互，简化应用<br>Adapter（适配器）: 转换匹配，服用功能<br>Flyweigth（享元模式）: 运用共享技术有效地支持大量细粒度的对象</p>
+<h2 id="Simple-Factory（简单工厂）"><a href="#Simple-Factory（简单工厂）" class="headerlink" title="Simple Factory（简单工厂）"></a>Simple Factory（简单工厂）</h2><p>提供一个创建对象实例的集合，而无须关心其具体实现。被创建的类型可以是接口、抽象类也可以是具体类。</p>
+<p>简单工厂的本质：选择实现。</p>
+<h2 id="Facade（外观）"><a href="#Facade（外观）" class="headerlink" title="Facade（外观）"></a>Facade（外观）</h2><p>为子系统中的一组接口提供了一个统一一致的界面，该模式定了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
+<p>外观模式的本质：封装交互，简化应用。</p>
+<h2 id="Adapter（适配器）"><a href="#Adapter（适配器）" class="headerlink" title="Adapter（适配器）"></a>Adapter（适配器）</h2><p>将一个类的接口装换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<p>适配器模式的本质：转换匹配，服用功能。</p>
+<h2 id="Singleton（单例）"><a href="#Singleton（单例）" class="headerlink" title="Singleton（单例）"></a>Singleton（单例）</h2><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
+<p>单例模式的本质:控制实例的数目。</p>
+<h2 id="Factory-Method（工厂方法）"><a href="#Factory-Method（工厂方法）" class="headerlink" title="Factory Method（工厂方法）"></a>Factory Method（工厂方法）</h2><p>定义一个用于创建对象的接口，让子类来决定实例化哪一个类，该模式使一个类的实例化延迟到子类，即是让父类在不知道具体实现的情况下，完成自身的功能调用，具体的实现延迟到子类。</p>
+<p>工厂方法的本质：延迟到子类来选择实现。</p>
+<h2 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h2><p>提供了一个创建一系列相关或者“相互依赖对象的接口”，而无需指定他们的具体类。也就是说既要创建接口的对象，同时还要约束它们之间的关系。可以类比创建主板和CPU对象，但是Intel的CPU只能插在支持Intel主板的插槽上面。在实现App的DAO的时候，通常可以使用抽象工厂结合工厂方法的方式来实现。</p>
+<p>抽象工厂的本质：选择产品簇的实现。</p>
+<h2 id="Builder（构建者）"><a href="#Builder（构建者）" class="headerlink" title="Builder（构建者）"></a>Builder（构建者）</h2><p>将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。类比文件的导出问题，每种文件都有文件的头、文件Body、和文件尾和最终的导出，所以对于不同的文件的构建方式相同但是表现方式不同。</p>
+<p>构建者模式的本质:分离整体构建算法和部件的构造。</p>
+<h2 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h2><p>用原型实例创建对象的种类，并通过copy这些原型创建新的对象。会用到Clone方法。类比处理订单（大订单分成若干个小的订单）问题，订单有企业订单和个人订单，其实其操作过程是相似的。</p>
+<p>原型模式的本质：克隆生成对象。</p>
+<h2 id="Mediator（中介）"><a href="#Mediator（中介）" class="headerlink" title="Mediator（中介）"></a>Mediator（中介）</h2><p>用一个中介对象来封装一系列的对象交互。中介者使得各个对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。类比主板用于和各种配件之间交流，而不需要各种配件之间交流。当处理部门和员工之间关系时，此模式就很好，比如部门的解散会影响到部门中的人员，部门和人员之间实现了紧耦合，使用中介者就可以变为松耦合，部门不知道员工，员工不知道处于哪个部门。</p>
+<p>中介模式的本质：封装交互。</p>
+<h2 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h2><p>为其他对象提供一种代理以控制对这个对象的访问。如spring中的AOP。或者对于大数据量列表的加载，当需要知道某条数据的详细信息的时候才通过Proxy来访问真实对象。</p>
+<p>代理模式的本质：控制对象的访问。</p>
+<h2 id="Observer（观察者）"><a href="#Observer（观察者）" class="headerlink" title="Observer（观察者）"></a>Observer（观察者）</h2><p>定义对象之间的一种一对多的依赖关系。当目标对象发生状态的改变时，所有的观察者对象都会得到通知，从而自动更新。</p>
+<p>观察者模式的本质：触发联动</p>
+<h2 id="Command（命令）"><a href="#Command（命令）" class="headerlink" title="Command（命令）"></a>Command（命令）</h2><p>客户端只是想要发出命令或者请求，而不关心请求的真正接收者是谁，也不关心具体的实现是如何的，而且对于同一个请求的动作可以有不同的请求内容，当然具体的处理功能也就不同。所以命令模式就是将一个请求封装成一个对象，从而可以使你可以用不同的请求对客户的请求进行参数化，请求可以进行排队，同时也支持请求的“可撤销操作”。<br>命令模式可以用于宏命令，就是一个大的命令中包含着一组小的命令。同时也可以处理队列请求，就是指对命令的对象进行排队，组成工作队列，然后依次取出命令对象来进行执行。</p>
+<p>命令模式的本质：封装请求。</p>
+<h2 id="Iterator（迭代器）"><a href="#Iterator（迭代器）" class="headerlink" title="Iterator（迭代器）"></a>Iterator（迭代器）</h2><p>提供一个方法顺序的访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。迭代器模式对于处理对数据库数据的翻页等事件是很好的，传统的方式有二：1.每翻一页就请求一次数据库。2.把所有数据都加载在数据库中。而迭代模式可以很好的实现一次访问数据库，就只趣比如10页，这样就不用每次都从数据库中取了。既节省了时间，也节省了内存。</p>
+<p>迭代器模式的本质：控制访问聚合对象中的元素。</p>
+<h2 id="Composite（组合）"><a href="#Composite（组合）" class="headerlink" title="Composite（组合）"></a>Composite（组合）</h2><p>组合模式主要用于表示“树-叶子”的层次结构，组合模式使得用户对单个对象和组合对象的使用具有一致性，既组合模式通过引入一个抽象类，作为树类别和叶子别的父类，这样就把树对象和叶子对象统一起来，用户在使用的时候，始终是在操作此抽象的组件对象而不用区分其实树对象还是叶子对象。其最关键的还是这个抽象类，这样无论是对树操作还是叶子操作都具有了一致性。</p>
+<p>组合模式的本质：统一叶子对象和树对象</p>
+<h2 id="Template-Method（模板方法）"><a href="#Template-Method（模板方法）" class="headerlink" title="Template Method（模板方法）"></a>Template Method（模板方法）</h2><p>定义一个操作中的算法骨架，从而让将一些方法的实现延迟到子类中，在不同的子类中，对这些方法的实现可以进行重写。对于用有很多重复、相似的操作的业务处理，就可以用这个方法。<br>在Java中通常就使用 继承的方法和回调的方式，使得父类可以访问子类的方法，所以模板方法有两种实现方式，继承的方式和回调的方式，继承的方式相对简单，而回调的方式相对地灵活。</p>
+<p>模板方法的本质：固定算法骨架。</p>
+<h2 id="Strategy（策略）"><a href="#Strategy（策略）" class="headerlink" title="Strategy（策略）"></a>Strategy（策略）</h2><p>定义一系列的算法，并把它们一个个地封装起来，并且使它们可以相互替换，本模式可以使算法可以独立于使用它的客户端的变化而变化。策略的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更加灵活，具有更好的扩展性。</p>
+<p>策略的本质是：分离算法、选择实现。</p>
+<h2 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h2><p>允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。即对于同一个业务，在各个状态下的处理基本上都是不同的，因此把每个状态所对应的功能处理封装在一个独立的类中，这样在选择不同处理的时候，其实就是在选在不同的状态处理类。</p>
+<p>状态模式的本质：根据状态来分离和选择行为。</p>
+<h2 id="Memento（备忘录模式）"><a href="#Memento（备忘录模式）" class="headerlink" title="Memento（备忘录模式）"></a>Memento（备忘录模式）</h2><p>在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可以将该对象恢复到原先保存的状态。备忘录的典型应用是 离线存储。</p>
+<p>备忘录模式的本质：保存和恢复内部状态。</p>
+<h2 id="Flyweigth（享元模式）"><a href="#Flyweigth（享元模式）" class="headerlink" title="Flyweigth（享元模式）"></a>Flyweigth（享元模式）</h2><p>运用共享技术有效地支持大量细粒度的对象。典型的应用就是对权限的控制。</p>
+<p>享元模式的本质：运用共享技术有效地支持大量细粒度的对象。</p>
+<h2 id="Interpreter（解释器模式）"><a href="#Interpreter（解释器模式）" class="headerlink" title="Interpreter（解释器模式）"></a>Interpreter（解释器模式）</h2><p>当读取xml时，xml文件发生了改变，相应的解释程序也会发生改变。用来解决这个问题的方法是解释器模式。相当于定义一个语言，同时定义一个它的语法表示，并且定义一个解释器，这个解释器就是用该表示来解释语言中的句子。</p>
+<p>解释器模式的本质：分离实现、解释执行。</p>
+<h2 id="Decorator（装饰模式）"><a href="#Decorator（装饰模式）" class="headerlink" title="Decorator（装饰模式）"></a>Decorator（装饰模式）</h2><p>动态地给一个对象添加一些额外得职责。对增加功能来说，装饰模式比生成子类更为灵活。装饰模式也能用来实现AOP。</p>
+<p>装饰模式的本质：动态组合。</p>
+<h2 id="Chain-of-Responsibility（责任链）"><a href="#Chain-of-Responsibility（责任链）" class="headerlink" title="Chain of Responsibility（责任链）"></a>Chain of Responsibility（责任链）</h2><p>使多个对象都有机会来处理请求，从而避免请求的发送者和接收者的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，知道有个一对象处理它为止。责任链模式主要是用来处理。责任链就是用来处理 客户端发来一个请求，有多个对象都有机会来处理这个请求，但是客户端不知道究竟是谁来处理这个对象。这样就实现了请求者和接收者解耦，这样就可以动态地切换和组合接收者了。</p>
+<p>责任链的本质：分离职责，自由组合。</p>
+<h2 id="Bridge（桥接模式）"><a href="#Bridge（桥接模式）" class="headerlink" title="Bridge（桥接模式）"></a>Bridge（桥接模式）</h2><p>将抽象部分和它的实现部分分离，使它们都可以独立的变化。所谓桥接就是在抽象和实现之间搭桥，让它们能够连接起来，可以相互通讯。抽象一定是要实现的，所以就需要搭一个桥，让抽象部门通过这个桥就可以调用到实现部分的功能，这样就实现了抽象和实现的彻底分离，抽象部分和实现部分可以独立的变化。</p>
+<p>桥接模式的本质：分离抽象和实现。</p>
+<h2 id="Visitor（访问者）"><a href="#Visitor（访问者）" class="headerlink" title="Visitor（访问者）"></a>Visitor（访问者）</h2><p>作用于某个对象中各个元素的操作，它使在不改变各个元素的类的前提下定义作用于这些元素的操作。</p>
+<p>访问者模式的本质：预留通路，回调实现。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/代理模式/" itemprop="url">
+                  代理模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote><br>  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越<em>简单</em>越好，尽快完成并上线才是王道<br></blockquote>
+
+<p>代理模式：为其他对象提供一种代理，以控制对这个对象的访问。</p>
+<h2>基本原理</h2>
+
+<p>代理类和实体类都继承同一个接口（或抽象基类），具有相同的功能接口。<br>代理类内部维护一个实体类对象，真正的功能实现是调用改对象的接口。</p>
+<h2>代码结构</h2>
+
+<pre><code>class Subject(object):
+    def Request(self):
+        raise NotImplementedError()
+
+class RealSubject(Subject):
+    def Request(self):
+        print "真实请求"
+
+class Proxy(Subject):
+    def __init__(self):
+        self.realSubject = RealSubject()
+
+    def Request(self):
+        self.realSubject.Request()
+
+def client():
+    proxy = Proxy()
+    proxy.Request()
+</code></pre>
+
+<p>代理模式是一种比较常见的模式，比较典型的应用场景：</p>
+<ul><br><li>RPC调用：RPC API负责代理具体的网络API调用。</li><br><li>虚拟代理：根据需要创建开销大的对象，提高性能。</li><br><li>安全代理：用来控制真实对象访问时的权限。</li><br><li>智能指针：当调用真实对象时，代理负责处理一些额外的工作。</li><br></ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/享元模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1299,7 +1471,7 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/代理模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/原型模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -1321,8 +1493,8 @@ if __name__ == '__main__':
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/代理模式/" itemprop="url">
-                  代理模式
+                <a class="post-title-link" href="/2017/04/19/原型模式/" itemprop="url">
+                  原型模式
                 </a>
               
             
@@ -1398,182 +1570,58 @@ if __name__ == '__main__':
       
         
           
-            <blockquote><br>  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越<em>简单</em>越好，尽快完成并上线才是王道<br></blockquote>
+            <p>原型模式：<br>应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。<br>结构特性：对象的复制机制【浅复制和深复制】</p>
+<pre><code>#!/usr/bin/env python    
+#encoding: utf-8    
+from copy import copy, deepcopy  
 
-<p>代理模式：为其他对象提供一种代理，以控制对这个对象的访问。</p>
-<h2>基本原理</h2>
+class test_obj:  
+    def __init__(self, id):  
+        self.id = id  
 
-<p>代理类和实体类都继承同一个接口（或抽象基类），具有相同的功能接口。<br>代理类内部维护一个实体类对象，真正的功能实现是调用改对象的接口。</p>
-<h2>代码结构</h2>
+class proto_type:  
+    def __init__(self, name, id):  
+        self.name = name  
+        self.obj = test_obj(id)  
 
-<pre><code>class Subject(object):
-    def Request(self):
-        raise NotImplementedError()
+    def display(self):  
+        print self.name  
+        print self.obj.id  
 
-class RealSubject(Subject):
-    def Request(self):
-        print "真实请求"
+    def clone(self):  
+        return copy(self)  
 
-class Proxy(Subject):
-    def __init__(self):
-        self.realSubject = RealSubject()
+    def deep_clone(self):  
+        return deepcopy(self)  
 
-    def Request(self):
-        self.realSubject.Request()
 
-def client():
-    proxy = Proxy()
-    proxy.Request()
+if '__main__' == __name__:    
+    obj1 = proto_type('name1', 1)  
+    obj2 = obj1.clone()  
+    obj3 = obj1.deep_clone()  
+    obj2.name = 'name2'  
+    obj2.obj.id = 2  
+    obj3.name = 'name3'  
+    obj3.obj.id = 3   
+    obj1.display()  
+    obj2.display()  
+    obj3.display()  
+    print obj1.__class__  
+    print obj2.__class__  
+    print obj3.__class__    
 </code></pre>
 
-<p>代理模式是一种比较常见的模式，比较典型的应用场景：</p>
-<ul><br><li>RPC调用：RPC API负责代理具体的网络API调用。</li><br><li>虚拟代理：根据需要创建开销大的对象，提高性能。</li><br><li>安全代理：用来控制真实对象访问时的权限。</li><br><li>智能指针：当调用真实对象时，代理负责处理一些额外的工作。</li><br></ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/创建模式-结构模式-行为模式的区别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/创建模式-结构模式-行为模式的区别/" itemprop="url">
-                  创建模式　vs 结构模式 vs 行为模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="创建模式"><a href="#创建模式" class="headerlink" title="创建模式"></a>创建模式</h2><p>创建型模式，就是创建对象的模式，抽象了实例化的过程。<br>它帮助一个系统独立于如何创建、组合和表示它的那些对象。<br>关注的是对象的创建，创建型模式将创建对象的过程进行了抽象，也可以理解为将创建对象的过程进行了封装，作为客户程序仅仅需要去使用对象，而不再关心创建对象过程中的逻辑</p>
-<h2 id="结构模式"><a href="#结构模式" class="headerlink" title="结构模式"></a>结构模式</h2><p>结构型模式是为解决怎样组装现有的类，设计他们的交互方式，从而达到实现一定的功能的目的。<br>结构型模式包容了对很多问题的解决。例如：扩展性（外观、组成、代理、装饰）封装性（适配器，桥接）。</p>
-<h2 id="行为模式"><a href="#行为模式" class="headerlink" title="行为模式"></a>行为模式</h2><p>行为型模式涉及到算法和对象间职责的分配。<br>行为模式描述了对象和类的模式，以及它们之间的通信模式。<br>行为型模式刻划了在程序运行时难以跟踪的复杂的控制流可分为行为类模式和行为对象模式</p>
-<p>行为模式使用继承机制在类间分派行为。<br>行为对象模式使用对象聚合来分配行为。<br>一些行为对象模式描述了一组对等的对象怎样相互协作以完成其中任何一个对象都无法单独完成的任务。</p>
+<p>结果：</p>
+<pre><code>name1  
+2        #因为obj2是浅复制，所以对象没有被复制，导致新对象的修改影响了原来的就对象的值  
+name2  
+2  
+name3  
+3       #因为是深复制，所以不会影响之前的旧对象  
+__main__.proto_type  
+__main__.proto_type  
+__main__.proto_type  
+</code></pre>
 
           
         
@@ -1890,200 +1938,6 @@ print id(two.__dict__)
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/原型模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/原型模式/" itemprop="url">
-                  原型模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>原型模式：<br>应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。<br>结构特性：对象的复制机制【浅复制和深复制】</p>
-<pre><code>#!/usr/bin/env python    
-#encoding: utf-8    
-from copy import copy, deepcopy  
-
-class test_obj:  
-    def __init__(self, id):  
-        self.id = id  
-
-class proto_type:  
-    def __init__(self, name, id):  
-        self.name = name  
-        self.obj = test_obj(id)  
-
-    def display(self):  
-        print self.name  
-        print self.obj.id  
-
-    def clone(self):  
-        return copy(self)  
-
-    def deep_clone(self):  
-        return deepcopy(self)  
-
-
-if '__main__' == __name__:    
-    obj1 = proto_type('name1', 1)  
-    obj2 = obj1.clone()  
-    obj3 = obj1.deep_clone()  
-    obj2.name = 'name2'  
-    obj2.obj.id = 2  
-    obj3.name = 'name3'  
-    obj3.obj.id = 3   
-    obj1.display()  
-    obj2.display()  
-    obj3.display()  
-    print obj1.__class__  
-    print obj2.__class__  
-    print obj3.__class__    
-</code></pre>
-
-<p>结果：</p>
-<pre><code>name1  
-2        #因为obj2是浅复制，所以对象没有被复制，导致新对象的修改影响了原来的就对象的值  
-name2  
-2  
-name3  
-3       #因为是深复制，所以不会影响之前的旧对象  
-__main__.proto_type  
-__main__.proto_type  
-__main__.proto_type  
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/命令模式-状态模式-责任链模式区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2245,7 +2099,7 @@ __main__.proto_type
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/命令模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/备忘录模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -2267,8 +2121,8 @@ __main__.proto_type
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/命令模式/" itemprop="url">
-                  命令模式
+                <a class="post-title-link" href="/2017/04/19/备忘录模式/" itemprop="url">
+                  备忘录模式
                 </a>
               
             
@@ -2344,101 +2198,279 @@ __main__.proto_type
       
         
           
-            <p>命令模式介绍：</p>
-<p>　　在面向对象编程中，命令模式是概括所有方法信息的设计模式。</p>
-<p>　　此模式对象包涵方法名，及其相关参数值。</p>
-<p>　　命令模式是一个分类的观察者设计模式，在命令模式下，对象被概括为一个命令表单，此表单包涵了所有用户需要的方法。</p>
-<p>　　举个例子：如果有个按钮是用户接口“red”，当被触碰的时候，会启动后台的“turn red”接口。现在用户并不知道，通过什么类或者方法的接口能够让后台处理“turn red”操作，但是这个命令被发送了（触碰“red”按　钮），会使得后台处理“turn red”操作。因此，命令模式给用户一个接口，而不用让用户了解哪些是实际执行的程序，也不会影响到用户程序。</p>
-<p>　　实现命令模式的关键就是让调用者不要包涵底层实际命令执行代码，相同的调用者应该采用相同的接口。</p>
-<p>　　命令模式是由三个组件构成，客户，调用者，接受者。</p>
-<p>　　客户：一个实例化的对象</p>
-<p>　　调用者：决定哪个方法被调用</p>
-<p>　　接受者：实际命令的执行者</p>
-<p><img src="/uploads/2016/11/14.jpg" alt="14" width="876" height="383" class="alignnone size-full wp-image-197"></p>
-<p>Example:</p>
-<p>　　实现一个开关<br>　　切换ON/OFF<br>　　用开关ON/OFF去硬编码一个事件<br>代码如下：</p>
-<pre><code>class Switch:
-    ''' The INVOKER class'''
-
-    def __init__(self, flipUpCmd, flipDownCmd):
-        self.__flipUpCommand = flipUpCmd
-        self.__flipDownCommand = flipDownCmd
-
-    def flipUp(self):
-        self.__flipUpCommand.execute()
-
-    def flipDown(self):
-        self.__flipDownCommand.execute()
-
-class Light:
-    '''The RECEIVER Class'''
-    def turnOn(self):
-        print "The light is on"
-
-    def turnOff(self):
-        print "The light is off"
-
-class Command:
-    """The Command Abstrace class"""
-    def __init__(self):
-        pass
-    def execute(self):
-        pass
-
-class FlipUpCommand(Command):
-    '''The Command class for turning on the light'''
-
-    def __init__(self, light):
-        self.__light = light
-
-    def execute(self):
-        self.__light.turnOn()
-
-class FileDownCommand(Command):
-    '''The Command class for turning off the light'''
-
-    def __init__(self, light):
-        Command.__init__(self)
-        self.__light = light
-
-    def execute(self):
-        self.__light.turnOff()
-
-class LightSwitch:
-    '''The Client Class'''
-    def __init__(self):
-        self.__lamp = Light()
-        self.__switchUp = FlipUpCommand(self.__lamp)
-        self.__switchDown = FileDownCommand(self.__lamp)
-        self.__switch = Switch(self.__switchUp, self.__switchDown)
-
-    def switch(self, cmd):
-        cmd = cmd.strip().upper()
-        try:
-            if cmd == "ON":
-                self.__switch.flipUp()
-            elif cmd == "OFF":
-                self.__switch.flipDown()
-            else:
-                print "Argument \"ON\" or \"OFF\" is required"
-        except Exception,msg:
-            print "Exception occured:%s" % msg
+            <p>备忘录模式：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。<br>跟原型模式很像，不过在原型模式中保存对象的一切，而备忘录模式中只保存恢复时需要的数据。</p>
+<pre><code>#encoding=utf-8
+#
+#by panda
+#备忘录模式
 
 
-#Execute if the file is run as a script and not imported as a module
+def printInfo(info):
+    print(info)
 
-if __name__ == "__main__":
-    lightSwitch = LightSwitch()
+#Originator：游戏角色类
+class GameCharacter():
+    vitality = 0 #生命力
+    attack = 0  #攻击力
+    defense = 0 #防御力
 
-    print "Switch ON test"
-    lightSwitch.switch("ON")
+    def DisplayState(self):
+        printInfo('角色当前状态')
+        printInfo('\t生命力：%d' % self.vitality)
+        printInfo('\t攻击力：%d' % self.attack)
+        printInfo('\t防御力：%d' % self.defense)
 
-    print "Switch OFF test"
-    lightSwitch.switch("OFF")
+    def InitState(self):
+        self.vitality = 100
+        self.attack = 100
+        self.defense = 100
 
-    print "Invalid Command test"
-    lightSwitch.switch("****")
+    def Fight(self):
+        self.vitality = 0
+        self.attack = 0
+        self.defense = 0
+
+    #保存状态
+    def SaveState(self):
+        return RoleStateMemento(self.vitality, self.attack, self.defense)
+
+    #恢复状态
+    def RecoveryState(self, memento):
+        self.vitality = memento.vitality
+        self.attack = memento.attack
+        self.defense = memento.defense
+
+#Memento：角色状态存储箱
+class RoleStateMemento():
+    vitality = 0 #生命力
+    attack = 0  #攻击力
+    defense = 0 #防御力
+
+    def __init__(self, vitality, attack, defense):
+        self.vitality = vitality
+        self.attack = attack
+        self.defense = defense
+
+#Caretaker：角色状态管理者
+class RoleStateCaretaker():
+    memento = None
+
+
+def clientUI():
+    printInfo('----大战Boss前----')
+    id1 = GameCharacter()
+    id1.InitState()
+    id1.DisplayState()
+
+    printInfo('----保存进度----')
+    stateAdmin = RoleStateCaretaker()
+    stateAdmin.memento = id1.SaveState()
+
+    printInfo('----大战boss，损耗严重----')
+    id1.Fight()
+    id1.DisplayState()
+
+    printInfo('----恢复之前的状态----')
+    id1.RecoveryState(stateAdmin.memento)
+    id1.DisplayState()
+    return
+
+if __name__ == '__main__':
+    clientUI()
 </code></pre>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/外观模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/外观模式/" itemprop="url">
+                  外观模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>外观模式：为子系统中的一组接口提供一个一致的界面。此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
+<h2>基本思想</h2>
+
+<p>一个子系统由很多功能模块组成<br>这些功能模块分别对外暴露自己的访问接口<br>这些功能模块联合起来对外提供该子系统的完整功能<br>此时定义一组新的接口，将该子系统的所有模块封装起来，统一对外提供接口<br>这个全新的接口就是原有子系统的外观</p>
+<h2>代码结构</h2>
+
+<pre><code>class ModuleOne(object):
+    def Create(self):
+        print 'create module one instance'
+
+    def Delete(self):
+        print 'delete module one instance'
+
+class ModuleTwo(object):
+    def Create(self):
+        print 'create module two instance'
+
+    def Delete(self):
+        print 'delete module two instance'
+
+class Facade(object):
+    def __init__(self):
+        self.module_one = ModuleOne()
+        self.module_two = ModuleTwo()
+
+    def create_module_one(self):
+        self.module_one.Create()
+
+    def create_module_two(self):
+        self.module_two.Create()
+
+    def create_both(self):
+        self.module_one.Create()
+        self.module_two.Create()
+
+    def delete_module_one(self):
+        self.module_one.Delete()
+
+    def delete_module_two(self):
+        self.module_two.Delete()
+
+    def delete_both(self):
+        self.module_one.Delete()
+        self.module_two.Delete()
+</code></pre>
+
+<p>有点类似代理模式，不同之处是，外观模式不仅代理了一个子系统的各个模块的功能，同时站在子系统的角度，通过组合子系统各模块的功能，对外提供更加高层的接口，从而在语义上更加满足子系统层面的需求。</p>
+<p>随着系统功能的不断扩张，当需要将系统划分成多个子系统或子模块，以减少耦合、降低系统代码复杂度、提高可维护性时，代理模式通常会有用武之地。</p>
+<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/08-facade/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/08-facade/</a></p>
 
           
         
