@@ -194,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/外观模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/单例模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/外观模式/" itemprop="url">
-                  外观模式
+                <a class="post-title-link" href="/2017/04/19/单例模式/" itemprop="url">
+                  单例模式
                 </a>
               
             
@@ -294,7 +294,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -315,7 +315,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -356,57 +356,1015 @@
       
         
           
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+            <p>首先，要知道什么是Python的单例模式，所谓单例模式就是一个类只能创建一个实例化。<br>然后，就是python单例模式的方法，总共可以分为两大种，四小种，一会就回说的。<br>首先，方法一：</p>
+<pre><code>#-*- encoding=utf-8 -*-  
+print '----------------------方法1--------------------------'  
+#方法1,实现__new__方法  
+#并在将一个类的实例绑定到类变量_instance上,  
+#如果cls._instance为None说明该类还没有实例化过,实例化该类,并返回  
+#如果cls._instance不为None,直接返回cls._instance  
+class Singleton(object):  
+    def __new__(cls, *args, **kw):  
+        if not hasattr(cls, '_instance'):  
+            orig = super(Singleton, cls)  
+            cls._instance = orig.__new__(cls, *args, **kw)  
+        return cls._instance  
 
-<p>外观模式：为子系统中的一组接口提供一个一致的界面。此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<h2>基本思想</h2>
+class MyClass(Singleton):  
+    a = 1  
 
-<p>一个子系统由很多功能模块组成<br>这些功能模块分别对外暴露自己的访问接口<br>这些功能模块联合起来对外提供该子系统的完整功能<br>此时定义一组新的接口，将该子系统的所有模块封装起来，统一对外提供接口<br>这个全新的接口就是原有子系统的外观</p>
-<h2>代码结构</h2>
+one = MyClass()  
+two = MyClass()  
 
-<pre><code>class ModuleOne(object):
-    def Create(self):
-        print 'create module one instance'
-
-    def Delete(self):
-        print 'delete module one instance'
-
-class ModuleTwo(object):
-    def Create(self):
-        print 'create module two instance'
-
-    def Delete(self):
-        print 'delete module two instance'
-
-class Facade(object):
-    def __init__(self):
-        self.module_one = ModuleOne()
-        self.module_two = ModuleTwo()
-
-    def create_module_one(self):
-        self.module_one.Create()
-
-    def create_module_two(self):
-        self.module_two.Create()
-
-    def create_both(self):
-        self.module_one.Create()
-        self.module_two.Create()
-
-    def delete_module_one(self):
-        self.module_one.Delete()
-
-    def delete_module_two(self):
-        self.module_two.Delete()
-
-    def delete_both(self):
-        self.module_one.Delete()
-        self.module_two.Delete()
+two.a = 3  
+print one.a  
+#3  
+#one和two完全相同,可以用id(), ==, is检测  
+print(id(one))
+#29097904  
+print(id(two))
+#29097904  
+print(one == two)
+#True  
+print(one is two)
+#True  
 </code></pre>
 
-<p>有点类似代理模式，不同之处是，外观模式不仅代理了一个子系统的各个模块的功能，同时站在子系统的角度，通过组合子系统各模块的功能，对外提供更加高层的接口，从而在语义上更加满足子系统层面的需求。</p>
-<p>随着系统功能的不断扩张，当需要将系统划分成多个子系统或子模块，以减少耦合、降低系统代码复杂度、提高可维护性时，代理模式通常会有用武之地。</p>
-<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/08-facade/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/08-facade/</a></p>
+<p>方法二：使用装饰器（decorator）</p>
+<pre><code>def singleton(cls, *args, **kw):    
+    instances = {}    
+    def _singleton():    
+        if cls not in instances:    
+            instances[cls] = cls(*args, **kw)    
+        return instances[cls]    
+    return _singleton    
+
+@singleton    
+class MyClass(object):    
+    a = 1    
+    def __init__(self, x=0):    
+        self.x = x    
+
+one = MyClass()    
+two = MyClass()    
+
+two.a = 3    
+print one.a    
+#3    
+print id(one)    
+#29660784    
+print id(two)    
+#29660784    
+print one == two    
+#True    
+print one is two    
+#True    
+one.x = 1    
+print one.x    
+#1    
+print two.x  
+</code></pre>
+
+<p>方法三：使用<strong>metaclass</strong>元类来实现</p>
+<pre><code>class Singleton2(type):    
+    def __init__(cls, name, bases, dict):    
+        super(Singleton2, cls).__init__(name, bases, dict)    
+        cls._instance = None    
+    def __call__(cls, *args, **kw):    
+        if cls._instance is None:    
+            cls._instance = super(Singleton2, cls).__call__(*args, **kw)    
+        return cls._instance    
+
+class MyClass(object):    
+    __metaclass__ = Singleton2    
+
+one = MyClass()    
+two = MyClass()    
+
+two.a = 3    
+print one.a    
+#3    
+print id(one)    
+#31495472    
+print id(two)    
+#31495472    
+print one == two    
+#True    
+print one is two    
+#True    
+</code></pre>
+
+<p>方法四：通过共享属性来实现，所谓共享属性，最简单直观的方法就是通过<strong>dict</strong>属性指向同一个字典dict</p>
+<pre><code>class Borg(object):    
+    _state = {}    
+    def __new__(cls, *args, **kw):    
+        ob = super(Borg, cls).__new__(cls, *args, **kw)    
+        ob.__dict__ = cls._state    
+        return ob    
+
+class MyClass(Borg):    
+    a = 1    
+
+one = MyClass()    
+two = MyClass()    
+
+#one和two是两个不同的对象,id, ==, is对比结果可看出    
+two.a = 3    
+print one.a    
+#3    
+print id(one)    
+#28873680    
+print id(two)    
+#28873712    
+print one == two    
+#False    
+print one is two    
+#False    
+#但是one和two具有相同的（同一个__dict__属性）,见:    
+print id(one.__dict__)    
+#30104000    
+print id(two.__dict__)    
+</code></pre>
+
+<p>其实吧，从本质上来讲，方法一二三都属于一种单例化模式的方法，与第四种不同，所以认为python中有两种或四种方法实现单例模式都可以。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/建造者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/建造者模式/" itemprop="url">
+                  建造者模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
+<p>也许在以下情况使用到它：</p>
+<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
+<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
+<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
+<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
+<p>在构建具体项目的时候只需要适当改变就可以了</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/模板方法模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/模板方法模式/" itemprop="url">
+                  模板方法模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
+
+<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
+<pre><code>class Person(object):
+    def Chew(self):
+        """咀嚼食物"""
+        raise NotImplementedError()
+
+    def Swallow(self):
+        print '咽下去'
+
+    def Eat(self):
+        # 吃饭分两步，先嚼，再咽。
+        self.Chew()
+        self.Swallow()
+
+class Man(Person):
+    def Chew(self):
+        # 男人通常狼吞虎咽
+        print '嚼三下'
+
+class Woman(Person):
+    def Chew(self):
+        # 女人通常细嚼慢咽
+        print '嚼六下'
+</code></pre>
+
+<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
+<h2>模版方法模式的结构</h2>
+
+<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
+<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
+
+<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
+<h2>模版方法的优点及适用场景</h2>
+
+<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
+
+<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/创建模式-结构模式-行为模式的区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/创建模式-结构模式-行为模式的区别/" itemprop="url">
+                  创建模式　vs 结构模式 vs 行为模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="创建模式"><a href="#创建模式" class="headerlink" title="创建模式"></a>创建模式</h2><p>创建型模式，就是创建对象的模式，抽象了实例化的过程。<br>它帮助一个系统独立于如何创建、组合和表示它的那些对象。<br>关注的是对象的创建，创建型模式将创建对象的过程进行了抽象，也可以理解为将创建对象的过程进行了封装，作为客户程序仅仅需要去使用对象，而不再关心创建对象过程中的逻辑</p>
+<h2 id="结构模式"><a href="#结构模式" class="headerlink" title="结构模式"></a>结构模式</h2><p>结构型模式是为解决怎样组装现有的类，设计他们的交互方式，从而达到实现一定的功能的目的。<br>结构型模式包容了对很多问题的解决。例如：扩展性（外观、组成、代理、装饰）封装性（适配器，桥接）。</p>
+<h2 id="行为模式"><a href="#行为模式" class="headerlink" title="行为模式"></a>行为模式</h2><p>行为型模式涉及到算法和对象间职责的分配。<br>行为模式描述了对象和类的模式，以及它们之间的通信模式。<br>行为型模式刻划了在程序运行时难以跟踪的复杂的控制流可分为行为类模式和行为对象模式</p>
+<p>行为模式使用继承机制在类间分派行为。<br>行为对象模式使用对象聚合来分配行为。<br>一些行为对象模式描述了一组对等的对象怎样相互协作以完成其中任何一个对象都无法单独完成的任务。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/23种设计模式索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/23种设计模式索引/" itemprop="url">
+                  23种设计模式索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>设计模式是很多前人留下的经验总结，这些模式都是很典型的也是很有代表意义的。因此掌握好设计模式是提高个人技术能力的捷径。设计模式要全部掌握，必须进行不断的总结和实现，傻蛋最近总结了一下23种（+简单工厂）设计模式的索引，以方便大家明白各种模式都有什么作用，在遇到问题的时候能够迅速地找到解决方案，同时加以使用，以便能够更快的掌握。</p>
+<h2 id="创建型的设计模式：-6"><a href="#创建型的设计模式：-6" class="headerlink" title="创建型的设计模式： (6)"></a>创建型的设计模式： (6)</h2><p>Singleton（单例）:控制实例的数目<br>Builder（构建者）: 分离整体构建算法和部件的构造。<br>Prototype（原型）:克隆生成对象<br>Simple Factory（简单工厂）: 选择实现<br>Factory Method（工厂方法）: 延迟到子类来选择实现<br>Abstract Factory（抽象工厂）: 选择产品簇的实现</p>
+<h2 id="行为设计模式：-11"><a href="#行为设计模式：-11" class="headerlink" title="行为设计模式： (11)"></a>行为设计模式： (11)</h2><p>Strategy（策略）：分离算法、选择实现。<br>State（状态模式）: 根据状态来分离和选择行为<br>Chain of Responsibility（责任链）: 分离职责，自由组合。<br>Command（命令）: 封装请求成为对象<br>Observer（观察者）:触发联动<br>Memento（备忘录模式）:保存和恢复内部状态<br>Visitor（访问者）: 预留通路，回调实现。<br>Mediator（中介）: 封装交互<br>Template Method（模板方法）:固定算法骨架<br>Interpreter（解释器模式）: 分离实现、解释执行<br>Iterator（迭代模式）: 控制访问聚合对象中的元素</p>
+<h2 id="结构型设计模式：-7"><a href="#结构型设计模式：-7" class="headerlink" title="结构型设计模式：(7)"></a>结构型设计模式：(7)</h2><p>Decorator（装饰模式）: 动态组合<br>Proxy（代理）: 控制对象的访问<br>Composite（组合）: 统一叶子对象和树对象<br>Bridge（桥接模式）: 分离抽象和实现<br>Facade（外观）: 封装交互，简化应用<br>Adapter（适配器）: 转换匹配，服用功能<br>Flyweigth（享元模式）: 运用共享技术有效地支持大量细粒度的对象</p>
+<h2 id="Simple-Factory（简单工厂）"><a href="#Simple-Factory（简单工厂）" class="headerlink" title="Simple Factory（简单工厂）"></a>Simple Factory（简单工厂）</h2><p>提供一个创建对象实例的集合，而无须关心其具体实现。被创建的类型可以是接口、抽象类也可以是具体类。</p>
+<p>简单工厂的本质：选择实现。</p>
+<h2 id="Facade（外观）"><a href="#Facade（外观）" class="headerlink" title="Facade（外观）"></a>Facade（外观）</h2><p>为子系统中的一组接口提供了一个统一一致的界面，该模式定了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
+<p>外观模式的本质：封装交互，简化应用。</p>
+<h2 id="Adapter（适配器）"><a href="#Adapter（适配器）" class="headerlink" title="Adapter（适配器）"></a>Adapter（适配器）</h2><p>将一个类的接口装换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<p>适配器模式的本质：转换匹配，服用功能。</p>
+<h2 id="Singleton（单例）"><a href="#Singleton（单例）" class="headerlink" title="Singleton（单例）"></a>Singleton（单例）</h2><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
+<p>单例模式的本质:控制实例的数目。</p>
+<h2 id="Factory-Method（工厂方法）"><a href="#Factory-Method（工厂方法）" class="headerlink" title="Factory Method（工厂方法）"></a>Factory Method（工厂方法）</h2><p>定义一个用于创建对象的接口，让子类来决定实例化哪一个类，该模式使一个类的实例化延迟到子类，即是让父类在不知道具体实现的情况下，完成自身的功能调用，具体的实现延迟到子类。</p>
+<p>工厂方法的本质：延迟到子类来选择实现。</p>
+<h2 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h2><p>提供了一个创建一系列相关或者“相互依赖对象的接口”，而无需指定他们的具体类。也就是说既要创建接口的对象，同时还要约束它们之间的关系。可以类比创建主板和CPU对象，但是Intel的CPU只能插在支持Intel主板的插槽上面。在实现App的DAO的时候，通常可以使用抽象工厂结合工厂方法的方式来实现。</p>
+<p>抽象工厂的本质：选择产品簇的实现。</p>
+<h2 id="Builder（构建者）"><a href="#Builder（构建者）" class="headerlink" title="Builder（构建者）"></a>Builder（构建者）</h2><p>将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。类比文件的导出问题，每种文件都有文件的头、文件Body、和文件尾和最终的导出，所以对于不同的文件的构建方式相同但是表现方式不同。</p>
+<p>构建者模式的本质:分离整体构建算法和部件的构造。</p>
+<h2 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h2><p>用原型实例创建对象的种类，并通过copy这些原型创建新的对象。会用到Clone方法。类比处理订单（大订单分成若干个小的订单）问题，订单有企业订单和个人订单，其实其操作过程是相似的。</p>
+<p>原型模式的本质：克隆生成对象。</p>
+<h2 id="Mediator（中介）"><a href="#Mediator（中介）" class="headerlink" title="Mediator（中介）"></a>Mediator（中介）</h2><p>用一个中介对象来封装一系列的对象交互。中介者使得各个对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。类比主板用于和各种配件之间交流，而不需要各种配件之间交流。当处理部门和员工之间关系时，此模式就很好，比如部门的解散会影响到部门中的人员，部门和人员之间实现了紧耦合，使用中介者就可以变为松耦合，部门不知道员工，员工不知道处于哪个部门。</p>
+<p>中介模式的本质：封装交互。</p>
+<h2 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h2><p>为其他对象提供一种代理以控制对这个对象的访问。如spring中的AOP。或者对于大数据量列表的加载，当需要知道某条数据的详细信息的时候才通过Proxy来访问真实对象。</p>
+<p>代理模式的本质：控制对象的访问。</p>
+<h2 id="Observer（观察者）"><a href="#Observer（观察者）" class="headerlink" title="Observer（观察者）"></a>Observer（观察者）</h2><p>定义对象之间的一种一对多的依赖关系。当目标对象发生状态的改变时，所有的观察者对象都会得到通知，从而自动更新。</p>
+<p>观察者模式的本质：触发联动</p>
+<h2 id="Command（命令）"><a href="#Command（命令）" class="headerlink" title="Command（命令）"></a>Command（命令）</h2><p>客户端只是想要发出命令或者请求，而不关心请求的真正接收者是谁，也不关心具体的实现是如何的，而且对于同一个请求的动作可以有不同的请求内容，当然具体的处理功能也就不同。所以命令模式就是将一个请求封装成一个对象，从而可以使你可以用不同的请求对客户的请求进行参数化，请求可以进行排队，同时也支持请求的“可撤销操作”。<br>命令模式可以用于宏命令，就是一个大的命令中包含着一组小的命令。同时也可以处理队列请求，就是指对命令的对象进行排队，组成工作队列，然后依次取出命令对象来进行执行。</p>
+<p>命令模式的本质：封装请求。</p>
+<h2 id="Iterator（迭代器）"><a href="#Iterator（迭代器）" class="headerlink" title="Iterator（迭代器）"></a>Iterator（迭代器）</h2><p>提供一个方法顺序的访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。迭代器模式对于处理对数据库数据的翻页等事件是很好的，传统的方式有二：1.每翻一页就请求一次数据库。2.把所有数据都加载在数据库中。而迭代模式可以很好的实现一次访问数据库，就只趣比如10页，这样就不用每次都从数据库中取了。既节省了时间，也节省了内存。</p>
+<p>迭代器模式的本质：控制访问聚合对象中的元素。</p>
+<h2 id="Composite（组合）"><a href="#Composite（组合）" class="headerlink" title="Composite（组合）"></a>Composite（组合）</h2><p>组合模式主要用于表示“树-叶子”的层次结构，组合模式使得用户对单个对象和组合对象的使用具有一致性，既组合模式通过引入一个抽象类，作为树类别和叶子别的父类，这样就把树对象和叶子对象统一起来，用户在使用的时候，始终是在操作此抽象的组件对象而不用区分其实树对象还是叶子对象。其最关键的还是这个抽象类，这样无论是对树操作还是叶子操作都具有了一致性。</p>
+<p>组合模式的本质：统一叶子对象和树对象</p>
+<h2 id="Template-Method（模板方法）"><a href="#Template-Method（模板方法）" class="headerlink" title="Template Method（模板方法）"></a>Template Method（模板方法）</h2><p>定义一个操作中的算法骨架，从而让将一些方法的实现延迟到子类中，在不同的子类中，对这些方法的实现可以进行重写。对于用有很多重复、相似的操作的业务处理，就可以用这个方法。<br>在Java中通常就使用 继承的方法和回调的方式，使得父类可以访问子类的方法，所以模板方法有两种实现方式，继承的方式和回调的方式，继承的方式相对简单，而回调的方式相对地灵活。</p>
+<p>模板方法的本质：固定算法骨架。</p>
+<h2 id="Strategy（策略）"><a href="#Strategy（策略）" class="headerlink" title="Strategy（策略）"></a>Strategy（策略）</h2><p>定义一系列的算法，并把它们一个个地封装起来，并且使它们可以相互替换，本模式可以使算法可以独立于使用它的客户端的变化而变化。策略的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更加灵活，具有更好的扩展性。</p>
+<p>策略的本质是：分离算法、选择实现。</p>
+<h2 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h2><p>允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。即对于同一个业务，在各个状态下的处理基本上都是不同的，因此把每个状态所对应的功能处理封装在一个独立的类中，这样在选择不同处理的时候，其实就是在选在不同的状态处理类。</p>
+<p>状态模式的本质：根据状态来分离和选择行为。</p>
+<h2 id="Memento（备忘录模式）"><a href="#Memento（备忘录模式）" class="headerlink" title="Memento（备忘录模式）"></a>Memento（备忘录模式）</h2><p>在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可以将该对象恢复到原先保存的状态。备忘录的典型应用是 离线存储。</p>
+<p>备忘录模式的本质：保存和恢复内部状态。</p>
+<h2 id="Flyweigth（享元模式）"><a href="#Flyweigth（享元模式）" class="headerlink" title="Flyweigth（享元模式）"></a>Flyweigth（享元模式）</h2><p>运用共享技术有效地支持大量细粒度的对象。典型的应用就是对权限的控制。</p>
+<p>享元模式的本质：运用共享技术有效地支持大量细粒度的对象。</p>
+<h2 id="Interpreter（解释器模式）"><a href="#Interpreter（解释器模式）" class="headerlink" title="Interpreter（解释器模式）"></a>Interpreter（解释器模式）</h2><p>当读取xml时，xml文件发生了改变，相应的解释程序也会发生改变。用来解决这个问题的方法是解释器模式。相当于定义一个语言，同时定义一个它的语法表示，并且定义一个解释器，这个解释器就是用该表示来解释语言中的句子。</p>
+<p>解释器模式的本质：分离实现、解释执行。</p>
+<h2 id="Decorator（装饰模式）"><a href="#Decorator（装饰模式）" class="headerlink" title="Decorator（装饰模式）"></a>Decorator（装饰模式）</h2><p>动态地给一个对象添加一些额外得职责。对增加功能来说，装饰模式比生成子类更为灵活。装饰模式也能用来实现AOP。</p>
+<p>装饰模式的本质：动态组合。</p>
+<h2 id="Chain-of-Responsibility（责任链）"><a href="#Chain-of-Responsibility（责任链）" class="headerlink" title="Chain of Responsibility（责任链）"></a>Chain of Responsibility（责任链）</h2><p>使多个对象都有机会来处理请求，从而避免请求的发送者和接收者的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，知道有个一对象处理它为止。责任链模式主要是用来处理。责任链就是用来处理 客户端发来一个请求，有多个对象都有机会来处理这个请求，但是客户端不知道究竟是谁来处理这个对象。这样就实现了请求者和接收者解耦，这样就可以动态地切换和组合接收者了。</p>
+<p>责任链的本质：分离职责，自由组合。</p>
+<h2 id="Bridge（桥接模式）"><a href="#Bridge（桥接模式）" class="headerlink" title="Bridge（桥接模式）"></a>Bridge（桥接模式）</h2><p>将抽象部分和它的实现部分分离，使它们都可以独立的变化。所谓桥接就是在抽象和实现之间搭桥，让它们能够连接起来，可以相互通讯。抽象一定是要实现的，所以就需要搭一个桥，让抽象部门通过这个桥就可以调用到实现部分的功能，这样就实现了抽象和实现的彻底分离，抽象部分和实现部分可以独立的变化。</p>
+<p>桥接模式的本质：分离抽象和实现。</p>
+<h2 id="Visitor（访问者）"><a href="#Visitor（访问者）" class="headerlink" title="Visitor（访问者）"></a>Visitor（访问者）</h2><p>作用于某个对象中各个元素的操作，它使在不改变各个元素的类的前提下定义作用于这些元素的操作。</p>
+<p>访问者模式的本质：预留通路，回调实现。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/桥接模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/桥接模式/" itemprop="url">
+                  桥接模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
+<p>类图：<br><img src="/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
+<pre><code>#encoding=utf-8
+#
+#桥接模式
+
+#抽象类：手机品牌
+class HandsetBrand():
+    soft = None
+    def SetHandsetSoft(self, soft):
+        self.soft = soft
+
+    def Run(self):
+        pass
+
+#具体抽象类：手机品牌1
+class HandsetBrand1(HandsetBrand):
+    def Run(self):
+        print('手机品牌1:')
+        self.soft.Run()
+
+#具体抽象类：手机品牌2
+class HandsetBrand2(HandsetBrand):
+    def Run(self):
+        print('手机品牌2:')
+        self.soft.Run()
+
+
+#功能类：手机软件
+class HandsetSoft():
+    def Run(self):
+        pass
+
+#具体功能类：游戏
+class HandsetGame(HandsetSoft):
+    def Run(self):
+        print('运行手机游戏')
+
+#具体功能类：通讯录
+class HandsetAddressList(HandsetSoft):
+    def Run(self):
+        print('运行手机通信录')
+
+def clientUI():
+    h1 = HandsetBrand1()
+    h1.SetHandsetSoft(HandsetAddressList())
+    h1.Run()
+    h1.SetHandsetSoft(HandsetGame())
+    h1.Run()
+
+    h2 = HandsetBrand2()
+    h2.SetHandsetSoft(HandsetAddressList())
+    h2.Run()
+    h2.SetHandsetSoft(HandsetGame())
+    h2.Run()
+    return
+
+if __name__ == '__main__':
+    clientUI();
+</code></pre>
+
+<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
+<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
+<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
 
           
         
@@ -487,7 +1445,7 @@ class Facade(object):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -508,7 +1466,7 @@ class Facade(object):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -676,7 +1634,7 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/建造者模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/组合模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -698,8 +1656,8 @@ if __name__ == '__main__':
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/建造者模式/" itemprop="url">
-                  建造者模式
+                <a class="post-title-link" href="/2017/04/19/组合模式/" itemprop="url">
+                  组合模式
                 </a>
               
             
@@ -713,7 +1671,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -734,7 +1692,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -775,957 +1733,274 @@ if __name__ == '__main__':
       
         
           
-            <p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
-<p>也许在以下情况使用到它：</p>
-<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
-<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
-<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
-<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
-<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
-<p>在构建具体项目的时候只需要适当改变就可以了</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/抽象工厂模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/抽象工厂模式/" itemprop="url">
-                  抽象工厂模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>优点：易于交换“产品系列”，只要更改相应的工厂即可。<br>缺点：建立产品的时候很繁琐，需要增加和修改很多东西。</p>
-<p>优化1：为了避免客户端有过多的逻辑判断，可以封装出一个简单工厂类来生成产品类。<br>优化2：为了减少简单工厂类里面的逻辑判断，可以采用“反射”机制，直接根据外部的配置文件读取出需要使用产品类的信息。</p>
-<p>类图：<br><img src="/uploads/2016/11/abstract-factory.gif" alt="abstract-factory" width="738" height="360" class="alignnone size-full wp-image-220"></p>
+            <p>组合模式：针对“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。</p>
+<p>类图：<br><img src="/uploads/2016/11/composite.gif" alt="composite" width="631" height="299" class="alignnone size-full wp-image-199"></p>
 <pre><code>#encoding=utf-8
 #
 #by panda
-#抽象工厂模式
+#组合模式
 
 
-def printInfo(info):
-    print unicode(info, 'utf-8').encode('gbk')
-
-#抽象产品A：user表
-class IUser():
-    def Insert(self):
-        pass
-    def GetUser(self):
-        pass
-
-#sqlserver实现的User
-class SqlserverUser(IUser):
-    def Insert(self):
-        printInfo("在SQL Server中给User表增加一条记录")
-    def GetUser(self):
-        printInfo("在SQL Server中得到User表的一条记录")
-
-#Access实现的User
-class AccessUser(IUser):
-    def Insert(self):
-        printInfo("在Access中给User表增加一条记录")
-    def GetUser(self):
-        printInfo("在Access中得到User表一条记录")
-
-
-#抽象产品B：部门表
-class IDepartment():
-    def Insert(self):
-        pass
-    def GetUser(self):
-        pass
-
-#sqlserver实现的Department
-class SqlserverDepartment(IUser):
-    def Insert(self):
-        printInfo("在SQL Server中给Department表增加一条记录")
-    def GetUser(self):
-        printInfo("在SQL Server中得到Department表的一条记录")
-
-#Access实现的Department
-class AccessDepartment(IUser):
-    def Insert(self):
-        printInfo("在Access中给Department表增加一条记录")
-    def GetUser(self):
-        printInfo("在Access中得到Department表一条记录")
-
-
-#抽象工厂
-class IFactory():
-    def CreateUser(self):
-        pass
-    def CreateDepartment(self):
-        pass    
-
-#sql server工厂
-class SqlServerFactory(IFactory):
-    def CreateUser(self):
-        return SqlserverUser()
-    def CreateDepartment(self):
-        return SqlserverDepartment()
-
-#access工厂
-class AccessFactory(IFactory):
-    def CreateUser(self):
-        return AccessUser()
-    def CreateDepartment(self):
-        return AccessDepartment()
-
-#优化一：采用一个简单工厂类，封装逻辑判断操作
-class DataAccess():
-#    db = "Sqlserver"
-    db = "Access"
-    @staticmethod
-    def CreateUser():
-        if (DataAccess.db == "Sqlserver"):
-            return SqlserverUser()
-        elif(DataAccess.db == "Access"):
-            return AccessUser()
-    @staticmethod
-    def CreateDepartment():
-        if (DataAccess.db == "Sqlserver"):
-            return SqlserverDepartment()
-        elif(DataAccess.db == "Access"):
-            return AccessDepartment()
-
-#优化二：采用反射机制，避免使用太多判断
-##以下信息可以从配置文件中获取
-DBType = 'Sqlserver' #'Access'
-DBTab_User = 'User'
-DBTab_Department = 'Department'
-
-class DataAccessPro():
-#    db = "Sqlserver"
-    db = "Access"
-    @staticmethod
-    def CreateUser():
-        funName = DBType + DBTab_User
-        return eval(funName)()  #eval 将其中的字符串转化为python表达式
-    @staticmethod
-    def CreateDepartment():
-        funName = DBType + DBTab_Department
-        return eval(funName)()
-
-def clientUI():
-    printInfo("\n--------抽象工厂方法--------")
-    factory = SqlServerFactory()
-    iu = factory.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = factory.CreateDepartment()
-    id.Insert()
-    id.GetUser()
-
-    printInfo("\n--抽象工厂方法+简单工厂方法--")
-    iu = DataAccess.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = DataAccess.CreateDepartment()
-    id.Insert()
-    id.GetUser()
-
-    printInfo("\n-抽象工厂方法+简单工厂方法+反射-")
-    iu = DataAccessPro.CreateUser()
-    iu.Insert()
-    iu.GetUser()
-    id = DataAccessPro.CreateDepartment()
-    id.Insert()
-    id.GetUser()    
-    return
-
-
-if __name__ == '__main__':
-    clientUI()
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/适配器模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/适配器模式/" itemprop="url">
-                  适配器模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>将一个类的接口转换成客户希望的另外一个接口。使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br>应用场景：希望复用一些现存的类，但是接口又与复用环境要求不一致。</p>
-<p>模式特点：将一个类的接口转换成为客户希望的另外一个接口。</p>
-<p>分类：类适配器（通过多重继承）、对象适配器。<br>类图：<br><img src="/uploads/2016/11/11.jpg" alt="11" width="669" height="296" class="alignnone size-full wp-image-190"><br>来通过例子说明，下面是用户通过适配器使用一个类的方法</p>
-<pre><code>#--encoding=utf-8--
-#
-#by panda
-#适配器模式
-
-def printInfo(info):
- print(info)
-
-#球员类
-class Player():
-     name = ''
-     def __init__(self,name):
-         self.name = name
-
-     def Attack(self,name):
-        pass
-
-     def Defense(self):
-        pass
-
-#前锋
-class Forwards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("前锋%s 进攻" % self.name)
-
-    def Defense(self,name):
-        printInfo("前锋%s 防守" % self.name)
-
-#中锋（目标类）
-class Center(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("中锋%s 进攻" % self.name)
-
-    def Defense(self):
-        printInfo("中锋%s 防守" % self.name)
-
-#后卫
-class Guards(Player):
-    def __init__(self,name):
-        Player.__init__(self,name)
-
-    def Attack(self):
-        printInfo("后卫%s 进攻" % self.name)
-
-        def Defense(self):
-            printInfo("后卫%s 防守" % self.name)
-
-#外籍中锋（待适配类）
-#中锋
-class ForeignCenter(Player):
+#Component：公司抽象类
+class Company:
     name = ''
-    def __init__(self,name):
-        Player.__init__(self,name)
+    def __init__(self, name):
+        self.name = name
 
-    def ForeignAttack(self):
-        printInfo("外籍中锋%s 进攻" % self.name)
-
-    def ForeignDefense(self):
-        printInfo("外籍中锋%s 防守" % self.name)
-
-
-#翻译（适配类）
-class Translator(Player):
-    foreignCenter = None
-    def __init__(self,name):
-        self.foreignCenter = ForeignCenter(name)
-
-    def Attack(self):
-        self.foreignCenter.ForeignAttack()
-
-    def Defense(self):
-        self.foreignCenter.ForeignDefense()
-
-
-def clientUI():
-    b = Forwards('巴蒂尔')
-    m = Guards('麦克格雷迪')
-    ym = Translator('姚明')
-
-    b.Attack()
-    m.Defense()
-    ym.Attack()
-    ym.Defense()
-    return
-
-if __name__ == '__main__':
- clientUI()
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/模板方法模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/模板方法模式/" itemprop="url">
-                  模板方法模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
-
-<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
-<pre><code>class Person(object):
-    def Chew(self):
-        """咀嚼食物"""
-        raise NotImplementedError()
-
-    def Swallow(self):
-        print '咽下去'
-
-    def Eat(self):
-        # 吃饭分两步，先嚼，再咽。
-        self.Chew()
-        self.Swallow()
-
-class Man(Person):
-    def Chew(self):
-        # 男人通常狼吞虎咽
-        print '嚼三下'
-
-class Woman(Person):
-    def Chew(self):
-        # 女人通常细嚼慢咽
-        print '嚼六下'
-</code></pre>
-
-<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
-<h2>模版方法模式的结构</h2>
-
-<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
-<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
-
-<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
-<h2>模版方法的优点及适用场景</h2>
-
-<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
-
-<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/状态模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/状态模式/" itemprop="url">
-                  状态模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>状态模式(State Pattern)是设计模式的一种，属于行为模式。</p>
-<p>定义(源于Design Pattern)：当一个对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类。</p>
-<p>　　状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</p>
-<h2>意图</h2>
-
-<p>允许一个对象在其内部状态改变时改变它的行为</p>
-<h2>适用场景</h2>
-
-<p>　　1.一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为。</p>
-<p>　　2.一个操作中含有庞大的多分支结构，并且这些分支决定于对象的状态。</p>
-<h2>类图</h2>
-
-<p><img src="/uploads/2016/11/13.jpg" alt="13" width="553" height="362" class="alignnone size-full wp-image-195"></p>
-<pre><code>#State：上班状态基类
-class State():
-    def WriteProgram(self):
+    def Add(self, company):
         pass
 
-#上午工作状态类
-class ForenoonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 12):
-            print("当前时间：%d点 工作状态：上午工作，精神百倍" % w.Hour)
-        else:
-            w.SetState(noonState())
-            w.WriteProgram()
+    def Remove(self, company):
+        pass
 
-#中午工作状态类
-class noonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 13):
-            print("当前时间：%d点 午饭；午休" % w.Hour)
-        else:
-            w.SetState(AfternoonState())
-            w.WriteProgram();
+    def Display(self, depth):
+        pass
 
-#下午工作状态类
-class AfternoonState(State):
-    def WriteProgram(self,w):
-        if (w.Hour &lt; 18):
-            print("当前时间：%d点 下午状态还不错，继续努力" % w.Hour)
-        else:
-            w.SetState(EveningState())
-            w.WriteProgram();
+    def LineOfDuty(self): #履行职责
+        pass
 
-#晚上工作状态类
-class EveningState(State):
-    def WriteProgram(self,w):
-        if(w.TaskFinished):
-            w.SetState(RestState())
-            w.WriteProgram()
-            return
+#Composite：公司类
+class ConcreteCompany(Company):
+    childrenCompany = None
 
-        if (w.Hour &lt; 21):
-            print("当前时间：%d点 加班哦，好累！" % w.Hour)
-        else:
-            w.SetState(SleepingState())
-            w.WriteProgram();
+    def __init__(self, name):
+        Company.__init__(self,name)
+        self.childrenCompany = []
 
-#睡眠状态
-class SleepingState(State):
-    def WriteProgram(self,w):
-        print("当前时间：%d点 睡觉了" % w.Hour)
+    def Add(self, company):
+        self.childrenCompany.append(company)
+
+    def Remove(self, company):
+        self.childrenCompany.remove(company)
+
+    def Display(self, depth):
+        print('-'*depth + self.name)
+
+        for component in self.childrenCompany:
+            component.Display(depth+2)
 
 
-#下班工作状态
-class RestState(State):
-    def WriteProgram(self,w):
-        print("当前时间：%d点 下班回家了" % w.Hour)
-#Context：上班
-class Work():
-    state = ForenoonState()
-    TaskFinished = False
-    Hour = 8.0
+    def LineOfDuty(self): #履行职责
+        for component in self.childrenCompany:
+            component.LineOfDuty()
 
-    def SetState(self, state):
-        self.state = state
+#Leaf：具体职能部门
+class HRDepartment(Company):   
+    def __init__(self, name):
+         Company.__init__(self,name)
 
-    def WriteProgram(self):
-        self.state.WriteProgram(self)
+    def Display(self, depth):
+        print('-'*depth + self.name)
 
+    def LineOfDuty(self): #履行职责
+        print('%s\t员工招聘培训管理' % self.name)
 
-def clientUI():
-    work = Work()
-    for i in range(9,23,1):
-        work.Hour = i
-        if(i &gt; 19):
-            work.TaskFinished = True
-        work.WriteProgram()
+#Leaf：具体职能部门
+class FinanceDepartment(Company):    
+    def __init__(self, name):
+        Company.__init__(self,name)
+
+    def Display(self, depth):
+        print('-'*depth + self.name)
+
+    def LineOfDuty(self): #履行职责
+        print('%s\t公司财务收支管理' % self.name)
+
+def clientUI():    
+    root = ConcreteCompany('北京总公司')
+    root.Add(HRDepartment('总公司人力资源部'))
+    root.Add(FinanceDepartment('总公司财务部'))
+
+    comp = ConcreteCompany('华东分公司')
+    comp.Add(HRDepartment('华东分公司人力资源部'))
+    comp.Add(FinanceDepartment('华东分公司财务部'))
+    root.Add(comp)
+
+    comp1 = ConcreteCompany('南京办事处')
+    comp1.Add(HRDepartment('南京办事处人力资源部'))
+    comp1.Add(FinanceDepartment('南京办事处财务部'))
+    comp.Add(comp1)
+
+    comp2 = ConcreteCompany('杭州办事处')
+    comp2.Add(HRDepartment('杭州办事处人力资源部'))
+    comp2.Add(FinanceDepartment('杭州办事处财务部'))
+    comp.Add(comp2)    
+
+    print('-------公司结构图-------')
+    root.Display(1)
+
+    print('\n-------职责-------')
+    root.LineOfDuty()
     return
 
 if __name__ == '__main__':
+    clientUI();
 
-    clientUI()
 </code></pre>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/装饰模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/装饰模式/" itemprop="url">
+                  装饰模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>装饰模式：动态的给对象添加额外的功能。<br>Python内置了很多对装饰器的支持，因此在Python中使用装饰模式是非常容易的，下面是一个典型的例子，给函数增加日志功能：</p>
+<pre><code>import functools
+def log_wrapper(fun):
+    @functools.wraps(fun)
+    def wrapper(*args, **kwargs):
+        print '在函数执行前加日志'
+        ret = fun(*args, **kwargs)
+        print '在函数执行后家日志'
+        return ret
+    return wrapper
+
+
+@log_wrapper
+def test():
+    print 'Hello, 世界'
+</code></pre>
+
+<p>functools.wraps是Python标准库提供的一个特殊的装饰器，用来解决装饰器带来的一些常规问题，如函数名称、doc等的不一致问题。@是Python针对装饰器提供的一个语法糖，上面的@log_wrapper相当于wrap_test = log_rapper(test)，用@后，这个步骤由解释器代劳了。</p>
+<p>装饰器是Python编程必须掌握的一项技能，在编码过程中经常会用到。</p>
+<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/04-decorator/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/04-decorator/</a></p>
 
           
         
@@ -1806,7 +2081,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1827,7 +2102,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1972,353 +2247,6 @@ def client(cond):
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/简单工厂模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/简单工厂模式/" itemprop="url">
-                  简单工厂模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
-<p>下面是一个简单的工厂实例：</p>
-<pre><code>def create_animal(name):
-    if name == 'dog':
-        return Dog()
-    elif name == 'cat':
-        return Cat()
-
-animal = create_animal('dog')
-animal.eat('some food')
-</code></pre>
-
-<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
-<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
-<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
-<pre><code>def create_operator(op):
-    if op == '+':
-        return AddOperation()
-    elif op == '-':
-        return SubOperation()
-    elif op ==  '*':
-        return MulOperation()
-    elif op == '/':
-        return DivOperation()
-
-op = create_operator('+')
-op.Calc(1, 2)
-</code></pre>
-
-<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
-<h2>简单工厂模式的组成要素</h2>
-
-<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
-<h2>缺点</h2>
-
-<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
-<h2>使用场景</h2>
-
-<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/装饰模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/装饰模式/" itemprop="url">
-                  装饰模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>装饰模式：动态的给对象添加额外的功能。<br>Python内置了很多对装饰器的支持，因此在Python中使用装饰模式是非常容易的，下面是一个典型的例子，给函数增加日志功能：</p>
-<pre><code>import functools
-def log_wrapper(fun):
-    @functools.wraps(fun)
-    def wrapper(*args, **kwargs):
-        print '在函数执行前加日志'
-        ret = fun(*args, **kwargs)
-        print '在函数执行后家日志'
-        return ret
-    return wrapper
-
-
-@log_wrapper
-def test():
-    print 'Hello, 世界'
-</code></pre>
-
-<p>functools.wraps是Python标准库提供的一个特殊的装饰器，用来解决装饰器带来的一些常规问题，如函数名称、doc等的不一致问题。@是Python针对装饰器提供的一个语法糖，上面的@log_wrapper相当于wrap_test = log_rapper(test)，用@后，这个步骤由解释器代劳了。</p>
-<p>装饰器是Python编程必须掌握的一项技能，在编码过程中经常会用到。</p>
-<p>原文地址：<a href="http://www.isware.cn/python-design-pattern/04-decorator/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/04-decorator/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2369,7 +2297,7 @@ def test():
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -2380,7 +2308,7 @@ def test():
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2391,7 +2319,7 @@ def test():
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2441,7 +2369,7 @@ def test():
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

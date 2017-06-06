@@ -194,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -247,538 +247,6 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/组合模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/组合模式/" itemprop="url">
-                  组合模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>组合模式：针对“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。</p>
-<p>类图：<br><img src="/uploads/2016/11/composite.gif" alt="composite" width="631" height="299" class="alignnone size-full wp-image-199"></p>
-<pre><code>#encoding=utf-8
-#
-#by panda
-#组合模式
-
-
-#Component：公司抽象类
-class Company:
-    name = ''
-    def __init__(self, name):
-        self.name = name
-
-    def Add(self, company):
-        pass
-
-    def Remove(self, company):
-        pass
-
-    def Display(self, depth):
-        pass
-
-    def LineOfDuty(self): #履行职责
-        pass
-
-#Composite：公司类
-class ConcreteCompany(Company):
-    childrenCompany = None
-
-    def __init__(self, name):
-        Company.__init__(self,name)
-        self.childrenCompany = []
-
-    def Add(self, company):
-        self.childrenCompany.append(company)
-
-    def Remove(self, company):
-        self.childrenCompany.remove(company)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-        for component in self.childrenCompany:
-            component.Display(depth+2)
-
-
-    def LineOfDuty(self): #履行职责
-        for component in self.childrenCompany:
-            component.LineOfDuty()
-
-#Leaf：具体职能部门
-class HRDepartment(Company):   
-    def __init__(self, name):
-         Company.__init__(self,name)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-    def LineOfDuty(self): #履行职责
-        print('%s\t员工招聘培训管理' % self.name)
-
-#Leaf：具体职能部门
-class FinanceDepartment(Company):    
-    def __init__(self, name):
-        Company.__init__(self,name)
-
-    def Display(self, depth):
-        print('-'*depth + self.name)
-
-    def LineOfDuty(self): #履行职责
-        print('%s\t公司财务收支管理' % self.name)
-
-def clientUI():    
-    root = ConcreteCompany('北京总公司')
-    root.Add(HRDepartment('总公司人力资源部'))
-    root.Add(FinanceDepartment('总公司财务部'))
-
-    comp = ConcreteCompany('华东分公司')
-    comp.Add(HRDepartment('华东分公司人力资源部'))
-    comp.Add(FinanceDepartment('华东分公司财务部'))
-    root.Add(comp)
-
-    comp1 = ConcreteCompany('南京办事处')
-    comp1.Add(HRDepartment('南京办事处人力资源部'))
-    comp1.Add(FinanceDepartment('南京办事处财务部'))
-    comp.Add(comp1)
-
-    comp2 = ConcreteCompany('杭州办事处')
-    comp2.Add(HRDepartment('杭州办事处人力资源部'))
-    comp2.Add(FinanceDepartment('杭州办事处财务部'))
-    comp.Add(comp2)    
-
-    print('-------公司结构图-------')
-    root.Display(1)
-
-    print('\n-------职责-------')
-    root.LineOfDuty()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/观察者模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/观察者模式/" itemprop="url">
-                  观察者模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2>类图</h2>
-
-<p><img src="/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
-<p>书中举得例子：</p>
-<h2>一般方式</h2>
-
-<p><img src="/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
-<h2>使用Java内置模块的方式</h2>
-
-<p><img src="/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
-<h2>Python代码</h2>
-
-<h3>主题/可观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Subject.py  
-import Observer  
-class Subject:  
-    def __init__(self):  
-        self.__observers = []  
-        self.__changed = True  
-
-    def registerObserver(self,observer):  
-        self.__observers.append(observer)  
-
-    def removeObserver(self, observer):  
-        self.__observers.remove(observer)  
-
-    def notifyObservers(self):  
-        if self.__changed == True:  
-            for everyObserver in self.__observers:  
-                everyObserver.update(self)  
-            self.changed =False  
-    @property  
-    def changed(self):  
-        return self.__changed  
-    @changed.setter  
-    def changed(self, value):  
-        if isinstance(value, bool):  
-            self.__changed = value  
-
-class WeatherData(Subject):  
-    def __init__(self):  
-        Subject.__init__(self)  
-        self.__temperature = 0  
-        self.__humidity = 0  
-
-    @property  
-    def temperature(self):  
-        return self.__temperature  
-    @property  
-    def humidity(self):  
-        return self.__humidity  
-
-    @temperature.setter  
-    def temperature(self, value):  
-        if isinstance(value, int):  
-            self.__temperature = value  
-
-    @humidity.setter  
-    def humidity(self, value):  
-        if isinstance(self, int):  
-            self.__humidity = value  
-
-    def setMeasurements(self, temperature, humidity):  
-        self.temperature = temperature  
-        self.humidity = humidity  
-        self.changed = True  
-        self.notifyObservers()  
-
-def main():  
-    weatherData = WeatherData()  
-    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
-    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
-    weatherData.setMeasurements(25, 50)  
-    weatherData.setMeasurements(26, 70)  
-    weatherData.setMeasurements(12, 32)  
-
-
-if __name__ == "__main__":  
-    main()  
-</code></pre>
-
-<h3>观察者</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Observer.py  
-import  Subject  
-import Display  
-class Observer:  
-    def __init__(self, observable):  
-        self.__observable = observable  
-        observable.registerObserver(self)  
-        self.__temperature = None  
-        self.__humidity = None  
-
-    def update(self, subject):  
-        pass  
-
-class CurrentConditionsDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-
-    def update(self, subject):  
-        self.__humidity = subject.humidity  
-        self.__temperature = subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "temperature " + str(self.__temperature),  
-        print "humidity " + str(self.__humidity)  
-
-class StatisticsTempDisplay(Observer, Display.Display):  
-    def __init__(self, observable):  
-        Observer.__init__(self,observable)  
-        self.__max = 0  
-        self.__min = 200  
-        self.__num = 0  
-        self.__sum = 0  
-
-    def update(self, subject):  
-        if self.__max &lt; subject.temperature:  
-            self.__max = subject.temperature  
-        if self.__min &gt; subject.temperature:  
-            self.__min = subject.temperature  
-        self.__num = self.__num + 1  
-        self.__sum = self.__sum + subject.temperature  
-        self.display()  
-
-    def display(self):  
-        print "max " + str(self.__max),  
-        print "min " + str(self.__min),  
-        print "avg " + str(float(self.__sum)/self.__num)  
-</code></pre>
-
-<h3>打印类</h3>
-
-<pre><code># -*- coding:utf-8 -*-  
-#Display.py  
-class Display:  
-
-    def display(self):  
-        pass  
-</code></pre>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
     
       
 
@@ -826,7 +294,7 @@ class Display:
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -847,7 +315,7 @@ class Display:
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1005,7 +473,7 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/访问者模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/简单工厂模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -1027,8 +495,8 @@ if __name__ == '__main__':
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/访问者模式/" itemprop="url">
-                  访问者模式
+                <a class="post-title-link" href="/2017/04/19/简单工厂模式/" itemprop="url">
+                  简单工厂模式
                 </a>
               
             
@@ -1042,7 +510,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1063,7 +531,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1104,82 +572,47 @@ if __name__ == '__main__':
       
         
           
-            <p>访问者模式：表示一个作用于某对象结构中的各元素的操作。它可以使你在不改变各元素的类的前提下定义作用于这些元素的新操作。<br>访问者模式适用于数据结构相对稳定而基于该数据结构的操作需要经常扩展的系统。因为该模式的优点就是增加新的操作很容易。</p>
-<p>类图：<br><img src="/uploads/2016/11/visitor.gif" alt="visitor" width="799" height="430" class="alignnone size-full wp-image-208"></p>
-<pre><code>#encoding=utf-8
-#
-#访问模式
+            <blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
 
-#基本数据结构：
-class Person():
-    def Accept(self, visitor):
-        pass
+<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
+<p>下面是一个简单的工厂实例：</p>
+<pre><code>def create_animal(name):
+    if name == 'dog':
+        return Dog()
+    elif name == 'cat':
+        return Cat()
 
-class Man(Person):
-    type = '男人'
-    def Accept(self, visitor):
-        visitor.GetManConclusion(self)
-
-class Woman(Person):
-    type = '女人'
-    def Accept(self, visitor):
-        visitor.GetWomanConclusion(self)
-
-#基于数据结构的操作
-class Action():
-    def GetManConclusion(self, person):
-        pass
-    def GetWomanConclusion(self, person):
-        pass
-
-class Success(Action):
-    type = '成功'
-    def GetManConclusion(self, person):
-        print('%s %s时，背后多半有一个伟大的女人' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，背后大多有一个不成功的男人' %(person.type, self.type))
-
-class Failing(Action):
-    type = '失败'
-    def GetManConclusion(self, person):
-        print('%s %s时，闷头喝酒，谁也不用劝' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，眼泪汪汪，谁也劝不了' %(person.type, self.type))
-
-class Love(Action):
-    type = '恋爱'
-    def GetManConclusion(self, person):
-        print('%s %s时，凡是不懂也要装懂' %(person.type, self.type))
-    def GetWomanConclusion(self, person):
-        print('%s %s时，遇事懂也装作不懂' %(person.type, self.type))
-
-#对象结构类：遍历数据结构的操作
-class ObjectStructure:
-    elements = []
-    def Attach(self, element):
-        self.elements.append(element)
-
-    def Detach(self, element):
-        self.elements.remove(element)
-
-    def Display(self, visitor):
-        for e in self.elements:
-            e.Accept(visitor)
-
-
-def clientUI():
-    o = ObjectStructure()
-    o.Attach(Man())
-    o.Attach(Woman())
-
-    o.Display(Success())
-    o.Display(Failing())
-    o.Display(Love())
-    return
-
-if __name__ == '__main__':
-    clientUI()
+animal = create_animal('dog')
+animal.eat('some food')
 </code></pre>
+
+<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
+<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
+<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
+<pre><code>def create_operator(op):
+    if op == '+':
+        return AddOperation()
+    elif op == '-':
+        return SubOperation()
+    elif op ==  '*':
+        return MulOperation()
+    elif op == '/':
+        return DivOperation()
+
+op = create_operator('+')
+op.Calc(1, 2)
+</code></pre>
+
+<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
+<h2>简单工厂模式的组成要素</h2>
+
+<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
+<h2>缺点</h2>
+
+<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
+<h2>使用场景</h2>
+
+<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
 
           
         
@@ -1260,7 +693,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1281,7 +714,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1504,7 +937,7 @@ if __name__ == "__main__":
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1525,7 +958,7 @@ if __name__ == "__main__":
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2065,7 +1498,7 @@ StopIteration
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/单例模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/适配器模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="StrGlee">
@@ -2087,8 +1520,8 @@ StopIteration
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/单例模式/" itemprop="url">
-                  单例模式
+                <a class="post-title-link" href="/2017/04/19/适配器模式/" itemprop="url">
+                  适配器模式
                 </a>
               
             
@@ -2102,7 +1535,7 @@ StopIteration
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -2123,7 +1556,7 @@ StopIteration
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2164,137 +1597,626 @@ StopIteration
       
         
           
-            <p>首先，要知道什么是Python的单例模式，所谓单例模式就是一个类只能创建一个实例化。<br>然后，就是python单例模式的方法，总共可以分为两大种，四小种，一会就回说的。<br>首先，方法一：</p>
-<pre><code>#-*- encoding=utf-8 -*-  
-print '----------------------方法1--------------------------'  
-#方法1,实现__new__方法  
-#并在将一个类的实例绑定到类变量_instance上,  
-#如果cls._instance为None说明该类还没有实例化过,实例化该类,并返回  
-#如果cls._instance不为None,直接返回cls._instance  
-class Singleton(object):  
-    def __new__(cls, *args, **kw):  
-        if not hasattr(cls, '_instance'):  
-            orig = super(Singleton, cls)  
-            cls._instance = orig.__new__(cls, *args, **kw)  
-        return cls._instance  
+            <p>将一个类的接口转换成客户希望的另外一个接口。使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br>应用场景：希望复用一些现存的类，但是接口又与复用环境要求不一致。</p>
+<p>模式特点：将一个类的接口转换成为客户希望的另外一个接口。</p>
+<p>分类：类适配器（通过多重继承）、对象适配器。<br>类图：<br><img src="/uploads/2016/11/11.jpg" alt="11" width="669" height="296" class="alignnone size-full wp-image-190"><br>来通过例子说明，下面是用户通过适配器使用一个类的方法</p>
+<pre><code>#--encoding=utf-8--
+#
+#by panda
+#适配器模式
 
-class MyClass(Singleton):  
-    a = 1  
+def printInfo(info):
+ print(info)
 
-one = MyClass()  
-two = MyClass()  
+#球员类
+class Player():
+     name = ''
+     def __init__(self,name):
+         self.name = name
 
-two.a = 3  
-print one.a  
-#3  
-#one和two完全相同,可以用id(), ==, is检测  
-print(id(one))
-#29097904  
-print(id(two))
-#29097904  
-print(one == two)
-#True  
-print(one is two)
-#True  
+     def Attack(self,name):
+        pass
+
+     def Defense(self):
+        pass
+
+#前锋
+class Forwards(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("前锋%s 进攻" % self.name)
+
+    def Defense(self,name):
+        printInfo("前锋%s 防守" % self.name)
+
+#中锋（目标类）
+class Center(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("中锋%s 进攻" % self.name)
+
+    def Defense(self):
+        printInfo("中锋%s 防守" % self.name)
+
+#后卫
+class Guards(Player):
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def Attack(self):
+        printInfo("后卫%s 进攻" % self.name)
+
+        def Defense(self):
+            printInfo("后卫%s 防守" % self.name)
+
+#外籍中锋（待适配类）
+#中锋
+class ForeignCenter(Player):
+    name = ''
+    def __init__(self,name):
+        Player.__init__(self,name)
+
+    def ForeignAttack(self):
+        printInfo("外籍中锋%s 进攻" % self.name)
+
+    def ForeignDefense(self):
+        printInfo("外籍中锋%s 防守" % self.name)
+
+
+#翻译（适配类）
+class Translator(Player):
+    foreignCenter = None
+    def __init__(self,name):
+        self.foreignCenter = ForeignCenter(name)
+
+    def Attack(self):
+        self.foreignCenter.ForeignAttack()
+
+    def Defense(self):
+        self.foreignCenter.ForeignDefense()
+
+
+def clientUI():
+    b = Forwards('巴蒂尔')
+    m = Guards('麦克格雷迪')
+    ym = Translator('姚明')
+
+    b.Attack()
+    m.Defense()
+    ym.Attack()
+    ym.Defense()
+    return
+
+if __name__ == '__main__':
+ clientUI()
 </code></pre>
 
-<p>方法二：使用装饰器（decorator）</p>
-<pre><code>def singleton(cls, *args, **kw):    
-    instances = {}    
-    def _singleton():    
-        if cls not in instances:    
-            instances[cls] = cls(*args, **kw)    
-        return instances[cls]    
-    return _singleton    
+          
+        
+      
+    </div>
 
-@singleton    
-class MyClass(object):    
-    a = 1    
-    def __init__(self, x=0):    
-        self.x = x    
+    <div>
+      
+    </div>
 
-one = MyClass()    
-two = MyClass()    
+    <div>
+      
+    </div>
 
-two.a = 3    
-print one.a    
-#3    
-print id(one)    
-#29660784    
-print id(two)    
-#29660784    
-print one == two    
-#True    
-print one is two    
-#True    
-one.x = 1    
-print one.x    
-#1    
-print two.x  
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/状态模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/状态模式/" itemprop="url">
+                  状态模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>状态模式(State Pattern)是设计模式的一种，属于行为模式。</p>
+<p>定义(源于Design Pattern)：当一个对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类。</p>
+<p>　　状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</p>
+<h2>意图</h2>
+
+<p>允许一个对象在其内部状态改变时改变它的行为</p>
+<h2>适用场景</h2>
+
+<p>　　1.一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为。</p>
+<p>　　2.一个操作中含有庞大的多分支结构，并且这些分支决定于对象的状态。</p>
+<h2>类图</h2>
+
+<p><img src="/uploads/2016/11/13.jpg" alt="13" width="553" height="362" class="alignnone size-full wp-image-195"></p>
+<pre><code>#State：上班状态基类
+class State():
+    def WriteProgram(self):
+        pass
+
+#上午工作状态类
+class ForenoonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 12):
+            print("当前时间：%d点 工作状态：上午工作，精神百倍" % w.Hour)
+        else:
+            w.SetState(noonState())
+            w.WriteProgram()
+
+#中午工作状态类
+class noonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 13):
+            print("当前时间：%d点 午饭；午休" % w.Hour)
+        else:
+            w.SetState(AfternoonState())
+            w.WriteProgram();
+
+#下午工作状态类
+class AfternoonState(State):
+    def WriteProgram(self,w):
+        if (w.Hour &lt; 18):
+            print("当前时间：%d点 下午状态还不错，继续努力" % w.Hour)
+        else:
+            w.SetState(EveningState())
+            w.WriteProgram();
+
+#晚上工作状态类
+class EveningState(State):
+    def WriteProgram(self,w):
+        if(w.TaskFinished):
+            w.SetState(RestState())
+            w.WriteProgram()
+            return
+
+        if (w.Hour &lt; 21):
+            print("当前时间：%d点 加班哦，好累！" % w.Hour)
+        else:
+            w.SetState(SleepingState())
+            w.WriteProgram();
+
+#睡眠状态
+class SleepingState(State):
+    def WriteProgram(self,w):
+        print("当前时间：%d点 睡觉了" % w.Hour)
+
+
+#下班工作状态
+class RestState(State):
+    def WriteProgram(self,w):
+        print("当前时间：%d点 下班回家了" % w.Hour)
+#Context：上班
+class Work():
+    state = ForenoonState()
+    TaskFinished = False
+    Hour = 8.0
+
+    def SetState(self, state):
+        self.state = state
+
+    def WriteProgram(self):
+        self.state.WriteProgram(self)
+
+
+def clientUI():
+    work = Work()
+    for i in range(9,23,1):
+        work.Hour = i
+        if(i &gt; 19):
+            work.TaskFinished = True
+        work.WriteProgram()
+    return
+
+if __name__ == '__main__':
+
+    clientUI()
 </code></pre>
 
-<p>方法三：使用<strong>metaclass</strong>元类来实现</p>
-<pre><code>class Singleton2(type):    
-    def __init__(cls, name, bases, dict):    
-        super(Singleton2, cls).__init__(name, bases, dict)    
-        cls._instance = None    
-    def __call__(cls, *args, **kw):    
-        if cls._instance is None:    
-            cls._instance = super(Singleton2, cls).__call__(*args, **kw)    
-        return cls._instance    
+          
+        
+      
+    </div>
 
-class MyClass(object):    
-    __metaclass__ = Singleton2    
+    <div>
+      
+    </div>
 
-one = MyClass()    
-two = MyClass()    
+    <div>
+      
+    </div>
 
-two.a = 3    
-print one.a    
-#3    
-print id(one)    
-#31495472    
-print id(two)    
-#31495472    
-print one == two    
-#True    
-print one is two    
-#True    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/观察者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/观察者模式/" itemprop="url">
+                  观察者模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2>类图</h2>
+
+<p><img src="/uploads/2016/11/1.png" alt="1" width="738" height="497" class="alignnone size-full wp-image-182"></p>
+<p>书中举得例子：</p>
+<h2>一般方式</h2>
+
+<p><img src="/uploads/2016/11/2.png" alt="2" width="1420" height="782" class="alignnone size-full wp-image-183"></p>
+<h2>使用Java内置模块的方式</h2>
+
+<p><img src="/uploads/2016/11/3.png" alt="3" width="1105" height="389" class="alignnone size-full wp-image-184"></p>
+<h2>Python代码</h2>
+
+<h3>主题/可观察者</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Subject.py  
+import Observer  
+class Subject:  
+    def __init__(self):  
+        self.__observers = []  
+        self.__changed = True  
+
+    def registerObserver(self,observer):  
+        self.__observers.append(observer)  
+
+    def removeObserver(self, observer):  
+        self.__observers.remove(observer)  
+
+    def notifyObservers(self):  
+        if self.__changed == True:  
+            for everyObserver in self.__observers:  
+                everyObserver.update(self)  
+            self.changed =False  
+    @property  
+    def changed(self):  
+        return self.__changed  
+    @changed.setter  
+    def changed(self, value):  
+        if isinstance(value, bool):  
+            self.__changed = value  
+
+class WeatherData(Subject):  
+    def __init__(self):  
+        Subject.__init__(self)  
+        self.__temperature = 0  
+        self.__humidity = 0  
+
+    @property  
+    def temperature(self):  
+        return self.__temperature  
+    @property  
+    def humidity(self):  
+        return self.__humidity  
+
+    @temperature.setter  
+    def temperature(self, value):  
+        if isinstance(value, int):  
+            self.__temperature = value  
+
+    @humidity.setter  
+    def humidity(self, value):  
+        if isinstance(self, int):  
+            self.__humidity = value  
+
+    def setMeasurements(self, temperature, humidity):  
+        self.temperature = temperature  
+        self.humidity = humidity  
+        self.changed = True  
+        self.notifyObservers()  
+
+def main():  
+    weatherData = WeatherData()  
+    currentDisplay = Observer.CurrentConditionsDisplay(weatherData)  
+    statisticsTempDisplay = Observer.StatisticsTempDisplay(weatherData)  
+    weatherData.setMeasurements(25, 50)  
+    weatherData.setMeasurements(26, 70)  
+    weatherData.setMeasurements(12, 32)  
+
+
+if __name__ == "__main__":  
+    main()  
 </code></pre>
 
-<p>方法四：通过共享属性来实现，所谓共享属性，最简单直观的方法就是通过<strong>dict</strong>属性指向同一个字典dict</p>
-<pre><code>class Borg(object):    
-    _state = {}    
-    def __new__(cls, *args, **kw):    
-        ob = super(Borg, cls).__new__(cls, *args, **kw)    
-        ob.__dict__ = cls._state    
-        return ob    
+<h3>观察者</h3>
 
-class MyClass(Borg):    
-    a = 1    
+<pre><code># -*- coding:utf-8 -*-  
+#Observer.py  
+import  Subject  
+import Display  
+class Observer:  
+    def __init__(self, observable):  
+        self.__observable = observable  
+        observable.registerObserver(self)  
+        self.__temperature = None  
+        self.__humidity = None  
 
-one = MyClass()    
-two = MyClass()    
+    def update(self, subject):  
+        pass  
 
-#one和two是两个不同的对象,id, ==, is对比结果可看出    
-two.a = 3    
-print one.a    
-#3    
-print id(one)    
-#28873680    
-print id(two)    
-#28873712    
-print one == two    
-#False    
-print one is two    
-#False    
-#但是one和two具有相同的（同一个__dict__属性）,见:    
-print id(one.__dict__)    
-#30104000    
-print id(two.__dict__)    
+class CurrentConditionsDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+
+    def update(self, subject):  
+        self.__humidity = subject.humidity  
+        self.__temperature = subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "temperature " + str(self.__temperature),  
+        print "humidity " + str(self.__humidity)  
+
+class StatisticsTempDisplay(Observer, Display.Display):  
+    def __init__(self, observable):  
+        Observer.__init__(self,observable)  
+        self.__max = 0  
+        self.__min = 200  
+        self.__num = 0  
+        self.__sum = 0  
+
+    def update(self, subject):  
+        if self.__max &lt; subject.temperature:  
+            self.__max = subject.temperature  
+        if self.__min &gt; subject.temperature:  
+            self.__min = subject.temperature  
+        self.__num = self.__num + 1  
+        self.__sum = self.__sum + subject.temperature  
+        self.display()  
+
+    def display(self):  
+        print "max " + str(self.__max),  
+        print "min " + str(self.__min),  
+        print "avg " + str(float(self.__sum)/self.__num)  
 </code></pre>
 
-<p>其实吧，从本质上来讲，方法一二三都属于一种单例化模式的方法，与第四种不同，所以认为python中有两种或四种方法实现单例模式都可以。</p>
+<h3>打印类</h3>
+
+<pre><code># -*- coding:utf-8 -*-  
+#Display.py  
+class Display:  
+
+    def display(self):  
+        pass  
+</code></pre>
 
           
         
@@ -2375,7 +2297,7 @@ print id(two.__dict__)
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-16T19:06:50+08:00">
                 2017-04-16
@@ -2396,7 +2318,7 @@ print id(two.__dict__)
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2528,7 +2450,7 @@ print id(two.__dict__)
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -2539,7 +2461,7 @@ print id(two.__dict__)
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2550,7 +2472,7 @@ print id(two.__dict__)
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2600,7 +2522,7 @@ print id(two.__dict__)
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
