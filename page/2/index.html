@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -226,7 +226,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -249,7 +249,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            Search
+            Suche
           </a>
         </li>
       
@@ -340,7 +340,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -361,7 +361,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -525,6 +525,157 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/建造者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="StrGlee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StrGlee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/建造者模式/" itemprop="url">
+                  建造者模式
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
+<p>也许在以下情况使用到它：</p>
+<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
+<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
+<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
+<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
+<p>在构建具体项目的时候只需要适当改变就可以了</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/外观模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -562,7 +713,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -583,7 +734,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -755,7 +906,7 @@ class Facade(object):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -776,7 +927,7 @@ class Facade(object):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -944,157 +1095,6 @@ if __name__ == '__main__':
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/建造者模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="StrGlee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/7496311">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StrGlee">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/建造者模式/" itemprop="url">
-                  建造者模式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>建造者模式（Builder Pattern）：它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。</p>
-<p>也许在以下情况使用到它：</p>
-<p>当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时；<br>当构造过程必须允许被构造的对象有不同的表示时。<br>参与者：</p>
-<p>AbstractBuilder<br>为创建一个Product对象的各个部件指定抽象接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class AbstractFormBuilder(object):</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">    使用abc库中的方法构建抽象类为Python中一种构建抽象类的方法（会有性能上的损耗）</div><div class="line">    &amp;quot;&amp;quot;&amp;quot;</div><div class="line">__metaclass__ = abc.ABCMeta</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_a(self):</div><div class="line">    pass</div><div class="line"></div><div class="line">@abc.abstractmethod</div><div class="line">def add_b(self):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
-<p>Builder<br>实现AbstractBuilder的接口以构造和装配该产品的各个部件。定义并明确它所创建的表示。提供一个检索产品的接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">    分别创建了两个不同的具体建造者类</div><div class="line">&amp;quot;&amp;quot;&amp;quot;</div><div class="line">class BuilderA(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;a_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;a_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div><div class="line"></div><div class="line">class BuilderB(AbstractFormBuilder):</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">            self.product = []</div><div class="line"></div><div class="line">    def add_a(self):</div><div class="line">            self.product.append(&amp;#039;b_a&amp;#039;)</div><div class="line"></div><div class="line">    def add_b(self):</div><div class="line">            self.product.append(&amp;#039;b_b&amp;#039;)</div><div class="line"></div><div class="line">    def __str__(self):</div><div class="line">            result = &amp;#039;&amp;#039;</div><div class="line">            for i in self.product:</div><div class="line">                    result += &amp;#039;产品：&amp;#039; + i + &amp;#039; &amp;#039;</div><div class="line"></div><div class="line">    return result</div></pre></td></tr></table></figure>
-<p>director<br>构建Builder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def direcotr(builder):</div><div class="line"></div><div class="line">    builder.add_a()</div><div class="line">    builder.add_b()</div></pre></td></tr></table></figure></p>
-<p>接下来就是客户端代码了、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def main():</div><div class="line">    builder_a = BuilderA()</div><div class="line">    builder_b = BuilderB()</div><div class="line"></div><div class="line">    direcotr(builder_a)</div><div class="line">    print builder_a</div><div class="line"></div><div class="line">    direcotr(builder_b)</div><div class="line">    print builder_b</div></pre></td></tr></table></figure></p>
-<p>在构建具体项目的时候只需要适当改变就可以了</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.strglee.com/2017/04/19/迭代模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1132,7 +1132,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1153,7 +1153,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1730,7 +1730,7 @@ StopIteration
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1751,7 +1751,7 @@ StopIteration
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1936,7 +1936,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -1957,7 +1957,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2117,7 +2117,7 @@ class Woman(Person):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -2138,7 +2138,7 @@ class Woman(Person):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2354,7 +2354,7 @@ if __name__ == '__main__':
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -2375,7 +2375,7 @@ if __name__ == '__main__':
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2566,7 +2566,7 @@ def client(cond):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-19T19:06:50+08:00">
                 2017-04-19
@@ -2587,7 +2587,7 @@ def client(cond):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -2753,7 +2753,7 @@ op.Calc(1, 2)
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">29</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -2764,7 +2764,7 @@ op.Calc(1, 2)
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2775,7 +2775,7 @@ op.Calc(1, 2)
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2832,7 +2832,7 @@ op.Calc(1, 2)
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
