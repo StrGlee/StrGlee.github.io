@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.strglee.com/categories/index.html</loc>
-    
-    <lastmod>2017-08-04T07:24:20.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.strglee.com/sitemap/index.html</loc>
     
     <lastmod>2017-08-04T07:24:20.000Z</lastmod>
@@ -16,7 +9,14 @@
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/19/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.strglee.com/categories/index.html</loc>
+    
+    <lastmod>2017-08-04T07:24:20.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.strglee.com/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
@@ -114,14 +114,14 @@
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/16/elasticsearch-install/</loc>
+    <loc>http://www.strglee.com/2017/04/19/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B4%A2%E5%BC%95/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.strglee.com/2017/04/19/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
@@ -156,14 +156,14 @@
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/19/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.strglee.com/2017/04/19/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/19/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.strglee.com/2017/04/19/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
@@ -205,7 +205,7 @@
   </url>
   
   <url>
-    <loc>http://www.strglee.com/2017/04/19/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B4%A2%E5%BC%95/</loc>
+    <loc>http://www.strglee.com/2017/04/16/elasticsearch-install/</loc>
     
     <lastmod>2017-08-04T07:23:46.000Z</lastmod>
     
