@@ -211,34 +211,6 @@ if __name__ == '__main__':
   </entry>
   
   <entry>
-    <title>创建模式　vs 结构模式 vs 行为模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F-%E8%A1%8C%E4%B8%BA%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>http://www.strglee.com/2017/04/19/创建模式-结构模式-行为模式的区别/</id>
-    <published>2017-04-19T11:06:50.000Z</published>
-    <updated>2017-08-04T07:23:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="创建模式"><a href="#创建模式" class="headerlink" title="创建模式"></a>创建模式</h2><p>创建型模式，就是创建对象的模式，抽象了实例化的过程。<br>它帮助一个系统独立于如何创建、组合和表示它的那些对象。<br>关注的是对象的创建，创建型模式将创建对象的过程进行了抽象，也可以理解为将创建对象的过程进行了封装，作为客户程序仅仅需要去使用对象，而不再关心创建对象过程中的逻辑</p>
-<h2 id="结构模式"><a href="#结构模式" class="headerlink" title="结构模式"></a>结构模式</h2><p>结构型模式是为解决怎样组装现有的类，设计他们的交互方式，从而达到实现一定的功能的目的。<br>结构型模式包容了对很多问题的解决。例如：扩展性（外观、组成、代理、装饰）封装性（适配器，桥接）。</p>
-<h2 id="行为模式"><a href="#行为模式" class="headerlink" title="行为模式"></a>行为模式</h2><p>行为型模式涉及到算法和对象间职责的分配。<br>行为模式描述了对象和类的模式，以及它们之间的通信模式。<br>行为型模式刻划了在程序运行时难以跟踪的复杂的控制流可分为行为类模式和行为对象模式</p>
-<p>行为模式使用继承机制在类间分派行为。<br>行为对象模式使用对象聚合来分配行为。<br>一些行为对象模式描述了一组对等的对象怎样相互协作以完成其中任何一个对象都无法单独完成的任务。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;创建模式&quot;&gt;&lt;a href=&quot;#创建模式&quot; class=&quot;headerlink&quot; title=&quot;创建模式&quot;&gt;&lt;/a&gt;创建模式&lt;/h2&gt;&lt;p&gt;创建型模式，就是创建对象的模式，抽象了实例化的过程。&lt;br&gt;它帮助一个系统独立于如何创建、组合和表示它的那些对象。&lt;br&gt;关
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
     <title>中介者模式</title>
     <link href="http://www.strglee.com/2017/04/19/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://www.strglee.com/2017/04/19/中介者模式/</id>
@@ -463,72 +435,183 @@ if(__name__=="__main__"):
   </entry>
   
   <entry>
-    <title>原型模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/原型模式/</id>
+    <title>享元模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/享元模式/</id>
     <published>2017-04-19T11:06:50.000Z</published>
     <updated>2017-08-04T07:23:46.000Z</updated>
     
-    <content type="html"><![CDATA[<p>原型模式：<br>应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。<br>结构特性：对象的复制机制【浅复制和深复制】</p>
-<pre><code>#!/usr/bin/env python    
-#encoding: utf-8    
-from copy import copy, deepcopy  
+    <content type="html"><![CDATA[<h2 id="模式动机"><a href="#模式动机" class="headerlink" title="模式动机"></a>模式动机</h2><p>面向对象技术可以很好地解决一些灵活性或可扩展性问题，但在很多情况下需要在系统中增加类和对象的个数。当对象数量太多时，将导致运行代价过高，带来性能下降等问题。</p>
+<p>享元模式正是为解决这一类问题而诞生的。享元模式通过共享技术实现相同或相似对象的重用。<br>在享元模式中可以共享的相同内容称为内部状态(IntrinsicState)，而那些需要外部环境来设置的不能共享的内容称为外部状态(Extrinsic State)，由于区分了内部状态和外部状态，因此可以通过设置不同的外部状态使得相同的对象可以具有一些不同的特征，而相同的内部状态是可以共享的。<br>在享元模式中通常会出现工厂模式，需要创建一个享元工厂来负责维护一个享元池(Flyweight Pool)用于存储具有相同内部状态的享元对象。<br>在享元模式中共享的是享元对象的内部状态，外部状态需要通过环境来设置。在实际使用中，能够共享的内部状态是有限的，因此享元对象一般都设计为较小的对象，它所包含的内部状态较少，这种对象也称为细粒度对象。享元模式的目的就是使用共享技术来实现大量细粒度对象的复用。</p>
+<h2 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h2><p>享元模式(Flyweight Pattern)：运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。</p>
+<p>享元模式：运用共享技术有效地支持大量细粒度的对象。<br>内部状态：享元对象中不会随环境改变而改变的共享部分。比如围棋棋子的颜色。<br>外部状态：随环境改变而改变、不可以共享的状态就是外部状态。比如围棋棋子的位置。</p>
+<p>应用场景：程序中使用了大量的对象，如果删除对象的外部状态，可以用相对较少的共享对象取代很多组对象，就可以考虑使用享元模式。</p>
+<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/flyweigth.gif" alt="flyweigth" width="688" height="327" class="alignnone size-full wp-image-201"></p>
+<pre><code>#encoding=utf-8
+#
+#享元模式
 
-class test_obj:  
-    def __init__(self, id):  
-        self.id = id  
+#抽象享元类：
+class WebSite():
+    def Use(self):
+        pass
 
-class proto_type:  
-    def __init__(self, name, id):  
-        self.name = name  
-        self.obj = test_obj(id)  
+#具体享元类
+class ConcreteWebSite(WebSite):
+    name = ''
+    def __init__(self,name):
+        self.name = name
 
-    def display(self):  
-        print self.name  
-        print self.obj.id  
-
-    def clone(self):  
-        return copy(self)  
-
-    def deep_clone(self):  
-        return deepcopy(self)  
+    def Use(self, user):
+        print('网站分类：%s 用户 %s' % (self.name,user.name))
 
 
-if '__main__' == __name__:    
-    obj1 = proto_type('name1', 1)  
-    obj2 = obj1.clone()  
-    obj3 = obj1.deep_clone()  
-    obj2.name = 'name2'  
-    obj2.obj.id = 2  
-    obj3.name = 'name3'  
-    obj3.obj.id = 3   
-    obj1.display()  
-    obj2.display()  
-    obj3.display()  
-    print obj1.__class__  
-    print obj2.__class__  
-    print obj3.__class__    
+#享元工厂类
+class WebSiteFactory():
+    WebSites = {}
+
+    def GetWebSiteCategory(self, key):
+        if key not in self.WebSites:
+            self.WebSites[key] = ConcreteWebSite(key)
+        return self.WebSites[key]
+
+    def GetWebSiteCount(self):
+        return len(self.WebSites)
+
+#用户
+class User():
+    name = None;
+    def __init__(self,name):
+        self.name = name
+
+def clientUI():
+    f = WebSiteFactory()
+
+    fx = f.GetWebSiteCategory('产品展示')
+    fy = f.GetWebSiteCategory('产品展示')
+    fz = f.GetWebSiteCategory('产品展示')
+    fx.Use(User('小菜'))
+    fy.Use(User('大鸟'))
+    fz.Use(User('娇娇'))
+
+    fx = f.GetWebSiteCategory('博客')
+    fy = f.GetWebSiteCategory('博客')
+    fz = f.GetWebSiteCategory('博客')
+    fx.Use(User('老顽童'))
+    fy.Use(User('郭靖'))
+    fz.Use(User('黄蓉'))
+
+    print('网站分类的总数：%d' % f.GetWebSiteCount())
+    return
+
+if __name__ == '__main__':
+    clientUI()
 </code></pre>
 
-<p>结果：</p>
-<pre><code>name1  
-2        #因为obj2是浅复制，所以对象没有被复制，导致新对象的修改影响了原来的就对象的值  
-name2  
-2  
-name3  
-3       #因为是深复制，所以不会影响之前的旧对象  
-__main__.proto_type  
-__main__.proto_type  
-__main__.proto_type  
-</code></pre>
+<h2 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h2><p>享元模式是一个考虑系统性能的设计模式，通过使用享元模式可以节约内存空间，提高系统的性能。</p>
+<p>享元模式的核心在于享元工厂类，享元工厂类的作用在于提供一个用于存储享元对象的享元池，用户需要对象时，首先从享元池中获取，如果享元池中不存在，则创建一个新的享元对象返回给用户，并在享元池中保存该新增对象。</p>
+<p>享元模式以共享的方式高效地支持大量的细粒度对象，享元对象能做到共享的关键是区分内部状态(Internal State)和外部状态(External State)。</p>
+<p>内部状态是存储在享元对象内部并且不会随环境改变而改变的状态，因此内部状态可以共享。<br>外部状态是随环境改变而改变的、不可以共享的状态。享元对象的外部状态必须由客户端保存，并在享元对象被创建之后，在需要使用的时候再传入到享元对象内部。一个外部状态与另一个外部状态之间是相互独立的。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>享元模式的优点</p>
+<p>享元模式的优点在于它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份。<br>享元模式的外部状态相对独立，而且不会影响其内部状态，从而使得享元对象可以在不同的环境中被共享。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>享元模式的缺点</p>
+<p>享元模式使得系统更加复杂，需要分离出内部状态和外部状态，这使得程序的逻辑复杂化。<br>为了使对象可以共享，享元模式需要将享元对象的状态外部化，而读取外部状态使得运行时间变长。</p>
+<h2 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h2><p>在以下情况下可以使用享元模式：</p>
+<p>一个系统有大量相同或者相似的对象，由于这类对象的大量使用，造成内存的大量耗费。<br>对象的大部分状态都可以外部化，可以将这些外部状态传入对象中。<br>使用享元模式需要维护一个存储享元对象的享元池，而这需要耗费资源，因此，应当在多次重复使用享元对象时才值得使用享元模式。</p>
+<h2 id="模式应用"><a href="#模式应用" class="headerlink" title="模式应用"></a>模式应用</h2><p>享元模式在编辑器软件中大量使用，如在一个文档中多次出现相同的图片，则只需要创建一个图片对象，通过在应用程序中设置该图片出现的位置，可以实现该图片在不同地方多次重复显示。</p>
+<h2 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h2><p>单纯享元模式和复合享元模式</p>
+<p>单纯享元模式：在单纯享元模式中，所有的享元对象都是可以共享的，即所有抽象享元类的子类都可共享，不存在非共享具体享元类。<br>复合享元模式：将一些单纯享元使用组合模式加以组合，可以形成复合享元对象，这样的复合享元对象本身不能共享，但是它们可以分解成单纯享元对象，而后者则可以共享。<br>享元模式与其他模式的联用</p>
+<p>在享元模式的享元工厂类中通常提供一个静态的工厂方法用于返回享元对象，使用简单工厂模式来生成享元对象。<br>在一个系统中，通常只有唯一一个享元工厂，因此享元工厂类可以使用单例模式进行设计。<br>享元模式可以结合组合模式形成复合享元模式，统一对享元对象设置外部状态。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>享元模式运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用，它是一种对象结构型模式。<br>享元模式包含四个角色：抽象享元类声明一个接口，通过它可以接受并作用于外部状态；具体享元类实现了抽象享元接口，其实例称为享元对象；非共享具体享元是不能被共享的抽象享元类的子类；享元工厂类用于创建并管理享元对象，它针对抽象享元类编程，将各种类型的具体享元对象存储在一个享元池中。<br>享元模式以共享的方式高效地支持大量的细粒度对象，享元对象能做到共享的关键是区分内部状态和外部状态。其中内部状态是存储在享元对象内部并且不会随环境改变而改变的状态，因此内部状态可以共享；外部状态是随环境改变而改变的、不可以共享的状态。<br>享元模式主要优点在于它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份；其缺点是使得系统更加复杂，并且需要将享元对象的状态外部化，而读取外部状态使得运行时间变长。<br>享元模式适用情况包括：一个系统有大量相同或者相似的对象，由于这类对象的大量使用，造成内存的大量耗费；对象的大部分状态都可以外部化，可以将这些外部状态传入对象中；多次重复使用享元对象。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;原型模式：&lt;br&gt;应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。&lt;br&gt;结构特性：对象的复制机制【浅复制和深复制】&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python    
-#encoding: utf-8    
-from c
+      &lt;h2 id=&quot;模式动机&quot;&gt;&lt;a href=&quot;#模式动机&quot; class=&quot;headerlink&quot; title=&quot;模式动机&quot;&gt;&lt;/a&gt;模式动机&lt;/h2&gt;&lt;p&gt;面向对象技术可以很好地解决一些灵活性或可扩展性问题，但在很多情况下需要在系统中增加类和对象的个数。当对象数量太多时，将导致运
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代理模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/代理模式/</id>
+    <published>2017-04-19T11:06:50.000Z</published>
+    <updated>2017-08-04T07:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><br>  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越<em>简单</em>越好，尽快完成并上线才是王道<br></blockquote>
+
+<p>代理模式：为其他对象提供一种代理，以控制对这个对象的访问。</p>
+<h2>基本原理</h2>
+
+<p>代理类和实体类都继承同一个接口（或抽象基类），具有相同的功能接口。<br>代理类内部维护一个实体类对象，真正的功能实现是调用改对象的接口。</p>
+<h2>代码结构</h2>
+
+<pre><code>class Subject(object):
+    def Request(self):
+        raise NotImplementedError()
+
+class RealSubject(Subject):
+    def Request(self):
+        print "真实请求"
+
+class Proxy(Subject):
+    def __init__(self):
+        self.realSubject = RealSubject()
+
+    def Request(self):
+        self.realSubject.Request()
+
+def client():
+    proxy = Proxy()
+    proxy.Request()
+</code></pre>
+
+<p>代理模式是一种比较常见的模式，比较典型的应用场景：</p>
+<ul><br><li>RPC调用：RPC API负责代理具体的网络API调用。</li><br><li>虚拟代理：根据需要创建开销大的对象，提高性能。</li><br><li>安全代理：用来控制真实对象访问时的权限。</li><br><li>智能指针：当调用真实对象时，代理负责处理一些额外的工作。</li><br></ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;br&gt;  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越&lt;em&gt;简单&lt;/em&gt;越好，尽快完成并上线才是王道&lt;br&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;代理模
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>创建模式　vs 结构模式 vs 行为模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F-%E8%A1%8C%E4%B8%BA%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://www.strglee.com/2017/04/19/创建模式-结构模式-行为模式的区别/</id>
+    <published>2017-04-19T11:06:50.000Z</published>
+    <updated>2017-08-04T07:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="创建模式"><a href="#创建模式" class="headerlink" title="创建模式"></a>创建模式</h2><p>创建型模式，就是创建对象的模式，抽象了实例化的过程。<br>它帮助一个系统独立于如何创建、组合和表示它的那些对象。<br>关注的是对象的创建，创建型模式将创建对象的过程进行了抽象，也可以理解为将创建对象的过程进行了封装，作为客户程序仅仅需要去使用对象，而不再关心创建对象过程中的逻辑</p>
+<h2 id="结构模式"><a href="#结构模式" class="headerlink" title="结构模式"></a>结构模式</h2><p>结构型模式是为解决怎样组装现有的类，设计他们的交互方式，从而达到实现一定的功能的目的。<br>结构型模式包容了对很多问题的解决。例如：扩展性（外观、组成、代理、装饰）封装性（适配器，桥接）。</p>
+<h2 id="行为模式"><a href="#行为模式" class="headerlink" title="行为模式"></a>行为模式</h2><p>行为型模式涉及到算法和对象间职责的分配。<br>行为模式描述了对象和类的模式，以及它们之间的通信模式。<br>行为型模式刻划了在程序运行时难以跟踪的复杂的控制流可分为行为类模式和行为对象模式</p>
+<p>行为模式使用继承机制在类间分派行为。<br>行为对象模式使用对象聚合来分配行为。<br>一些行为对象模式描述了一组对等的对象怎样相互协作以完成其中任何一个对象都无法单独完成的任务。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;创建模式&quot;&gt;&lt;a href=&quot;#创建模式&quot; class=&quot;headerlink&quot; title=&quot;创建模式&quot;&gt;&lt;/a&gt;创建模式&lt;/h2&gt;&lt;p&gt;创建型模式，就是创建对象的模式，抽象了实例化的过程。&lt;br&gt;它帮助一个系统独立于如何创建、组合和表示它的那些对象。&lt;br&gt;关
     
     </summary>
     
@@ -698,49 +781,72 @@ print id(two.__dict__)
   </entry>
   
   <entry>
-    <title>代理模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/代理模式/</id>
+    <title>原型模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/原型模式/</id>
     <published>2017-04-19T11:06:50.000Z</published>
     <updated>2017-08-04T07:23:46.000Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><br>  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越<em>简单</em>越好，尽快完成并上线才是王道<br></blockquote>
+    <content type="html"><![CDATA[<p>原型模式：<br>应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。<br>结构特性：对象的复制机制【浅复制和深复制】</p>
+<pre><code>#!/usr/bin/env python    
+#encoding: utf-8    
+from copy import copy, deepcopy  
 
-<p>代理模式：为其他对象提供一种代理，以控制对这个对象的访问。</p>
-<h2>基本原理</h2>
+class test_obj:  
+    def __init__(self, id):  
+        self.id = id  
 
-<p>代理类和实体类都继承同一个接口（或抽象基类），具有相同的功能接口。<br>代理类内部维护一个实体类对象，真正的功能实现是调用改对象的接口。</p>
-<h2>代码结构</h2>
+class proto_type:  
+    def __init__(self, name, id):  
+        self.name = name  
+        self.obj = test_obj(id)  
 
-<pre><code>class Subject(object):
-    def Request(self):
-        raise NotImplementedError()
+    def display(self):  
+        print self.name  
+        print self.obj.id  
 
-class RealSubject(Subject):
-    def Request(self):
-        print "真实请求"
+    def clone(self):  
+        return copy(self)  
 
-class Proxy(Subject):
-    def __init__(self):
-        self.realSubject = RealSubject()
+    def deep_clone(self):  
+        return deepcopy(self)  
 
-    def Request(self):
-        self.realSubject.Request()
 
-def client():
-    proxy = Proxy()
-    proxy.Request()
+if '__main__' == __name__:    
+    obj1 = proto_type('name1', 1)  
+    obj2 = obj1.clone()  
+    obj3 = obj1.deep_clone()  
+    obj2.name = 'name2'  
+    obj2.obj.id = 2  
+    obj3.name = 'name3'  
+    obj3.obj.id = 3   
+    obj1.display()  
+    obj2.display()  
+    obj3.display()  
+    print obj1.__class__  
+    print obj2.__class__  
+    print obj3.__class__    
 </code></pre>
 
-<p>代理模式是一种比较常见的模式，比较典型的应用场景：</p>
-<ul><br><li>RPC调用：RPC API负责代理具体的网络API调用。</li><br><li>虚拟代理：根据需要创建开销大的对象，提高性能。</li><br><li>安全代理：用来控制真实对象访问时的权限。</li><br><li>智能指针：当调用真实对象时，代理负责处理一些额外的工作。</li><br></ul>
+<p>结果：</p>
+<pre><code>name1  
+2        #因为obj2是浅复制，所以对象没有被复制，导致新对象的修改影响了原来的就对象的值  
+name2  
+2  
+name3  
+3       #因为是深复制，所以不会影响之前的旧对象  
+__main__.proto_type  
+__main__.proto_type  
+__main__.proto_type  
+</code></pre>
 ]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;&lt;br&gt;  需求变更应该尽早发现，发现的越早代码的抽象越容易，等到业务逻辑变得庞大复杂，已有代码已经到处在使用时，重构的成本就会变大，因此一开始的实现应该越&lt;em&gt;简单&lt;/em&gt;越好，尽快完成并上线才是王道&lt;br&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;代理模
+      &lt;p&gt;原型模式：&lt;br&gt;应用特性：需要大量的基于某个基础原型进行微量修改而得到新原型时使用。&lt;br&gt;结构特性：对象的复制机制【浅复制和深复制】&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python    
+#encoding: utf-8    
+from c
     
     </summary>
     
@@ -754,99 +860,36 @@ def client():
   </entry>
   
   <entry>
-    <title>享元模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/享元模式/</id>
+    <title>命令模式 vs 状态模式 vs 责任链模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F%E5%8C%BA%E5%88%AB/"/>
+    <id>http://www.strglee.com/2017/04/19/命令模式-状态模式-责任链模式区别/</id>
     <published>2017-04-19T11:06:50.000Z</published>
     <updated>2017-08-04T07:23:46.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="模式动机"><a href="#模式动机" class="headerlink" title="模式动机"></a>模式动机</h2><p>面向对象技术可以很好地解决一些灵活性或可扩展性问题，但在很多情况下需要在系统中增加类和对象的个数。当对象数量太多时，将导致运行代价过高，带来性能下降等问题。</p>
-<p>享元模式正是为解决这一类问题而诞生的。享元模式通过共享技术实现相同或相似对象的重用。<br>在享元模式中可以共享的相同内容称为内部状态(IntrinsicState)，而那些需要外部环境来设置的不能共享的内容称为外部状态(Extrinsic State)，由于区分了内部状态和外部状态，因此可以通过设置不同的外部状态使得相同的对象可以具有一些不同的特征，而相同的内部状态是可以共享的。<br>在享元模式中通常会出现工厂模式，需要创建一个享元工厂来负责维护一个享元池(Flyweight Pool)用于存储具有相同内部状态的享元对象。<br>在享元模式中共享的是享元对象的内部状态，外部状态需要通过环境来设置。在实际使用中，能够共享的内部状态是有限的，因此享元对象一般都设计为较小的对象，它所包含的内部状态较少，这种对象也称为细粒度对象。享元模式的目的就是使用共享技术来实现大量细粒度对象的复用。</p>
-<h2 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h2><p>享元模式(Flyweight Pattern)：运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。</p>
-<p>享元模式：运用共享技术有效地支持大量细粒度的对象。<br>内部状态：享元对象中不会随环境改变而改变的共享部分。比如围棋棋子的颜色。<br>外部状态：随环境改变而改变、不可以共享的状态就是外部状态。比如围棋棋子的位置。</p>
-<p>应用场景：程序中使用了大量的对象，如果删除对象的外部状态，可以用相对较少的共享对象取代很多组对象，就可以考虑使用享元模式。</p>
-<p>类图：<br><img src="http://www.strglee.com/wp-content/uploads/2016/11/flyweigth.gif" alt="flyweigth" width="688" height="327" class="alignnone size-full wp-image-201"></p>
-<pre><code>#encoding=utf-8
-#
-#享元模式
-
-#抽象享元类：
-class WebSite():
-    def Use(self):
-        pass
-
-#具体享元类
-class ConcreteWebSite(WebSite):
-    name = ''
-    def __init__(self,name):
-        self.name = name
-
-    def Use(self, user):
-        print('网站分类：%s 用户 %s' % (self.name,user.name))
-
-
-#享元工厂类
-class WebSiteFactory():
-    WebSites = {}
-
-    def GetWebSiteCategory(self, key):
-        if key not in self.WebSites:
-            self.WebSites[key] = ConcreteWebSite(key)
-        return self.WebSites[key]
-
-    def GetWebSiteCount(self):
-        return len(self.WebSites)
-
-#用户
-class User():
-    name = None;
-    def __init__(self,name):
-        self.name = name
-
-def clientUI():
-    f = WebSiteFactory()
-
-    fx = f.GetWebSiteCategory('产品展示')
-    fy = f.GetWebSiteCategory('产品展示')
-    fz = f.GetWebSiteCategory('产品展示')
-    fx.Use(User('小菜'))
-    fy.Use(User('大鸟'))
-    fz.Use(User('娇娇'))
-
-    fx = f.GetWebSiteCategory('博客')
-    fy = f.GetWebSiteCategory('博客')
-    fz = f.GetWebSiteCategory('博客')
-    fx.Use(User('老顽童'))
-    fy.Use(User('郭靖'))
-    fz.Use(User('黄蓉'))
-
-    print('网站分类的总数：%d' % f.GetWebSiteCount())
-    return
-
-if __name__ == '__main__':
-    clientUI()
-</code></pre>
-
-<h2 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h2><p>享元模式是一个考虑系统性能的设计模式，通过使用享元模式可以节约内存空间，提高系统的性能。</p>
-<p>享元模式的核心在于享元工厂类，享元工厂类的作用在于提供一个用于存储享元对象的享元池，用户需要对象时，首先从享元池中获取，如果享元池中不存在，则创建一个新的享元对象返回给用户，并在享元池中保存该新增对象。</p>
-<p>享元模式以共享的方式高效地支持大量的细粒度对象，享元对象能做到共享的关键是区分内部状态(Internal State)和外部状态(External State)。</p>
-<p>内部状态是存储在享元对象内部并且不会随环境改变而改变的状态，因此内部状态可以共享。<br>外部状态是随环境改变而改变的、不可以共享的状态。享元对象的外部状态必须由客户端保存，并在享元对象被创建之后，在需要使用的时候再传入到享元对象内部。一个外部状态与另一个外部状态之间是相互独立的。</p>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>享元模式的优点</p>
-<p>享元模式的优点在于它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份。<br>享元模式的外部状态相对独立，而且不会影响其内部状态，从而使得享元对象可以在不同的环境中被共享。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>享元模式的缺点</p>
-<p>享元模式使得系统更加复杂，需要分离出内部状态和外部状态，这使得程序的逻辑复杂化。<br>为了使对象可以共享，享元模式需要将享元对象的状态外部化，而读取外部状态使得运行时间变长。</p>
-<h2 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h2><p>在以下情况下可以使用享元模式：</p>
-<p>一个系统有大量相同或者相似的对象，由于这类对象的大量使用，造成内存的大量耗费。<br>对象的大部分状态都可以外部化，可以将这些外部状态传入对象中。<br>使用享元模式需要维护一个存储享元对象的享元池，而这需要耗费资源，因此，应当在多次重复使用享元对象时才值得使用享元模式。</p>
-<h2 id="模式应用"><a href="#模式应用" class="headerlink" title="模式应用"></a>模式应用</h2><p>享元模式在编辑器软件中大量使用，如在一个文档中多次出现相同的图片，则只需要创建一个图片对象，通过在应用程序中设置该图片出现的位置，可以实现该图片在不同地方多次重复显示。</p>
-<h2 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h2><p>单纯享元模式和复合享元模式</p>
-<p>单纯享元模式：在单纯享元模式中，所有的享元对象都是可以共享的，即所有抽象享元类的子类都可共享，不存在非共享具体享元类。<br>复合享元模式：将一些单纯享元使用组合模式加以组合，可以形成复合享元对象，这样的复合享元对象本身不能共享，但是它们可以分解成单纯享元对象，而后者则可以共享。<br>享元模式与其他模式的联用</p>
-<p>在享元模式的享元工厂类中通常提供一个静态的工厂方法用于返回享元对象，使用简单工厂模式来生成享元对象。<br>在一个系统中，通常只有唯一一个享元工厂，因此享元工厂类可以使用单例模式进行设计。<br>享元模式可以结合组合模式形成复合享元模式，统一对享元对象设置外部状态。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>享元模式运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用，它是一种对象结构型模式。<br>享元模式包含四个角色：抽象享元类声明一个接口，通过它可以接受并作用于外部状态；具体享元类实现了抽象享元接口，其实例称为享元对象；非共享具体享元是不能被共享的抽象享元类的子类；享元工厂类用于创建并管理享元对象，它针对抽象享元类编程，将各种类型的具体享元对象存储在一个享元池中。<br>享元模式以共享的方式高效地支持大量的细粒度对象，享元对象能做到共享的关键是区分内部状态和外部状态。其中内部状态是存储在享元对象内部并且不会随环境改变而改变的状态，因此内部状态可以共享；外部状态是随环境改变而改变的、不可以共享的状态。<br>享元模式主要优点在于它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份；其缺点是使得系统更加复杂，并且需要将享元对象的状态外部化，而读取外部状态使得运行时间变长。<br>享元模式适用情况包括：一个系统有大量相同或者相似的对象，由于这类对象的大量使用，造成内存的大量耗费；对象的大部分状态都可以外部化，可以将这些外部状态传入对象中；多次重复使用享元对象。</p>
+    <content type="html"><![CDATA[<p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
+<p>————————————————————————————————————</p>
+<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
+<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
+<p>————————————————————————————————————</p>
+<p>职责链模式</p>
+<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
+<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
+<p>适用场景：</p>
+<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
+<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
+<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
+<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
+<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
+<p>命令模式</p>
+<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
+<p>命令模式的效果：</p>
+<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
+<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;模式动机&quot;&gt;&lt;a href=&quot;#模式动机&quot; class=&quot;headerlink&quot; title=&quot;模式动机&quot;&gt;&lt;/a&gt;模式动机&lt;/h2&gt;&lt;p&gt;面向对象技术可以很好地解决一些灵活性或可扩展性问题，但在很多情况下需要在系统中增加类和对象的个数。当对象数量太多时，将导致运
+      &lt;p&gt;命令模式：一次设定，统一执行。&lt;br&gt;状态模式：&lt;br&gt;    相当于If else if else；&lt;br&gt;    设计路线：各个State类的内部实现(相当于If，else If内的条件)&lt;br&gt;    执行时通过State调用Context方法来执行。&lt;br&gt;职责链模
     
     </summary>
     
@@ -969,49 +1012,6 @@ if __name__ == "__main__":
 &lt;p&gt;　　在面向对象编程中，命令模式是概括所有方法信息的设计模式。&lt;/p&gt;
 &lt;p&gt;　　此模式对象包涵方法名，及其相关参数值。&lt;/p&gt;
 &lt;p&gt;　　命令模式是一个分类的观察者设计模式，在命令模式下，对象被概括为一个命令表单，此表单包涵了所有用户需要的方法
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>命令模式 vs 状态模式 vs 责任链模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F%E5%8C%BA%E5%88%AB/"/>
-    <id>http://www.strglee.com/2017/04/19/命令模式-状态模式-责任链模式区别/</id>
-    <published>2017-04-19T11:06:50.000Z</published>
-    <updated>2017-08-04T07:23:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>命令模式：一次设定，统一执行。<br>状态模式：<br>    相当于If else if else；<br>    设计路线：各个State类的内部实现(相当于If，else If内的条件)<br>    执行时通过State调用Context方法来执行。<br>职责链模式：<br>    相当于Swich case<br>    设计路线：客户设定，每个子类(case)的参数是下一个子类(case)。<br>    使用时，向链的第一个子类的执行方法传递参数就可以。</p>
-<p>————————————————————————————————————</p>
-<p>命令模式：将多个命令只提交给一个执行该命令的对象<br> 而职责链模式相反：只将一个请求提交给多个能执行该命令的对象</p>
-<p> 状态模式与职责链模式的区别：<br> 状态模式是让各个状态对象自己知道其下一个处理的对象是谁，即在编译时便设定好了的；<br> 而职责链模式中的各个对象并不指定其下一个处理的对象到底是谁，只有在客户端才设定。</p>
-<p>————————————————————————————————————</p>
-<p>职责链模式</p>
-<p>链的组织是从最特殊的到最一般的，并且不能保证请求在任何情况下都回有相应。</p>
-<p>职责链将程序中每个对象能做什么的内容隔离，即职责链减少了对象之间的耦合，每个对象都能独立操作。职责链也可用于构成主程序的对象和包含其它对象实例的对象。</p>
-<p>适用场景：</p>
-<p>1 具有相同方法的几个对象都适合于执行程序请求操作，但由对象决定由谁去完成操作，比把决策建立在调用代码中更合适</p>
-<p>2 其中某个对象可能最适合处理请求，但你不想通过一些列if-else语句或switch语句去选择一个特定的对象</p>
-<p>3 程序执行时，需要向处理选项链中添加新的对象</p>
-<p>4 在多个对象都能执行一个请求的情况下，你不想把这些相互作用的内容放在调用程序里</p>
-<p>链中每个对象都是“自治”的，最后一个对象决定是默认处理请求，还是抛弃</p>
-<p>命令模式</p>
-<p>职责链沿类链转发请求，而命令模式只将请求转发给一个特定对象。命令模式把一个申请特定操作的请求封装到一个对象中，并给该对象一个众所周知的公共接口，使客户端不用了解实际执行的操作就能产生请求，也可以使你改变操作而丝毫不影响客户端程序。</p>
-<p>命令模式的效果：</p>
-<p>命令模式的主要缺点是，增加了使程序散乱的小类，不过，即使有单独的单击事件，也通常都调用小的私有方法完成具体功能。最后的结果是，私有方法和我们这些小类的代码长度几乎一样，因此，构建 Command类和编写较多的方法在复杂性上通常没有区别，主要区别是命令模式生成的小类更容易理解。</p>
-<p>使用命令设计模式的另一个主要原因是，他们提供了一个便捷的存储方法并能完成Undo功能。每个命令对象都记住刚刚做过的事，并在有Undo请求时，只要计算量和内存需求不太过分，就能恢复到刚才的状态</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;命令模式：一次设定，统一执行。&lt;br&gt;状态模式：&lt;br&gt;    相当于If else if else；&lt;br&gt;    设计路线：各个State类的内部实现(相当于If，else If内的条件)&lt;br&gt;    执行时通过State调用Context方法来执行。&lt;br&gt;职责链模
     
     </summary>
     
@@ -1833,6 +1833,160 @@ StopIteration
   </entry>
   
   <entry>
+    <title>模板方法模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/模板方法模式/</id>
+    <published>2017-04-19T11:06:50.000Z</published>
+    <updated>2017-08-04T07:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
+
+<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
+<pre><code>class Person(object):
+    def Chew(self):
+        """咀嚼食物"""
+        raise NotImplementedError()
+
+    def Swallow(self):
+        print '咽下去'
+
+    def Eat(self):
+        # 吃饭分两步，先嚼，再咽。
+        self.Chew()
+        self.Swallow()
+
+class Man(Person):
+    def Chew(self):
+        # 男人通常狼吞虎咽
+        print '嚼三下'
+
+class Woman(Person):
+    def Chew(self):
+        # 女人通常细嚼慢咽
+        print '嚼六下'
+</code></pre>
+
+<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
+<h2>模版方法模式的结构</h2>
+
+<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
+<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
+
+<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
+<h2>模版方法的优点及适用场景</h2>
+
+<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
+
+<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;br&gt;  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。&lt;br&gt;  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。&lt;br&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;模
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>桥接模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/桥接模式/</id>
+    <published>2017-04-19T11:06:50.000Z</published>
+    <updated>2017-08-04T07:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
+<p>类图：<br><img src="/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
+<pre><code>#encoding=utf-8
+#
+#桥接模式
+
+#抽象类：手机品牌
+class HandsetBrand():
+    soft = None
+    def SetHandsetSoft(self, soft):
+        self.soft = soft
+
+    def Run(self):
+        pass
+
+#具体抽象类：手机品牌1
+class HandsetBrand1(HandsetBrand):
+    def Run(self):
+        print('手机品牌1:')
+        self.soft.Run()
+
+#具体抽象类：手机品牌2
+class HandsetBrand2(HandsetBrand):
+    def Run(self):
+        print('手机品牌2:')
+        self.soft.Run()
+
+
+#功能类：手机软件
+class HandsetSoft():
+    def Run(self):
+        pass
+
+#具体功能类：游戏
+class HandsetGame(HandsetSoft):
+    def Run(self):
+        print('运行手机游戏')
+
+#具体功能类：通讯录
+class HandsetAddressList(HandsetSoft):
+    def Run(self):
+        print('运行手机通信录')
+
+def clientUI():
+    h1 = HandsetBrand1()
+    h1.SetHandsetSoft(HandsetAddressList())
+    h1.Run()
+    h1.SetHandsetSoft(HandsetGame())
+    h1.Run()
+
+    h2 = HandsetBrand2()
+    h2.SetHandsetSoft(HandsetAddressList())
+    h2.Run()
+    h2.SetHandsetSoft(HandsetGame())
+    h2.Run()
+    return
+
+if __name__ == '__main__':
+    clientUI();
+</code></pre>
+
+<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
+<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
+<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。&lt;br&gt;由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。&lt;/p&gt;
+&lt;p&gt;类图：&lt;br&gt;&lt;img src=&quot;/uploads/2016/
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>状态模式</title>
     <link href="http://www.strglee.com/2017/04/19/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
     <id>http://www.strglee.com/2017/04/19/状态模式/</id>
@@ -1954,227 +2108,6 @@ if __name__ == '__main__':
   </entry>
   
   <entry>
-    <title>桥接模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/桥接模式/</id>
-    <published>2017-04-19T11:06:50.000Z</published>
-    <updated>2017-08-04T07:23:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。<br>由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。</p>
-<p>类图：<br><img src="/uploads/2016/11/bridge.gif" alt="bridge" width="678" height="256" class="alignnone size-full wp-image-212"></p>
-<pre><code>#encoding=utf-8
-#
-#桥接模式
-
-#抽象类：手机品牌
-class HandsetBrand():
-    soft = None
-    def SetHandsetSoft(self, soft):
-        self.soft = soft
-
-    def Run(self):
-        pass
-
-#具体抽象类：手机品牌1
-class HandsetBrand1(HandsetBrand):
-    def Run(self):
-        print('手机品牌1:')
-        self.soft.Run()
-
-#具体抽象类：手机品牌2
-class HandsetBrand2(HandsetBrand):
-    def Run(self):
-        print('手机品牌2:')
-        self.soft.Run()
-
-
-#功能类：手机软件
-class HandsetSoft():
-    def Run(self):
-        pass
-
-#具体功能类：游戏
-class HandsetGame(HandsetSoft):
-    def Run(self):
-        print('运行手机游戏')
-
-#具体功能类：通讯录
-class HandsetAddressList(HandsetSoft):
-    def Run(self):
-        print('运行手机通信录')
-
-def clientUI():
-    h1 = HandsetBrand1()
-    h1.SetHandsetSoft(HandsetAddressList())
-    h1.Run()
-    h1.SetHandsetSoft(HandsetGame())
-    h1.Run()
-
-    h2 = HandsetBrand2()
-    h2.SetHandsetSoft(HandsetAddressList())
-    h2.Run()
-    h2.SetHandsetSoft(HandsetGame())
-    h2.Run()
-    return
-
-if __name__ == '__main__':
-    clientUI();
-</code></pre>
-
-<p>效果及实现要点：<br>1．Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。<br>2．所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。<br>3．Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。<br>4．Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</p>
-<p>适用性：<br>   在以下的情况下应当使用桥梁模式：<br>1．如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。<br>2．设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。<br>3．一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。<br>4．虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。<br>总结：<br>      Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
-<p>桥接模式与装饰的区别:<br>装饰模式:<br>      这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合 .<br>桥接模式：<br>          桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;桥接模式：将系统抽象部分与它的实现部分分离，使它们可以独立地变化。&lt;br&gt;由于目标系统存在多个角度的分类，每一种分类都会有多种变化，那么就可以把多角度分离出来，让它们独立变化，减少它们之间的耦合。&lt;/p&gt;
-&lt;p&gt;类图：&lt;br&gt;&lt;img src=&quot;/uploads/2016/
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>模板方法模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/模板方法模式/</id>
-    <published>2017-04-19T11:06:50.000Z</published>
-    <updated>2017-08-04T07:23:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br>  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。<br></blockquote>
-
-<p>模板方法模式是面向对象编程实践中最容易总结出来的模式，即使没有学习过设计模式的开发人员，也会很自然的使用该模式，举个简单例子：</p>
-<pre><code>class Person(object):
-    def Chew(self):
-        """咀嚼食物"""
-        raise NotImplementedError()
-
-    def Swallow(self):
-        print '咽下去'
-
-    def Eat(self):
-        # 吃饭分两步，先嚼，再咽。
-        self.Chew()
-        self.Swallow()
-
-class Man(Person):
-    def Chew(self):
-        # 男人通常狼吞虎咽
-        print '嚼三下'
-
-class Woman(Person):
-    def Chew(self):
-        # 女人通常细嚼慢咽
-        print '嚼六下'
-</code></pre>
-
-<p>我们把吃饭的步骤定义好，然后把相同的部分提炼出来，把不同的部分让子类去实现。</p>
-<h2>模版方法模式的结构</h2>
-
-<p>模版方法模式由一个抽象类和一个（或一组）实现类通过继承结构组成，抽象类中的方法分为三种：</p>
-<ul><br><li>抽象方法：父类中只声明但不加以实现，而是定义好规范，然后由它的子类去实现。</li><br><li>模版方法：由抽象类声明并加以实现。一般来说，模版方法调用抽象方法来完成主要的逻辑功能，并且，模版方法大多会定义为final类型，指明主要的逻辑功能在子类中不能被重写。</li><br><li>钩子方法：由抽象类声明并加以实现。但是子类可以去扩展，子类可以通过扩展钩子方法来影响模版方法的逻辑。</li><br></ul>
-
-<p>抽象类的任务是搭建逻辑的框架，通常由经验丰富的人员编写，因为抽象类的好坏直接决定了程序是否稳定性。<br>实现类用来实现细节。抽象类中的模版方法正是通过实现类扩展的方法来完成业务逻辑。只要实现类中的扩展方法通过了单元测试，在模版方法正确的前提下，整体功能一般不会出现大的错误。</p>
-<h2>模版方法的优点及适用场景</h2>
-
-<ul><br><li>容易扩展。一般来说，抽象类中的模版方法是不易反生改变的部分，而抽象方法是容易反生变化的部分，因此通过增加实现类一般可以很容易实现功能的扩展，符合开闭原则。<p></p></li><br><li><p>便于维护。对于模版方法模式来说，正是由于他们的主要逻辑相同，才使用了模版方法，假如不使用模版方法，任由这些相同的代码散乱的分布在不同的类中，维护起来是非常不方便的。</p></li><br><li><p>比较灵活。因为有钩子方法，因此，子类的实现也可以影响父类中主逻辑的运行。但是，在灵活的同时，由于子类影响到了父类，违反了里氏替换原则，也会给程序带来风险。这就对抽象类的设计有了更高的要求。</p></li><br></ul>
-
-<p></p><p>在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。<br>计算机的设备驱动也采用类似的设计模式，系统把通用的部分提炼出来，让各硬件厂商根据驱动模板实现自己特有的部分。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;&lt;br&gt;  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。&lt;br&gt;  模板方法模式：定义一个工作流或算法的基本骨架，而将一些特定步骤的实现延迟到子类中。&lt;br&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;模
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简单工厂模式</title>
-    <link href="http://www.strglee.com/2017/04/19/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://www.strglee.com/2017/04/19/简单工厂模式/</id>
-    <published>2017-04-19T11:06:50.000Z</published>
-    <updated>2017-08-04T07:23:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
-
-<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
-<p>下面是一个简单的工厂实例：</p>
-<pre><code>def create_animal(name):
-    if name == 'dog':
-        return Dog()
-    elif name == 'cat':
-        return Cat()
-
-animal = create_animal('dog')
-animal.eat('some food')
-</code></pre>
-
-<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
-<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
-<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
-<pre><code>def create_operator(op):
-    if op == '+':
-        return AddOperation()
-    elif op == '-':
-        return SubOperation()
-    elif op ==  '*':
-        return MulOperation()
-    elif op == '/':
-        return DivOperation()
-
-op = create_operator('+')
-op.Calc(1, 2)
-</code></pre>
-
-<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
-<h2>简单工厂模式的组成要素</h2>
-
-<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
-<h2>缺点</h2>
-
-<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
-<h2>使用场景</h2>
-
-<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;&lt;br&gt;  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。&lt;br&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
-    
-      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
     <title>策略模式</title>
     <link href="http://www.strglee.com/2017/04/19/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
     <id>http://www.strglee.com/2017/04/19/策略模式/</id>
@@ -2258,6 +2191,73 @@ def client(cond):
       &lt;blockquote&gt;&lt;br&gt;  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。&lt;br&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;策略模式： 定义了算法家族，分别封装起来，让他们之间可以互相替换。此模式让算法的变化不影响使用算
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="python" scheme="http://www.strglee.com/tags/python/"/>
+    
+      <category term="设计模式" scheme="http://www.strglee.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>简单工厂模式</title>
+    <link href="http://www.strglee.com/2017/04/19/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://www.strglee.com/2017/04/19/简单工厂模式/</id>
+    <published>2017-04-19T11:06:50.000Z</published>
+    <updated>2017-08-04T07:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><br>  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。<br></blockquote>
+
+<p>简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过一个工厂来决定创建哪种具体的产品实例。</p>
+<p>下面是一个简单的工厂实例：</p>
+<pre><code>def create_animal(name):
+    if name == 'dog':
+        return Dog()
+    elif name == 'cat':
+        return Cat()
+
+animal = create_animal('dog')
+animal.eat('some food')
+</code></pre>
+
+<p>create_animal就是一个工厂，各种动物就是产品，该工厂根据name来决定产出什么动物产品。产品应该具有一个基本特性，同一个工厂出产的所有产品都是一个系列，都具有相同的功能，比如动物都吃食物。</p>
+<p>简单工厂模式的好处是可以将产品对象的细节封装在其实现类的内部，改变一个产品对象具体实现不会影响其他产品。可扩展性强，当需要新增产品类型时，只需要添加对应的实现类，然后修改工厂，增加一个判断分支即可。修改工厂函数带来的风险比较低。</p>
+<p>另外一个比较典型的适合简单工厂模式的例子是计算器，计算器需要支持各种计算操作，比如加、减、乘、除、平方、立方、平方根、阶乘等等。那么这里的工厂就是要创建各种操作算法对象，每种操作算法对象都支持一个求值方法。</p>
+<pre><code>def create_operator(op):
+    if op == '+':
+        return AddOperation()
+    elif op == '-':
+        return SubOperation()
+    elif op ==  '*':
+        return MulOperation()
+    elif op == '/':
+        return DivOperation()
+
+op = create_operator('+')
+op.Calc(1, 2)
+</code></pre>
+
+<p>前面提到，每个工厂生产的产品都是一个系列的，因此产品类通常会从同一个抽象基类派生，但不是必须的。</p>
+<h2>简单工厂模式的组成要素</h2>
+
+<p>工厂函数<br>负责具体产品对象的创建工作，是该模式的核心。当场景比较复杂时，可能需要用一个工厂类来负责产品的创建。<br>产品的抽象接口或抽象类<br>抽象所有产品的公共接口<br>具体产品类<br>抽象接口的具体实现类</p>
+<h2>缺点</h2>
+
+<p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中<br>它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；</p>
+<h2>使用场景</h2>
+
+<p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。<br>原文地址：<a href="http://www.isware.cn/python-design-pattern/01-simple-factory/" target="_blank" rel="external">http://www.isware.cn/python-design-pattern/01-simple-factory/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;br&gt;  设计模式的目的是让代码易维护、易扩展，不能为了模式而模式，因此一个简单的工具脚本是不需要用到任何模式的。&lt;br&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;简单工厂模式又叫静态工厂方法模式，工厂模式家族中最简单的一种模式。这个模式的基本工作方式： 通过
     
     </summary>
     
